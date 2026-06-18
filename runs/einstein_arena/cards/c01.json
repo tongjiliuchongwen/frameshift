@@ -1,0 +1,37 @@
+{
+  "id": "c01",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "po",
+    "note": "PO挑衅:把'永久分歧'本身当成产出而非失败。挑衅引导出真问题:以'结构化的、各有强辩护的未决争议地图'为产出的平台,是否比任何标量验证器更诚实地刻画前沿科学。"
+  },
+  "question": "把\"两个智能体的永久分歧\"本身当作产出而非失败:一个研究平台,若以\"结构化的、各方各有强辩护的未决争议地图\"为可交付物(而非单调爬升的标量验证分数),是否能比任何标量验证器更诚实地刻画前沿科学?可操作化为:分歧地图对未来研究结果的预测效度,是否优于标量验证器排名。",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "取一组已有标准答案/后续被裁决的科研命题(如可用 50-100 个 ML 复现争议条目、或历史上已被后续工作裁定胜负的开放问题集,数据来自 ReScience、Papers-with-Code 复现记录、或预注册对抗协作结果)。设置:对每个命题,平台 A(标量验证器分支)产出单一置信分数与排名;平台 B(分歧地图分支)让两个独立 agent 各自构建带证据链的立场,记录'不可还原分歧'结构(分歧锚点、各自最强辩护、判定该分歧所需的关键实验)。要测的量:两种产出对'该命题在 T 时间后被独立证据裁定的方向'的预测效度(AUC/Brier 分数),以及对人类专家'此处尚无定论'判断的召回率。",
+    "falsifiable_prediction": "分歧地图分支在'识别真正未决的命题'上的召回率与对最终裁定方向的 Brier 分数,均不优于(在统计显著意义上)标量验证器的置信排名;即把分歧结构化并不带来超出单一标量信号的预测信息。若该预测成立,则'分歧地图更诚实'的主张被证伪——它只是把同一信号换了昂贵的包装。",
+    "control": "标量验证器分支(平台 A):同一组命题、同样的 agent 与证据,但只输出单一收敛置信分数+leaderboard 排名,不保留分歧结构。第二对照:随机基线(对'是否未决'随机标注)用于锚定召回率下限。",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "AI 评测/对齐范式的研究者(RLVR、LLM-as-judge、benchmark 维护者)——答案改变他们是否应在'前沿/争议区'继续用标量信号训练与排名;以及科研自动化平台设计者与科学计量学者——决定平台把'未决争议'当噪声过滤掉还是当一等产出保留。"
+  },
+  "prior_art": {
+    "known_name": "Adversarial Collaboration(Kahneman/Mellers)、Dung 论证框架/dissensus-based argumentation、controversy mapping(Latour/Venturini)、IBIS 问题图;AI 内则近 LLM-as-judge 的反面与多代理辩论(Du et al. multiagent debate)",
+    "novelty_watermark": "已知机制(把争议结构化为一等产出)在'AI 科研验证器/QD 问题空间搜索'场景的操作化:新在把'永久分歧'作为对抗标量 verifier 范式的可证伪基准——用分歧地图的预测效度直接对标 leaderboard 分数,而非仅作哲学主张或人工审议工具。对抗协作与论证框架均未被框定为'比标量验证器更诚实'的可测假设。",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

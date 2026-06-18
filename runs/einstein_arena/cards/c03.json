@@ -1,0 +1,37 @@
+{
+  "id": "c03",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "alternative_generation",
+    "note": "生成替代substrate:保留验证器但使其保密+周期性重绘,剥夺'离线反复锤打可重算float'这一前提。直接检验论文的离线可迭代假设到底承载了多少'发现'的假象。"
+  },
+  "question": "Construct the alternative substrate where a verifier still exists but is kept secret and periodically redrawn — a hidden oracle agents can never iterate against offline. If discovery must happen without the ability to pre-validate submissions, does \"collective intelligence in the wild\" survive, or does removing the offline-hammerable oracle reveal that the platform was measuring optimization-against-a-known-target rather than genuine discovery?",
+  "commonness": 0.28,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Take one discovery/MAS platform task with a scorable objective (e.g. the paper's MAS setup, or a program-synthesis / hyperparameter / prompt-optimization task with a numeric score). Run a 2x2 between-subjects design over agent populations: factor A = oracle EXPOSED (agents can query the scorer offline, unlimited probes) vs. HIDDEN (no offline scoring; submissions scored only on a held-out oracle); factor B = oracle STATIC (one fixed scoring function/test set) vs. REDRAWN (the held-out oracle is resampled/perturbed every k submissions from a distribution over valid scorers). Hold compute budget, agent count, and number of submissions fixed across cells. Measure: (1) final achieved score on a common frozen evaluation oracle held out of all four conditions; (2) generalization gap = train-condition score minus common-oracle score; (3) discovery rate = number of qualitatively distinct high-scoring solutions found. Control = EXPOSED+STATIC cell, which reproduces the paper's offline-iterable regime and serves as the baseline the other three are compared against.",
+    "falsifiable_prediction": "Prediction: moving from EXPOSED+STATIC to HIDDEN+REDRAWN collapses measured performance toward chance/baseline AND inflates the generalization gap, i.e. most of the apparent 'collective intelligence' was offline optimization against a known target. The reframe is FALSIFIED if HIDDEN+REDRAWN retains a large fraction (e.g. >70%) of the common-oracle score and discovery rate of the control with no widening of the generalization gap — that would show the platform was measuring transferable discovery, not oracle-hammering. Either outcome is observable from the four cells.",
+    "control": "EXPOSED+STATIC cell (unlimited offline probing of a single fixed oracle) reproduces the paper's offline-iterable assumption and is the baseline; HIDDEN+STATIC isolates the effect of removing offline pre-validation alone, and EXPOSED+REDRAWN isolates the effect of mutability alone, so the two single-factor cells separate 'secrecy' from 'redrawing' as causes.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers of agentic-discovery / collective-intelligence benchmarks and crowd-discovery platforms (Kaggle-style organizers, RLVR/auto-eval builders, MAS evaluation researchers) who need to know whether their headline 'discovery' numbers are robust or are artifacts of an offline-iterable oracle. Commercially relevant to anyone selling 'AI finds novel solutions in the wild' whose claims rest on a hammerable scorer."
+  },
+  "prior_art": {
+    "known_name": "Public/private (held-out) leaderboard split; adaptive-data-analysis / reusable-holdout & Ladder leaderboard (Dwork et al.); benchmark contamination & test-set rotation. Related: Goodhart's law / reward hacking as the underlying failure mode.",
+    "novelty_watermark": "Known mechanism in a new operationalization: the held-out-and-rotated oracle is a standard anti-overfitting device, but using a DELIBERATELY MUTABLE (periodically-redrawn) oracle as an active diagnostic — a 2x2 that decomposes how much of a discovery platform's measured collective intelligence is offline-against-known-target optimization vs. transferable discovery — is not a named construct. The contribution is the diagnostic framing applied to MAS/collective-discovery substrates, not the holdout idea itself.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

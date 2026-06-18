@@ -1,0 +1,37 @@
+{
+  "id": "c02",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "论文外随机刺激=菌丝网络的养分共享。桥接:菌丝无中心评分,贡献的价值只在下游被他人代谢吸收时事后显现→把进步重定义为'延迟、弥散、非标量的滋养度',彻底取消同期oracle与排名。"
+  },
+  "question": "Using mycelial nutrient-sharing as a stimulus, redefine the multi-agent discovery platform so there is no leaderboard rank at all: agents secrete partial, unverifiable insights into a shared substrate, and \"progress\" is measured only by downstream metabolic uptake — how much each contribution nourished other agents' later work, attributed retrospectively. How do you operationalize discovery as delayed, diffuse, non-scalar nourishment with no contemporaneous oracle to grade it?",
+  "commonness": 0.1,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Compress the 'years later' framing into a closed in-silico generation chain (no biological wait needed). Setup: a multi-agent LLM swarm on a benchmark with hidden ground truth (e.g. a set of program-synthesis or theorem tasks where final correctness IS checkable post-hoc, but is withheld from agents during the run). Two arms run for N generations each. CONTROL arm: standard leaderboard — each agent scored contemporaneously by an oracle/verifier, top-k contributions retained and seeded forward. TREATMENT arm: no oracle, no rank; every agent dumps partial insights (free-text lemmas, code fragments, hypotheses) into a shared substrate; later agents freely draw from it; a contribution's 'nourishment score' is computed RETROSPECTIVELY as a citation/lineage-flow measure — e.g. via held-out ablation (remove substrate entry e, re-run descendants, measure drop in eventual task success attributable to e) or via attention/retrieval-provenance traces. Quantities to measure: (a) final task success rate per arm after N generations; (b) Gini/entropy of credit distribution (is nourishment genuinely diffuse and non-scalar, or does it collapse back to a de-facto rank?); (c) correlation between retrospective nourishment score and a contribution's contemporaneous oracle score (computed but hidden) — tests whether the delayed metric recovers something the oracle missed. Falsifiable prediction: the treatment arm's retrospective nourishment ranking will be substantially DECORRELATED from the hidden contemporaneous oracle ranking (Spearman rho < ~0.4) AND will identify a non-trivial set of 'sleeper' contributions (low contemporaneous value, high eventual uptake) that the leaderboard arm prunes away — such that on a held-out slice requiring those sleepers, treatment outperforms control. Control: the leaderboard arm provides the apples-to-apples baseline; a second null control is a RANDOM-retention arm (keep random contributions, no scoring) to show nourishment-attribution beats chance. The prediction is killable: if rho is high (~>0.7), the no-oracle scheme just reconstructs the leaderboard with extra steps; if treatment never beats random-retention on the sleeper slice, the 'diffuse nourishment' construct adds nothing.",
+    "falsifiable_prediction": "Retrospective ablation-based nourishment scores will be substantially decorrelated from hidden contemporaneous oracle scores (Spearman rho < 0.4) and will surface 'sleeper' contributions that a leaderboard prunes; on a held-out slice depending on those sleepers, the no-oracle substrate arm beats both the leaderboard arm and a random-retention control. If rho > 0.7 (the metric just rebuilds the leaderboard) or treatment fails to beat random retention, the construct is falsified.",
+    "control": "Three-arm design: (1) standard contemporaneous-oracle leaderboard with top-k retention; (2) random-retention with no scoring (null control for whether nourishment-attribution beats chance); (3) the treatment substrate with retrospective ablation-based nourishment scoring. The hidden post-hoc ground-truth verifier is computed for all arms but withheld during the run, enabling the rho-decorrelation test.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "low",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Researchers in open-ended / multi-agent AI search (AI-scientist swarms, evolutionary LLM systems, automated R&D), and credit-assignment / mechanism-design theorists. Not directly actionable for product teams — its payoff is conceptual: a testbed for whether delayed, diffuse credit beats contemporaneous ranking in open-ended discovery."
+  },
+  "prior_art": {
+    "known_name": "Delayed/diffuse credit assignment; this is the operationalization of several known mechanisms in a new setting: (a) temporal/structural credit-assignment in RL (the 'no contemporaneous oracle, attribute reward backward' problem); (b) stigmergy — indirect coordination via traces left in a shared medium (ant pheromones, the literal mechanism behind 'secrete into a substrate'); (c) sleeping-beauty / delayed-recognition citations in scientometrics (contributions whose value surfaces years later); (d) lineage/genealogy quality-diversity methods (e.g. POET, MAP-Elites descendant tracking).",
+    "novelty_watermark": "Known mechanisms (stigmergy + delayed credit-assignment + sleeping-beauty citation dynamics) operationalized in a new setting: replacing the contemporaneous oracle/leaderboard of an automated-discovery agent platform with retrospective, ablation-traced 'nourishment.' The framing (mycelial nutrient-sharing) is a fresh metaphor but maps cleanly onto stigmergy; the genuine contribution is the falsification test (rho-decorrelation + sleeper-recovery) distinguishing 'real delayed value' from 'leaderboard rebuilt with extra steps,' which I have not seen posed as a named experiment.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.15,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

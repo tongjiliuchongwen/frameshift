@@ -1,0 +1,37 @@
+{
+  "id": "c08",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "States the paper's load-bearing thesis (discovery=climbing a clean verifier; platform=scaling lever; study only domains already reduced to a scalar) and intentionally departs by making the operators' domain-selection the treatment; the freed unit becomes 'the curators' choice of which objectives count' rather than the individual submission."
+  },
+  "question": "Take the paper's load-bearing thesis at face value -- \"discovery = monotonically beating a public deterministic scalar, and the platform is merely the scaling lever\" -- and make the curators' domain-selection the treatment rather than the individual submission. Deliberately introduce problem classes the substrate *excludes*: (a) contested/multi-stakeholder objectives with no single agreed scalar, (b) objectives that shift when agents optimize them (reflexive/performative targets), and (c) objectives requiring expensive non-recomputable judgment (human or LLM-judge scoring). Question: does the paper's 'collective intelligence in the wild' effect replicate at all when the operator can no longer hand agents a clean offline re-computable scalar to hammer -- or is the reported effect an artifact of curators having pre-selected only verifier-friendly domains?",
+  "commonness": 0.15,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Hold the paper's agent-swarm protocol fixed (same models, same budget, same orchestration). Vary ONLY the domain-objective type across four arms, ~30 problems each: (A) control = the paper's verifier-friendly domains with a deterministic re-computable scalar; (B) judgment objectives scored by a frozen LLM-judge / held-out human rubric (non-recomputable, noisy, expensive); (C) performative objectives where the scoring function is re-fit after each round of agent submissions (target moves under optimization); (D) contested objectives scored by an ensemble of 3+ stakeholder rubrics that disagree, reported as a Pareto/variance object rather than one float. Measured quantity: the collective-intelligence effect = distribution of best-of-swarm gain over a single-agent baseline, plus fraction of runs that strictly improve, per arm. Compare B/C/D against A.",
+    "falsifiable_prediction": "Prediction: the effect is largely an artifact of verifier-friendly pre-selection -- the best-of-swarm gain-over-baseline in arms B/C/D will collapse toward zero or go negative (in C the re-fit scorer erases apparent gains; in D the swarm cannot agree which direction is 'up'), while arm A reproduces the paper's positive effect. This is falsified if arms B and/or D show gain-over-baseline statistically indistinguishable from arm A (effect replicates without a clean recomputable scalar), or if C still yields persistent post-refit gains.",
+    "control": "Arm A -- the paper's own verifier-friendly deterministic-scalar domains run under the identical protocol -- is the within-experiment control, so any drop in B/C/D is attributable to objective type, not to protocol or model differences. A secondary control re-scores arm A's outputs with the noisy LLM-judge to separate 'noise penalty' from 'non-recomputability penalty'.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Builders and funders of agentic 'discovery/collective-intelligence' platforms (the moat question: does the product work outside auto-gradable domains?); MAS researchers; benchmark designers worried about verifiability bias."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / Campbell's law (objectives that move under optimization); benchmark verifiability bias / streetlight (evaluation) effect (curators selecting only auto-gradable domains)",
+    "novelty_watermark": "Known mechanisms operationalized in a new setting: this is not a new effect but a clean operationalization of curator-side selection bias and performative-objective Goodharting as the EXPERIMENTAL TREATMENT in an agent-swarm discovery protocol. Novelty is in the experimental framing (domain-type as the manipulated variable with a within-study verifier-friendly control), not in the underlying mechanism. No identical named experiment seen.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ]
+}

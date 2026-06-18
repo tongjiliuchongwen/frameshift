@@ -1,0 +1,37 @@
+{
+  "id": "c05",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "po",
+    "note": "PO挑衅:'禁止任何重跑'。荒谬地推到极端,逼出 commitment/pre-registration/市场定价等替代机制,并反问被禁止重跑是否反而抑制了对 checker 的过拟合。"
+  },
+  "question": "If a platform forbids any agent from re-running the verifiable oracle, which substitute mechanisms — cryptographic pre-commitment to predictions before reveal, prediction-market pricing of unverified claims, and forced pre-registration — would have to carry the epistemic load, and would a 'discovery' that survives a no-re-execution regime generalize better (smaller overfitting gap to a fresh oracle) than verifier-hammered SOTAs precisely because it cannot be tuned against a replayable checker?",
+  "commonness": 0.22,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Pick one verifiable domain with a hidden held-out oracle (e.g. an algorithmic/SWE benchmark with a private test split, or a leaderboard with a sequestered test set). Run three agent arms on the SAME task distribution and SAME compute budget: (A) UNLIMITED re-execution against a public dev checker (the verifier-hammered baseline / control); (B) FIXED-BUDGET re-execution of k runs (k in {1,5,25}) to map the dose-response; (C) COMMITMENT arm: agent must hash-commit its solution/prediction before a single reveal, zero re-runs, plus a forced pre-registration field stating the predicted held-out score. After the dev phase, evaluate every produced artifact ONCE on the fresh held-out oracle. Measured quantity: the overfitting gap = (dev-checker score) minus (held-out score), and absolute held-out score, per arm. Pre-register the analysis.",
+    "falsifiable_prediction": "The commitment arm (C) will show a strictly smaller dev-minus-held-out overfitting gap than the unlimited-re-execution arm (A), and the gap will grow monotonically with re-execution budget k across arm (B). FALSIFIED if arm (C)'s overfitting gap is statistically indistinguishable from or larger than arm (A)'s, OR if held-out gap shows no monotone relationship with k — i.e. if banning re-execution buys no generalization advantage. A second falsifiable sub-claim: arm (C)'s ABSOLUTE held-out score is not lower than (A)'s by more than a pre-set tolerance (else the no-re-run regime just trades overfitting for under-exploration, and the 'more trustworthy' claim is hollow).",
+    "control": "Arm (A): unlimited re-execution against the replayable dev checker — the current verifier-hammered SOTA practice. The dose-response arm (B) with k in {1,5,25} is the secondary control that isolates re-execution count as the causal variable while holding compute fixed.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Operators of agent-evaluation platforms and ML benchmark/leaderboard maintainers (Kaggle, SWE-bench-style hosts), and AI-safety/eval teams deciding whether to gate verifier access. The commitment/pre-registration substitute is directly implementable as a platform policy; the prediction-market substrate is more speculative."
+  },
+  "prior_art": {
+    "known_name": "Adaptive data analysis / leaderboard (re-use) overfitting (Dwork et al. 'Reusable Holdout', Ladder); scientific pre-registration & registered reports; commit-reveal schemes; this also operationalizes Goodhart's law on a replayable checker.",
+    "novelty_watermark": "Known mechanisms (adaptive-overfitting theory, pre-registration, commit-reveal) recombined and operationalized in a new setting: autonomous-agent discovery against a re-runnable oracle. The genuinely novel twist is the INVERSION — treating the ban on re-execution not as a fairness/statistical-validity fix but as a TRUST-GENERATING constraint, and asking whether un-replayable survival is itself a positive signal of generalization. That specific reframing has no established name; the underlying machinery does.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}

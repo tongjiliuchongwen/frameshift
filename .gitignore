@@ -1,0 +1,11 @@
+# deps & build output
+node_modules/
+dashboard/dist/
+
+# python
+__pycache__/
+*.pyc
+
+# os cruft
+.DS_Store
+Thumbs.db

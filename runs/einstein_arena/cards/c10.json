@@ -1,0 +1,37 @@
+{
+  "id": "c10",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "po",
+    "note": "Provocative removal of the entire scalar-verifier-plus-leaderboard substrate. Forces invention of a transfer/recurrence-based success criterion, directly realizing the loosened dof4: progress = recurs under a different incentive structure & generalizes, not = monotone climb on a fixed float."
+  },
+  "question": "Provocation: the leaderboard does not exist and there is no scalar verifier — results are scored only by whether a *different* cohort of agents, six months later and working on *different* problems, can reuse the traces they wrote. Under this removal, (a) how do we operationally *detect* \"progress\" at all, and (b) does the resulting metric — cross-problem, cross-cohort transfer of shared traces — rank the same 12 archived results as wins, or a substantially different set?",
+  "commonness": 0.18,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Use the existing M2 archive (12 entries, each a research-problem result with a recorded scalar/judge score and a saved derivation trace) as the held-out 'cohort A' corpus. (1) Freeze cohort-A's scalar ranking as the control. (2) Build a transfer metric T(x): for each of N >= 2 later 'cohort B' agent runs operating on a DIFFERENT problem set, log whether each cohort-A trace x is retrieved-and-cited / copied-into / measurably-shortens-time-to-solution for the cohort-B task. T(x) = fraction of cohort-B problems where x was reused with a downstream benefit above a pre-registered threshold. A cheap deliverable proxy: run two batches of the engine on disjoint problem partitions, expose batch-1 traces to batch-2 agents via the archive, and instrument reuse. (3) Compute Kendall's tau between the scalar ranking and the T-ranking over the 12. Pre-register tau* = 0.6 as the agreement cutoff.",
+    "falsifiable_prediction": "The provocation's whole motivation is that transfer-based progress diverges from scalar climbing. Falsifiable claim: the transfer ranking will DISAGREE with the scalar ranking, Kendall's tau < 0.6, and at least the top-ranked scalar result will NOT be the top transfer result. If instead tau >= 0.6 (rankings substantially agree), the provocation is refuted — the scalar verifier was already a faithful proxy for transfer and removing it bought nothing.",
+    "control": "The original scalar/judge ranking of the same 12 archived results (the leaderboard that the PO operator 'removed'). Same items, same archive, only the scoring substrate swapped — so any rank divergence is attributable to the metric, not to a different population.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Eval/benchmark designers for autonomous research agents and AI-lab leaderboard maintainers (who fear scalar-target gaming); quality-diversity / MAP-Elites researchers needing a fitness proxy when no ground-truth verifier exists; and the frameshift engine itself, which currently relies on un-calibrated Claude self-scores."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law (scalar target ceases to be a good measure once optimized) + downstream-reuse / criterion-validity evaluation (cf. citation- and reuse-based impact metrics in bibliometrics, and 'transfer/downstream-task' eval in ML). The leaderboard-removal framing also echoes 'construct validity' critiques of single-scalar benchmarks.",
+    "novelty_watermark": "Not a new mechanism. This is the operationalization of a well-known idea — replace a gameable scalar with downstream-transfer/recurrence — inside a specific new scene: a quality-diversity search over RESEARCH PROBLEMS where the 'reusers' are a later, differently-incentivized agent cohort on different problems. Novel contribution is the concrete cross-cohort/cross-problem trace-reuse instrument and the rank-agreement test against the scalar control, not the underlying transfer principle.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

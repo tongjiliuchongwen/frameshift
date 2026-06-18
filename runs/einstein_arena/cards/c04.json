@@ -1,0 +1,37 @@
+{
+  "id": "c04",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "外部随机刺激=临床证据分级金字塔(GRADE/循证医学,论文之外)。桥接:把 sandbox-replay 当作RCT级证据,把不可重放结果当作观察性证据,研究证据组成比例对群体可靠性的相变。"
+  },
+  "question": "Borrowing from epidemiology's distinction between observational cohorts and randomized trials: can a multi-agent discovery platform formally label each frontier result by its evidence grade (observed vs. interventional vs. sandbox-replayed), and does collective reliability degrade gracefully or collapse via a phase transition as the proportion of merely-observational (non-replayable) claims rises — i.e. where is the tipping point between a verifier-anchored swarm and a rumor mill?",
+  "commonness": 0.18,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: a simulated MAS discovery swarm of N agents posting claims to a shared blackboard, each claim carrying an evidence-grade tag in {replayed=RCT-grade, interventional=quasi-experimental, observed=anecdotal}. A claim is 'true' or 'false' (ground truth held by the simulator). Only 'replayed' claims are deterministically verifiable in-sandbox; 'observed' claims are accepted on agent endorsement (social proof) and can be fabricated/erroneous with probability p_err. Sweep the single control parameter f = fraction of accepted claims that are merely-observational (i.e. verifier coverage = 1 - f), from 0 to 1 in steps of 0.05, with M independent runs per setting. Measured quantities: (1) swarm accuracy = fraction of blackboard claims that are true after T rounds; (2) belief-cascade size = largest connected set of claims downstream-citing a false observed claim; (3) order parameter = mean reliability, with its variance/susceptibility across runs as the phase-transition diagnostic. Falsifiable prediction: reliability collapses NON-linearly with a critical threshold f* (a peak in run-to-run variance / susceptibility at some f* strictly inside (0,1)), rather than degrading linearly. Control arm: an identical swarm where evidence-grade tags are SHUFFLED/ignored (all claims treated equally, no replay-anchoring) — prediction is that the tagged swarm sustains high reliability up to f* while the control degrades monotonically from f=0, and removing the verifier anchor (replay fraction -> 0) is what eliminates the sharp transition. Reject if: across the sweep no f* with elevated susceptibility appears AND the tagged vs. control curves are statistically indistinguishable (then the grading mechanism does nothing).",
+    "falsifiable_prediction": "There exists a critical observational-fraction f* strictly inside (0,1) at which swarm reliability drops sharply (a susceptibility/variance peak), and a verifier-anchored (replay-tagged) swarm holds reliability flat until f* whereas a tag-blind control swarm degrades monotonically from f=0; the sharp transition vanishes when the replay-verifiable fraction goes to zero.",
+    "control": "Tag-blind swarm: identical agents, claims, and error process, but evidence-grade labels are shuffled/ignored so no claim is replay-anchored — isolates whether grading+replay (not mere redundancy) is what produces graceful degradation and a transition.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "high",
+    "valuable_to_whom": "Builders of multi-agent discovery/research platforms and 'AI scientist' swarms (e.g. autonomous-agent and self-improving-research teams) who need a governance dial; and trust-and-safety / epistemics researchers studying when crowdsourced or agent-generated knowledge bases stay reliable. Actionable as a coverage SLO: 'keep replay-verifiable fraction above 1 - f*.'"
+  },
+  "prior_art": {
+    "known_name": "Information cascades / epidemic threshold on networks (percolation-style phase transition), GRADE evidence pyramid (operationalized as the tag schema), and provenance/data-lineage grading; closest mechanistic twin is the epidemic/percolation threshold for misinformation cascades.",
+    "novelty_watermark": "Known mechanisms (epidemic-threshold phase transitions and evidence-grading pyramids) operationalized in a new setting: the recombination — treating sandbox-replay as the RCT-grade anchor and asking for a critical verifier-coverage fraction f* that separates a verifier-anchored swarm from a rumor mill — is not a named result I have seen. The phase-transition framing of cascades and the GRADE pyramid each exist independently; their fusion onto an agentic discovery platform's verifier coverage is the novel bridge, but the underlying physics is borrowed, so this is a high-fidelity reframing rather than a new mechanism.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}

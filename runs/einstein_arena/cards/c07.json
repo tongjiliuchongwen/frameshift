@@ -1,0 +1,37 @@
+{
+  "id": "c07",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "po",
+    "note": "Deliberate provocation that severs the assumed link 'number-up => intelligence-up' and forces a confound that lives entirely in the operator's instrumentation; yields a concrete replay experiment that the paper never ran."
+  },
+  "question": "Assume agent capability was flat or declining and the only thing that improved was the operators' instrumentation -- a higher-precision verifier resolving ties the old verifier blurred, and problems re-curated with more headroom. The leaderboard number went UP because the measurement got sharper, not because the agents got smarter. What experiment would separate this instrumentation story from the paper's capability story? Replay the frozen historical submission stream through a 2x2 factorial of {old verifier, new verifier} x {old problem set, new problem set} holding the submissions constant, and on what evidence would each account survive?",
+  "commonness": 0.1,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: (a) a frozen archive of historical agent submissions (raw trajectories/outputs, NOT scores) from the period spanning the reported leaderboard gain; (b) both verifier versions as runnable code (old + new); (c) both problem-set curations (pre- and post-recuration). Procedure: re-score the IDENTICAL frozen submissions under a 2x2 factorial {old verifier, new verifier} x {old problems, new problems}, decomposing the headline gain into an instrumentation main-effect (verifier + curation, submissions held fixed) versus a residual capability effect. Control arm: run a single fixed agent binary against the old vs new harness end-to-end, and conversely score fresh new-era submissions under the old verifier. Quantity measured: the share of the reported score delta attributable to verifier/curation change with submissions held constant.",
+    "falsifiable_prediction": "Instrumentation story predicts: re-scoring the frozen old submissions under the new verifier (and/or new problem set) reproduces a large fraction of the reported leaderboard gain WITHOUT any change in agent behavior. It is falsified if frozen submissions score statistically indistinguishably under old vs new verifier (gain survives only when new submissions are present) -- which would instead support the paper's capability account.",
+    "control": "Same fixed agent binary scored under old vs new instrumentation (isolates instrument effect at constant capability); plus new-era submissions scored by the OLD verifier (isolates capability effect at constant instrument). Divergence between these two controls localizes the gain to instrument vs agent.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Benchmark/leaderboard operators and MAS evaluation-platform maintainers who need to audit whether reported gains reflect capability or scoring-pipeline drift; reviewers and meta-science auditors assessing construct validity of agent-eval claims."
+  },
+  "prior_art": {
+    "known_name": "Construct-validity / measurement-instrument confound (metric-vs-construct decoupling, adjacent to Goodhart's law and benchmark recalibration artifacts)",
+    "novelty_watermark": "Known mechanism (an instrument change masquerading as a construct change; the verifier/curation is a measurement confound) operationalized in a new setting -- a concrete submission-replay 2x2 factorial that surgically separates instrument drift from agent capability in MAS leaderboard attribution. The reframe is not novel; the specific replay-against-frozen-submissions test design is the contribution.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ]
+}

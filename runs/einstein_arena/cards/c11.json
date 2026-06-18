@@ -1,0 +1,37 @@
+{
+  "id": "c11",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "First states the paper's dominant idea (discovery = climbing a fixed public scalar verifier, platform = scaling lever). Then deviates by making the verifier non-stationary/adversarial, dissolving the 'offline-hammerable float' substrate. Reframes the research object from 'sharing+competition raise the number' to 'which incentive regimes produce cumulative knowledge against a moving target' — exactly the robustness/generativity direction dof4 opens."
+  },
+  "question": "The source paper's load-bearing assumption is that scientific discovery just *is* decentralized optimization against a public, deterministic scalar verifier — progress equals monotonically beating a leaderboard float on pre-curated problems, and the platform is merely a scaling lever. Deliberately deviate: study the regime where the verifier is non-stationary and partly adversarial — it is revised whenever any one approach starts to dominate, the way real peer review and reality push back — so the \"offline-hammerable float\" substrate dissolves. Ask which incentive structures (pure competition/leaderboard, pure open-sharing, hybrid) still yield *cumulative knowledge against the hidden true objective* when the public target will not hold still. Concretely: does competition's measured advantage survive once the target stops standing still, or does it invert into target-chasing that beats the float while degrading real knowledge?",
+  "commonness": 0.1,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Build a discovery sandbox with a HIDDEN stationary ground-truth objective R* (e.g., symbolic-regression recovery of a held-out physical law, or program-synthesis correctness on a held-out test bank) and a PUBLIC verifier V that agents optimize against. Run a 3-arm population of solver agents under three incentive regimes: (A) pure competition (rank/winner-take-all on V, leaderboard visible), (B) pure sharing (all candidate solutions + scores pooled, no ranking reward), (C) hybrid (shared pool + competitive bonus). Crossed with two verifier conditions: (S) stationary V == fixed float; (NS) non-stationary/adversarial V that is revised whenever any single lineage's share of recent top-V gains exceeds a dominance threshold tau (e.g., the dominated region is reweighted/penalized or new harder held-in items injected), emulating peer review pushing back. Hold compute budget, agent count, and mutation operators identical across all 6 cells. MEASURE: cumulative knowledge = best achievable R* (hidden) reconstructable from the union of the population's discovered artifacts at fixed budget, plus the V-vs-R* gap (Goodhart gap) over time, plus diversity (distinct valid mechanisms found).",
+    "falsifiable_prediction": "In the stationary cell (S), competition (A) attains higher final R* than sharing (B) (replicating the source paper's claimed competition advantage). In the non-stationary cell (NS), competition's advantage will REVERSE: arm (A) under (NS) will show the largest V-vs-R* Goodhart gap and a LOWER final hidden R* than sharing (B) under (NS), with statistically significant interaction (regime x verifier-stationarity) on R*. Falsified if competition (A) retains its R* lead under (NS) with no significant interaction term, i.e., competition's advantage is invariant to verifier non-stationarity.",
+    "control": "Two controls: (1) the stationary verifier cells (S) are the within-experiment control isolating the effect of non-stationarity (the interaction term is the test, so each regime is its own baseline across S vs NS); (2) a no-revision sham-NS control where V is perturbed with random noise of equal magnitude but NOT correlated with dominance, to confirm any effect is driven by the adversarial/dominance-triggered revision rather than mere verifier instability.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers of AI-for-science / automated-discovery platforms (AlphaEvolve/ASI-Arch-style leaderboard systems), RLVR and reward-model researchers worried about reward hacking, and mechanism-design / science-of-science scholars studying open vs competitive research incentives. Actionable for whoever decides whether to run a discovery platform as a frozen-benchmark leaderboard vs an adaptively-revised one."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / reward hacking / specification gaming; the moving-target verifier line: Prover-Verifier Games, Adversarial Reward Auditing, co-evolving cooperative-adversarial reward flywheels",
+    "novelty_watermark": "Known mechanism (when a measure becomes a target it ceases to be a good measure; optimizing a non-stationary/gameable proxy diverges from the true objective) operationalized in a NEW setting: the comparative incentive question for decentralized scientific-discovery platforms. The transplant target — 'does the empirically-claimed advantage of COMPETITION over SHARING survive verifier non-stationarity, or invert into a larger Goodhart gap' framed as a regime x stationarity interaction — I have not seen run under a single name; the underlying failure mode is well-named, the comparative-incentive operationalization is the fresh part.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

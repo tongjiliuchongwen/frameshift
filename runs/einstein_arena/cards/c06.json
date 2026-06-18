@@ -1,0 +1,37 @@
+{
+  "id": "c06",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "analogy",
+    "note": "Maps platform+curators onto exchange+regulator from financial market microstructure; the analogy imports the notion that the venue operator's rule-changes are themselves market events requiring disclosure, reframing the research question around auditability/falsifiability of the headline claim."
+  },
+  "question": "Model the open MAS competition arena as a regulated marketplace and the curators as the exchange operator/regulator. Borrowing from market-microstructure regulation (where a venue operator's own rule-changes are price-moving market events requiring disclosure), define the threshold at which curator intervention stops being neutral 'maintenance' and becomes endogenous price-making. Then specify an observability test: from public logs alone, can a third party separate agent-driven SOTA advances from operator-induced ones — and what disclosure artifact (a timestamped 'board changelog') is the minimum required to make the paper's 'collective intelligence' claim falsifiable?",
+  "commonness": 0.2,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: Take the arena's public logs (leaderboard history + submission/eval records + curator rule-change announcements/'board changelog' if it exists) for the MAS competition described in the paper. Operationalize two event streams over time: (a) agent-driven SOTA advances = score jumps attributable to a submitted agent under fixed rules; (b) operator-induced advances = score/ranking changes that coincide with a curator action (metric reweighting, task-set edit, eligibility/threshold change, baseline re-scoring, retroactive disqualification). Quantity to measure: build a classifier/regression that, using ONLY public-log features available before the curator-action label is revealed (timing, magnitude, which agents move, discontinuity at known release vs. unannounced dates), predicts whether each SOTA-changing event was operator-induced. Report AUC and the operator-attributable fraction of total SOTA progress. Control: a synthetic 'clean' arena where the same agents compete under provably frozen rules (replay the submissions against the original metric with no curator edits) — the classifier should be near chance (AUC ~0.5) on the clean arena and the operator-attributable fraction should be ~0. Falsifiable prediction: from public logs ALONE (no changelog), a third party CANNOT separate the two streams above a stated threshold (e.g. AUC <= 0.65) — i.e. operator price-making is observationally entangled with agent-driven progress; AND adding a structured 'board changelog' (timestamped curator-action log) raises separability above 0.9. The claim is falsified if either (i) public logs alone already yield AUC >= 0.9 (no disclosure needed, observability test is vacuous) or (ii) the changelog fails to lift AUC materially (disclosure insufficient).",
+    "falsifiable_prediction": "Without a board changelog, third-party separability of agent-driven vs operator-induced SOTA stays at chance-to-weak (AUC <= 0.65) while a measurable, nontrivial fraction (>10%) of headline SOTA progress in the paper's arena is in fact operator-induced; adding the changelog lifts separability above 0.9. If logs-alone already separate at AUC>=0.9, or the changelog does not lift it, the proposal is falsified.",
+    "control": "Synthetic 'frozen-rules' replay arena: identical agent submissions scored against the original, never-edited metric/task-set, where by construction no operator-induced events exist. The separability classifier must score at chance (AUC ~0.5) and operator-attributable fraction ~0 on this control; any higher signal indicates the classifier is keying on confounds (release-date clustering, agent-identity priors) rather than genuine operator intervention.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "ML benchmark/arena operators (LMSYS-Arena, Kaggle, HF leaderboards) designing disclosure norms; meta-science and AI-evaluation auditors; the paper's own reviewers who must decide whether the 'collective intelligence' claim is falsifiable; governance/policy researchers borrowing market-microstructure regulation for AI venues."
+  },
+  "prior_art": {
+    "known_name": "Market microstructure / endogenous price-making + benchmark-curation bias (Goodhart's law as the substrate); closest operational analog is 'leaderboard/arena overfitting & curator effects' audits and disclosure-norm work (e.g. Salganik et al. cumulative-advantage in cultural markets, and recent Chatbot-Arena bias critiques).",
+    "novelty_watermark": "Mid novelty. The underlying mechanism (a venue operator's rule-changes are themselves market events; Goodhart drift under curation) is known. The genuinely fresh move is operationalizing it as a third-party OBSERVABILITY/FALSIFIABILITY test on public logs plus a concrete 'board changelog' disclosure artifact tied to the paper's specific 'collective intelligence' claim — that packaging I have not seen under a single name. Honest framing: 'a known regulatory/Goodhart mechanism operationalized as an auditability test in the new setting of an open MAS competition arena.'",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ]
+}

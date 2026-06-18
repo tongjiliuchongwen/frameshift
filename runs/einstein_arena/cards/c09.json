@@ -1,0 +1,37 @@
+{
+  "id": "c09",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "Bridge: antibiotic = a shared, high-yield resource whose unmanaged competitive overuse creates resistance (commons degradation). Maps to shared traces as a depletable commons; reframes success as long-horizon sustained discoverability under a stewardship policy, not instantaneous SOTA count."
+  },
+  "question": "Treating shared reasoning traces as a depletable commons in competitive multi-agent benchmarks: does intense competitive trace-borrowing breed 'verifier-resistant' strategies that inflate short-term scores while eroding long-run problem-set discoverability, and which stewardship policies (borrowing rate-limits, trace embargo) preserve it?",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Build a MAS benchmark over a FIXED problem set with a shared trace pool: each round, competing agents may 'borrow' (read/reuse) peer reasoning traces, scored by a fixed verifier. IV = stewardship policy with arms: (A) unlimited borrowing, (B) borrowing rate-limit (cap borrows/round), (C) trace embargo (k-round delay before a trace becomes borrowable). DVs over many rounds: (1) short-horizon verifier score; (2) long-horizon 'discoverability' = held-out/perturbed-problem solve rate AND fraction of solutions with novel (non-borrowed) reasoning paths; plus a 'verifier-resistance' index = gap between verifier score and a held-out gold/human check. Run for enough rounds that long-horizon dynamics manifest.",
+    "falsifiable_prediction": "Arm A (unlimited borrowing) attains the highest early verifier scores but shows a strictly steeper later decline in held-out/novel-path solve rate than rate-limited/embargoed arms; a measurable verifier-score-vs-gold gap (specification gaming) widens fastest under A. Stewardship arms (B/C) sacrifice early score yet sustain higher long-run discoverability. FALSIFIED if A's long-run discoverability is statistically indistinguishable from or higher than B/C, or if no verifier-vs-gold divergence emerges under unlimited borrowing.",
+    "control": "Borrowing-disabled arm (each agent solves independently, no shared pool) as the no-commons baseline, plus a randomized-trace placebo (agents receive shuffled/irrelevant traces) to isolate genuine reuse from mere extra-token effects.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Benchmark and eval-platform designers (who set trace-sharing/leaderboard rules), MAS researchers studying competitive agent ecosystems, and agent-platform operators worried about leaderboard gaming and dataset longevity."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's Law / specification gaming (reward hacking) + Tragedy of the Commons; trace-reuse degradation overlaps with model collapse",
+    "novelty_watermark": "Known mechanisms operationalized in a new setting: Goodhart/commons-tragedy/model-collapse dynamics instantiated as competitive reasoning-trace borrowing under a verifier, with stewardship policies (rate-limit, embargo) as the explicit control lever. The mechanism is not novel; the contribution is the operationalization and the discoverability/verifier-resistance metrics in competitive MAS benchmarks.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}
