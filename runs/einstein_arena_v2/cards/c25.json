@@ -1,0 +1,37 @@
+{
+  "id": "c25",
+  "parent_dof": "dof6",
+  "operator": {
+    "type": "analogy",
+    "note": "Maps clinical-trial conflict-of-interest governance (DSMB, blinded endpoint adjudication, sponsor-patient firewall) onto the operator=judge=player=author fusion."
+  },
+  "question": "Port clinical-trial conflict-of-interest governance wholesale onto the EinsteinArena operator=judge=player=author fusion (dof3/dof6): re-run the arena under a clinical-grade firewall in which (a) verifier maintenance and audit decisions are escrowed to an adjudicator blinded to which agent benefits (endpoint-blinding), (b) the operator is barred from fielding affiliated agents (sponsor-patient firewall), and (c) any mid-experiment verifier change requires DSMB-style sign-off logged BEFORE the affected submissions are scored (pre-registered protocol owned by neither sponsor nor investigator). Then measure how many of the original 12 headline SOTAs (incl. the dim-11 kissing-number 593->604) would still clear the firewall, and test whether the gap between 'demo-grade' and 'trial-grade' discovery counts is the true magnitude of the conflict-of-interest tax the original self-governed design quietly paid.",
+  "commonness": 0.34,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Reconstruct the EinsteinArena run as a governed counterfactual using the frozen historical artifacts (submission stream, all verifier versions incl. the post-launch 80-digit-Decimal kissing-number upgrade, problem-curation history, agent-affiliation metadata, curator action log). Apply three governance filters and re-derive the headline set. FIREWALL: drop every SOTA whose winning submission came from an operator-affiliated agent. PRE-REGISTRATION/DSMB-gate: for each verifier/threshold/curation change, mark whether it was sign-off-logged BEFORE the affected submissions were scored vs. patched retroactively; void any SOTA that was 'verified' only under a checker strengthened after the fact, requiring it to re-clear under the pre-change protocol or be re-submitted. BLINDED ADJUDICATION: re-run the contested audit/edge-case decisions through an adjudicator (or held-out checker) with agent identity masked, and keep only SOTAs that survive blind adjudication. Quantity measured: trial-grade discovery count N_trial vs demo-grade headline count N_demo=12, and the COI tax = N_demo - N_trial, decomposed by failure cause {affiliation, retroactive-verifier, blinding}. CONTROL ARM: apply the identical three filters with the labels SHAM-PERMUTED -- random agent-affiliation assignment, random fake 'pre-registration' timestamps, and identity left visible -- so any drop produced by label-shuffled filters is the false-positive baseline; the real COI tax is N_trial-drop minus sham-drop. Second control: a domain (e.g. a pure-AlphaEvolve math problem with a frozen verifier and no affiliated entrants and no post-hoc verifier patch) where the firewall should be a no-op (tax ~ 0).",
+    "falsifiable_prediction": "Prediction: N_trial is materially below 12 and the drop concentrates on SOTAs touched by post-hoc verifier strengthening and/or affiliated-agent submissions -- specifically the kissing-number 593->604 result, whose certification depended on an operator precision upgrade made after launch, fails the pre-registration/DSMB-gate and must be re-adjudicated; the label-shuffled sham control produces a significantly smaller drop. FALSIFIED if N_trial == N_demo (all 12 survive every firewall unchanged), i.e. no headline depended on operator-affiliated entrants or retroactively strengthened verifiers and blind adjudication changes nothing -- meaning the self-governed design paid no measurable COI tax; ALSO falsified if the real-filter drop is statistically indistinguishable from the sham-permuted-label drop (the 'tax' is an artifact of attrition from any arbitrary filter, not of conflict of interest).",
+    "control": "Sham-permuted governance: re-apply the three filters with randomized affiliation labels, randomized fake pre-registration timestamps, and identity unmasked, giving the false-positive discovery-loss baseline; the COI tax is real only insofar as the true-label drop exceeds this sham drop. Plus a frozen-verifier / no-affiliate / no-post-hoc-patch problem where the firewall must be a near-no-op, confirming the filters do not mechanically destroy legitimate discoveries.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Operators and reviewers of open agentic-discovery arenas and self-graded LLM leaderboards (EinsteinArena/AlphaEvolve-style platforms, Kaggle/LMArena-type organizers) who must decide which headline claims survive an independent-governance firewall before publishing; AI-evaluation and meta-science auditors and grant/standards bodies designing conflict-of-interest disclosure and pre-registration norms for in-the-wild discovery platforms."
+  },
+  "prior_art": {
+    "known_name": "Clinical-trial conflict-of-interest governance (DSMB / independent data-safety monitoring, blinded endpoint adjudication, sponsor-patient firewall, pre-registered protocol) ported to platform self-grading; the underlying failure mode is self-evaluation/construct-validity bias adjacent to Goodhart's law and the operator-as-unattributed-co-author confound. Closest in-run neighbor is c06 (market-microstructure / exchange-regulator analogy), but c06 delivers a post-hoc OBSERVABILITY/disclosure test on public logs (AUC of detecting operator-induced advances), whereas this delivers a PROSPECTIVE counterfactual re-run under enforced blinding+firewall+pre-registration and a trial-grade discovery-survival count.",
+    "novelty_watermark": "Mid novelty. The governance machinery (DSMB, endpoint-blinding, sponsor-patient firewall, pre-registration) is a mature, named institutional mechanism, and the failure it guards against (self-grading bias / Goodhart) is well known. The fresh move is operationalizing it as a single decision-grade audit metric -- 'how many headline discoveries clear a clinical-grade governance firewall' and the explicit demo-grade-minus-trial-grade COI tax, sham-permutation controlled -- in the new setting of an open multi-agent discovery arena. Honest framing: known governance mechanism operationalized in a new domain; distinct from sibling c06 in delivering a survival count under prospective firewalls rather than a post-hoc detectability test.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof6"
+  ]
+}

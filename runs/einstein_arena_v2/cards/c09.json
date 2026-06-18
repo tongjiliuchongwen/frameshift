@@ -1,0 +1,37 @@
+{
+  "id": "c09",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "Deviate from 'transplant social infra → push a float on closed problems': keep the verifier but make the scored object the certified generality of the claim, not the magnitude of one instance."
+  },
+  "question": "Invert the validation object at the unit of 'discovery': require every accepted submission to emit a machine-checkable *generalization* (parametric family, conjecture, or method statement) that the verifier spot-tests on a harness-fixed set of adjacent instances. Define discovery as the breadth of the certified generalization, not the magnitude of the single answered instance. Does scoring the *reach of the claim* rather than the *value of the instance* reorder which agents and problems look productive, and does it separate 'pushed a number via brute search' from 'found structure that explains a family' — the distinction the n=604 vs. integer-604 episode shows the per-float ontology erases?",
+  "commonness": 0.16,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Take the existing EinsteinArena-style verifier run (the M3 target regime, one float per problem). Re-score under a reach metric WITHOUT changing the underlying solver agents: (1) For each problem, fix a harness-controlled set of K adjacent instances (e.g. parameter perturbations / neighboring n / sibling problem variants) BEFORE agents see them — proposers may NOT choose the instance set (this is the anti-Goodhart control). (2) Require each submission to additionally emit a generalization artifact: a parametric family/conjecture/method statement in a checkable form. (3) Verifier spot-tests the artifact on the K fixed adjacent instances; reach = fraction of adjacent instances the certified claim correctly covers. (4) Compute two rankings of agents (and of problems by 'productivity'): magnitude-rank (current per-float) vs reach-rank. Measured quantity: rank correlation (Kendall tau) between the two rankings, AND the per-submission reach score of the specific n=604-type brute-search submissions vs structure-finding submissions. Control group: same agents scored under the unchanged per-float ontology; plus a negative control where the adjacent-instance set is proposer-chosen (should let brute-search regain high reach, confirming the fixed-set is what does the work).",
+    "falsifiable_prediction": "Reach-ranking will materially reorder agents relative to magnitude-ranking (Kendall tau well below 1), and brute-search 'pushed-a-number' submissions (the n=604 type) will score near-zero reach on the harness-fixed adjacent instances while structure-finding submissions score high. FALSIFIED if tau is ~1 (rankings near-identical, i.e. reach is just a proxy for magnitude and adds nothing) OR if brute-search submissions score high reach on the FIXED instance set (meaning the metric does not actually isolate structure). The proposer-chosen-set control is predicted to collapse the separation, isolating the fixed-set as the causal ingredient.",
+    "control": "Two controls: (a) baseline = identical agents/answers scored under the current unchanged per-float magnitude ontology (establishes the reordering is due to the new metric, not new agents); (b) negative control = reach metric but with proposer-chosen adjacent instances instead of harness-fixed ones (predicted to let brute-search regain reach, isolating instance-set control as the operative mechanism and guarding against the obvious gaming path).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Benchmark/leaderboard designers for LLM math-and-science verifier arenas (EinsteinArena, FrontierMath-style, AlphaProof-adjacent eval teams) and RL reward-shaping teams who currently train on per-instance verifier floats and want a signal that rewards generalization over brute force; secondarily, reviewers/meta-science auditors of 'AI made a discovery' claims who need to distinguish a number-push from a structural result."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / construct validity (operationalized as a generalization-gap or out-of-distribution / leave-instance-out test on a held-fixed neighbor set)",
+    "novelty_watermark": "The component mechanisms are all named elsewhere: scoring the proxy vs the target is Goodhart; spot-testing a claim on held-out neighbors is OOD/generalization-gap testing; requiring a checkable family rather than a point is the conjecture-vs-witness distinction in automated theorem proving (a proof generalizes, a single witness does not). What is NOT pre-named is fusing them into the *unit of submission and the scored object* for an autonomous-discovery arena — making 'breadth of a verifier-certified generalization' the leaderboard primitive rather than a post-hoc validity audit. Honest framing: this is a known-mechanism (anti-Goodhart generalization testing) operationalized in a new scene (discovery-arena scoring), not a new mechanism. Novelty sits in the relocation of the metric to the scoring primitive plus the falsifiable claim that doing so reorders productivity rankings; the central unsolved risk it inherits is who fixes the adjacent-instance set, which the experiment must control or the new metric is gamed exactly like the old one.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}

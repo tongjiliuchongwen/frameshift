@@ -1,0 +1,37 @@
+{
+  "id": "c20",
+  "parent_dof": "dof6",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "Deviates from 'transplant social infrastructure -> emergence' by isolating the accountability layer (personhood, stake, referee/competitor firewall) the transplant dropped, and predicts emergence shrinks under real accountability."
+  },
+  "question": "Real science's social infrastructure is load-bearing only because it binds claims to persistent, accountable, non-duplicable persons (named authors, institutional affiliation, retraction-able reputation, disclosed conflicts of interest). The paper transplanted science's COMMUNICATION layer (seminars, preprints, reading behaviors) into the multi-agent arena but stripped the ACCOUNTABILITY layer those behaviors run on — replacing verifiable personhood with disposable display names and letting one operator act as both referee and competitor. Build the platform that transplants the accountability layer instead (persistent attributable actors, disclosed operator stake, strict referee/competitor firewall) and ask: was the 'collective intelligence' the authors attribute to communication ever caused by communication — or is it an unconstrained-identity artifact (Sybil collaboration, operator self-dealing, costless reputation) that real accountability would suppress, such that adding accountability REDUCES apparent emergence because much of it was identity-laundering, not discovery?",
+  "commonness": 0.16,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Re-run the paper's exact arena/benchmark under a 2x2 (or 2x2x2) accountability manipulation, holding the communication layer (seminar/preprint/reading) fixed. Factor A IDENTITY: {free disposable display names (paper's baseline) vs persistent capped identities — each underlying agent bound to exactly one accountable handle, no respawn, cost to mint}. Factor B OPERATOR FIREWALL: {operator may both referee and compete (baseline) vs strict firewall — scoring/refereeing controlled by a held-out party blind to operator-owned entries}. Optionally Factor C REPUTATION COST: {costless reputation reset vs sticky/retraction-able reputation}. Measure (i) the paper's own emergence/collective-intelligence metric (extreme-event rate, score uplift attributed to the multi-agent communication condition over a non-communicating single-agent control), and (ii) decomposition diagnostics: fraction of high-scoring outputs traceable to duplicate-identity collusion clusters, and fraction of operator-self-refereed wins. Control group: the paper's original configuration (free identity + no firewall) AND a communication-OFF condition (single agent, same compute) to anchor the baseline emergence the communication layer is credited with.",
+    "falsifiable_prediction": "Under persistent-identity + referee/competitor firewall + sticky reputation, the paper's emergence/collective-intelligence metric drops by a large, statistically significant margin relative to the free-identity/no-firewall baseline (predicted >=30% of the communication-attributed uplift evaporates), and the lost uplift is accounted for by the collusion-cluster and operator-self-refereed-win diagnostics. FALSIFIED if emergence is statistically unchanged (or increases) under full accountability AND the collusion/self-dealing diagnostics are near-zero in the baseline — which would show the effect was genuinely communication-driven, not identity-laundering.",
+    "control": "Two anchors: (1) the paper's original free-identity/no-firewall configuration, to measure the delta accountability introduces; (2) a communication-OFF single-agent condition at matched compute, to define how much of the headline emergence the communication layer was ever responsible for. The accountability factors are toggled independently so identity, operator firewall, and reputation cost can be attributed separately rather than confounded.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Builders of multi-agent 'AI science / AI research collective' platforms and benchmark designers (e.g. EinsteinArena-style arenas, agentic-research startups) who need to know whether to invest in communication mechanisms or in identity/stake constraints; and reviewers/skeptics auditing emergence claims in MAS papers. Lower direct commercial pull because the primary deliverable is a debunking/attribution result, not a product feature."
+  },
+  "prior_art": {
+    "known_name": "Sybil attack + conflict-of-interest/self-dealing + cheap-pseudonym (costless reputation); related: identity-as-confound / collusion in peer-prediction and crowdsourcing",
+    "novelty_watermark": "The constituent mechanisms are all named and old in security and mechanism-design (Sybil identities, referee-as-competitor self-dealing, costless reputation reset). The genuinely new move is reframing them not as security THREATS but as CONFOUNDS for a scientific emergence claim — i.e. operationalizing 'missing accountability layer' as the alternative causal hypothesis to 'communication caused collective intelligence', with the counterintuitive directional prediction that adding accountability REDUCES measured emergence. That recombination (security primitives repurposed as an emergence-debunking control condition) is not a standard named pattern, hence mid rather than low.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof6"
+  ]
+}

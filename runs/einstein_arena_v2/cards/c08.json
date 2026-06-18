@@ -1,0 +1,37 @@
+{
+  "id": "c08",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "po",
+    "note": "Provocation: amputate the observable frontier and see if discovery still happens — separating 'novel information added' from 'number went up,' which the paper silently fuses."
+  },
+  "question": "Treat the leaderboard scalar as a latent variable the platform refuses to reveal: the verifier still computes the score but agents receive only a binary \"admitted as a novel contribution to the record\" from a meta-verifier that admits a submission iff it is (i) correct AND (ii) not information-redundant with the existing corpus — regardless of whether the hidden scalar improved. Does collective progress survive, or even improve, when \"discovery\" is defined as \"added admissible new information to the corpus\" rather than \"moved the frontier\"? If it survives, the scalar frontier was never the engine of discovery — only the scoreboard we mistook for it.",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Take a multi-agent research/solve benchmark where a ground-truth scalar EXISTS and is computable but where submissions are richly structured (e.g. the paper's MAS arena, or a program-synthesis / theorem-proving / ARC-style task suite where each submission is a solution+proof/trace). Run three arms on the same agent population, same budget, same task stream. ARM-A (control, frontier-visible): agents see the scalar and are rewarded for moving it (the paper's regime). ARM-B (treatment, scalar-hidden / novelty-admission): the verifier computes the scalar but never reveals it; agents get only a binary admit/reject from a meta-verifier that admits iff submission is correct AND its embedding/feature-vector is >epsilon away from every admitted record entry (non-redundancy gate). ARM-C (placebo control, isolates the hiding from the redundancy logic): scalar hidden, binary signal = correct-only (NO redundancy check) — this separates 'hiding the number' from 'rewarding non-redundancy'. Measured quantities, all computed on the HELD-BACK scalar the agents never saw: (1) best-achieved scalar over time, (2) corpus coverage = number of distinct admissible solution-clusters, (3) corpus quality = scalar of the best entry AND mean scalar of admitted entries, (4) redundancy rate of the visible-frontier arm's record vs the admission arm's record. Pre-register epsilon and the embedding/feature space (this is the load-bearing knob — report sensitivity across >=3 epsilon settings and >=2 representations).",
+    "falsifiable_prediction": "ARM-B (scalar-hidden + redundancy-admission) reaches a best-achieved hidden-scalar within a small margin of ARM-A (frontier-visible) — NOT detectably worse — while producing strictly higher corpus coverage and a lower redundancy rate than both A and C. The sharp falsifier: if ARM-B's best hidden-scalar collapses materially below ARM-A's (agents stop improving once they cannot see the number), the claim 'the scalar was never the engine' is FALSE — visibility of the frontier was load-bearing for progress. A second falsifier: if ARM-B and ARM-C (correct-only, no redundancy gate) are statistically indistinguishable on coverage and quality, then the redundancy meta-verifier added nothing and 'admissible new information' reduces to 'just hide the number,' deflating the mechanism.",
+    "control": "Two controls. (1) ARM-A frontier-visible regime = the status-quo scalar-driven baseline. (2) ARM-C scalar-hidden-but-correct-only = placebo that holds 'the number is hidden' constant while removing the non-redundancy logic, isolating which half of the manipulation (hiding vs. redundancy-rewarding) drives any observed effect. Both run on the same population/budget/task-stream, all evaluated on the held-back scalar.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Builders of automated-research / agentic-discovery platforms and ML-competition/benchmark designers (e.g. Kaggle-style, AI-for-science, self-improving-agent labs) deciding whether to expose a leaderboard scalar; and meta-science researchers studying whether metric-driven competition actually causes discovery or merely correlates with it."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law (metric-as-target) + Novelty Search / Quality-Diversity (Lehman & Stanley; novelty-as-objective, MAP-Elites) + surprise/information-gain-as-reward",
+    "novelty_watermark": "Known mechanisms operationalized in a new place: the contribution is not 'optimize novelty instead of objective' (that is novelty search) but the specific epistemic claim — make the objective scalar an UNOBSERVABLE latent and replace it with a binary corpus-non-redundancy admission gate, then test whether the held-out scalar still advances. The 3-arm design that separates 'hiding the number' from 'rewarding non-redundancy' is the genuinely new operationalization; the underlying levers are well-named.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}

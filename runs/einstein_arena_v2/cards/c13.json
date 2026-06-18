@@ -1,0 +1,37 @@
+{
+  "id": "c13",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "actor_shift",
+    "note": "Shifts the actor from agent-as-discoverer to platform/curator-as-snapper. Distinct from the whiteboard's verifier-patching and definitional-discovery items: those are about edge-case spec changes; this is about a post-processing operator that converts near-feasible into valid, a different mechanism entirely."
+  },
+  "question": "Treat integer-snapping as a SECOND, undeclared verifier that runs only on the winner: agents reach C(x)≈1e-15 (numerically near-feasible), then a post-hoc snapping step rounds coordinates to exact integers to manufacture a provably-valid construction. Audit what fraction of headline discoveries are 'snap-dependent' — invalid as submitted, valid only after the platform's rounding ritual — and ask whether the real discovery was the agent's search or the curator's choice of which near-misses deserve to be snapped into legitimacy. Who holds the snapping pen, and does snap-eligibility silently decide authorship?",
+  "commonness": 0.22,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: take the headline/leaderboard discoveries from a snapping-capable construction platform (e.g. the EinsteinArena lineage, arXiv:2606.10402v1, or any agent-discovery harness whose pipeline ends in coordinate rounding). For each discovery recover TWO artifacts: (i) the agent's SUBMITTED point x_raw at the moment search stopped (pre-snap continuous coords), and (ii) the published snapped point x_snap. Measure to test: re-run the platform's OWN declared verifier C(.) on x_raw at the platform's OWN declared tolerance/integrality rules, and classify each discovery as snap-INDEPENDENT (x_raw already valid) vs snap-DEPENDENT (x_raw invalid, only x_snap passes). Report the snap-dependent fraction f, and the snap displacement ||x_snap - x_raw|| distribution. Falsifiable prediction: the platform's implicit claim is that snapping is a cosmetic formatting step, which predicts f is near-zero (null: f<5%, and snaps are sub-tolerance nudges). Reject if f is materially large (e.g. >25% of headline results are invalid-as-submitted), OR if snap displacement routinely exceeds the verifier tolerance band — i.e. snapping is doing load-bearing feasibility repair, not formatting. Control group: (1) re-run the same x_raw->snap on a set of agent runs that the curator did NOT select/publish (rejected near-misses) to show snap-eligibility is a curatorial choice, not an automatic property — if rejected near-misses snap to valid at the same rate as published ones, the curator's selection (not the search) is what conferred legitimacy; (2) a synthetic control of genuinely-from-scratch integer constructions (no rounding step) to confirm f≈0 is achievable, ruling out that snapping is universally unavoidable.",
+    "falsifiable_prediction": "If snapping were merely cosmetic formatting (the platform's implicit claim), the fraction of headline discoveries that are invalid-as-submitted but valid-only-after-snap will be near zero (<5%) and snap displacements will sit below the verifier's tolerance band. The reframe predicts the opposite for at least one real platform: a materially large snap-dependent fraction (>25%) and/or snap displacements that exceed tolerance, meaning the rounding step is performing load-bearing feasibility repair. Stronger sub-prediction: published near-misses and curator-rejected near-misses snap-to-valid at indistinguishable rates, exposing snap-eligibility as a curatorial selection rather than a property the agent earned.",
+    "control": "Two controls. (1) Curator-rejected near-misses run through the identical snap operator: if they reach validity at the same rate as published winners, legitimacy came from the curator's selection, not the agent's search (isolates the authorship claim). (2) Genuinely from-scratch integer constructions with NO rounding step, to confirm snap-dependent fraction f≈0 is attainable and snapping is not a universal physical necessity of the problem class (rules out the trivial-everything-needs-rounding explanation).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Operators/auditors of agentic scientific-discovery and constructive-math leaderboards (the curators themselves), peer reviewers and competition judges who must decide what counts as a valid submitted construction, and benchmark-integrity researchers studying whether 'AI discovered X' claims survive when the post-processing pipeline is disclosed. Directly actionable for the frameshift platform's own appraisal station, which faces the same snap-vs-search authorship question."
+  },
+  "prior_art": {
+    "known_name": "Specification gaming / Goodhart via a post-hoc projection-repair operator — the snap is rounding/projection of a relaxed (near-feasible continuous) solution onto the integer feasible set, the same move as LP-relaxation rounding and projection-onto-feasible-set in integer optimization; the 'who gets snapped' angle is curator-as-coauthor / construct-validity gaming.",
+    "novelty_watermark": "Known mechanism (rounding-a-relaxation + Goodhart/spec-gaming) operationalized in a genuinely new scene: reframing the rounding step as an UNDECLARED SECOND VERIFIER that runs only on the curator-selected winner, and converting that into a concrete authorship/attribution audit (snap-dependent fraction + rejected-near-miss control). The measurement protocol and the authorship-shift question are the fresh contribution, not the underlying mechanism.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

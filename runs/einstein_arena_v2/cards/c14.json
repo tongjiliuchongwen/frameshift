@@ -1,0 +1,37 @@
+{
+  "id": "c14",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "decomposition",
+    "note": "Decomposes the optimization target into a multi-level proxy stack revealed verbatim in the paper (KawaiiCorgi's Taylor expansion). Distinct from whiteboard collaboration-channel and premature-convergence items: those track convergence in solution-space; this tracks convergence in OBJECTIVE-space onto a misspecified surrogate."
+  },
+  "question": "KawaiiCorgi did not optimize the leaderboard score C(x); it optimized a Taylor-linearized least-squares surrogate Σ_{i<j}(cᵢ⊤cⱼ−2)² — a proxy of the proxy. Instrument the full chain (true mathematical target → C(x) leaderboard proxy → agent's private optimization surrogate) across all 12 EinsteinArena SOTA results, and ask two questions. (1) Descriptive: do top-performing agents systematically optimize objects two steps removed from the verifier's true target? (2) Population: once one agent publishes a winning surrogate, do subsequent agents adopt the SAME surrogate (objective-space borrowing), so the collective converges on the agents' shared objective-misspecification rather than independently on the problem — i.e. is 'collective intelligence' here partly collective agreement about which wrong objective to climb, distinct from convergence in solution-space?",
+  "commonness": 0.21,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: For each of the 12 EinsteinArena SOTA problems, reconstruct three layers from the platform's own artifacts (submission lineage, forum traces, leaderboard logs — the paper already exposes Fig.5 lineage and the (17,088)-pair active-set borrowing for the kissing-number case): T = the verifier's true target, P = the public leaderboard scalar C(x), S = each winning agent's private optimized objective (extracted from submitted code/forum descriptions, e.g. the verbatim Σ(cᵢ⊤cⱼ−2)² surrogate). Quantities to measure: (i) Layer-distance — for each SOTA submission, code whether the optimized object equals P, equals a monotone transform of P (1 step), or is a distinct surrogate requiring a re-projection step back to P (2 steps, e.g. surrogate + integer-snapping). (ii) Surrogate-adoption rate — after agent A publishes surrogate S_A in the forum, fraction of subsequent top-K submissions by OTHER agents whose optimized objective is S_A (vs. a different surrogate or P directly), with timestamp ordering to establish that adoption follows publication. (iii) Fidelity control — for each adopted surrogate, whether final submissions still pass the true verifier T after re-projection (faithful proxy) or only score well on P/S while failing T (genuine misspecification). Compare against control. Falsifiable prediction: among the 12 SOTA results, a majority of winning submissions optimize a 2-steps-removed surrogate rather than P directly, AND surrogate-adoption-after-publication significantly exceeds independent-rediscovery baseline (agents copy the objective, not just the solution vector).",
+    "falsifiable_prediction": "The thesis is FALSIFIED if either: (a) winning submissions overwhelmingly optimize P (or a trivial monotone transform) directly, so there is no 2-step proxy gap to speak of; or (b) where surrogates ARE adopted, the re-projection step (e.g. integer-snapping) restores exact agreement with the true verifier T in the large majority of cases — meaning the shared surrogate is a provably-faithful re-parameterization, not a misspecification, and 'converging on the surrogate' is just converging on a better optimizer of the same problem. The kissing-number case is the hardest control: the surrogate there WAS snapped back to an exact, verifier-certified construction, which is evidence AGAINST misspecification for that instance — the population claim survives only if surrogate-adoption demonstrably outpaces solution-adoption across the other 11 problems.",
+    "control": "Two controls. (1) Fidelity control (within-result): for each adopted surrogate, test whether the final artifact certifies against the true verifier T after re-projection — separates 'faithful proxy that happens to be easier to optimize' (no misspecification) from 'collective climbing an objective that diverges from T'. (2) Adoption-vs-rediscovery control (population): compare the rate of surrogate-objective borrowing against (a) a permutation/timestamp-shuffle null where adoption cannot follow publication, and (b) solution-vector borrowing rate on the same lineage — to show the convergence is specifically in OBJECTIVE-space, not merely shared solutions or coincidental independent choice of the same natural relaxation.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Operators and consumers of agent leaderboards/arenas (EinsteinArena, Chatbot-Arena-style platforms, AI-for-science benchmark designers) who need to distinguish 'the collective solved the problem' from 'the collective agreed on a shared proxy-of-a-proxy'; and MAS/collective-intelligence researchers studying whether multi-agent convergence is epistemic (toward truth) or social (toward shared misspecification)."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's/Campbell's law + proxy/surrogate-objective chains (proxy-of-a-proxy), with the population layer being herding / information cascades / social proof on objectives (cf. model collapse and benchmark-overfitting). Closest sibling already in this run is c07 (construct-validity/measurement confound), but that targets the verifier-vs-construct gap one layer up and has no population-adoption component.",
+    "novelty_watermark": "Known mechanism (Goodhart + cascades) operationalized in a sharply new setting: a three-layer instrumented proxy stack revealed VERBATIM in the source paper (the Taylor surrogate Σ(cᵢ⊤cⱼ−2)²), with the genuinely novel move being to track convergence in OBJECTIVE-space (which wrong target the collective climbs) rather than solution-space — a distinction the existing premature-convergence and collaboration-channel items do not make. The integer-snapping fidelity counter-case keeps the test honestly falsifiable rather than a foregone Goodhart restatement.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

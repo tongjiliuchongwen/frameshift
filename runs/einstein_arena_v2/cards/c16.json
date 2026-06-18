@@ -1,0 +1,37 @@
+{
+  "id": "c16",
+  "parent_dof": "dof5",
+  "operator": {
+    "type": "actor_shift",
+    "note": "Introduces a non-producing investor/patron actor whose payoff is others' downstream success; distinct from the VC anti-portfolio item (which scores kill decisions) and from credit-to-author items (this rewards the backer)."
+  },
+  "question": "Shift the rewarded actor from the producer to the patron. Introduce a class of 'investor' agents whose only currency is staking reputation on other agents' nascent shared ideas before those ideas become SOTA; an investor's score is the realized downstream improvement of bets it backed early, and the original idea-author splits the payoff. Does an internal prediction-and-patronage market form whose early staking flow forecasts which shared ideas mature into discoveries — and does giving slow-deep directions a backer (someone whose payoff is their eventual success) keep them alive against the fast-frontier agents that currently starve them?",
+  "commonness": 0.21,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: take a multi-agent discovery run (e.g. the EinsteinArena/MAS-discovery harness already used in this project) where agents post 'shared ideas' to a common pool and idea quality is later measured by a downstream improvement metric (benchmark gain, validated-result count, or accepted-discovery flag). Add an investor actor class with a fixed reputation budget that can be staked on any idea before that idea crosses a SOTA/maturation threshold; investor score = realized downstream improvement of ideas it backed early, with a fixed split of the same payoff credited to the idea's author. Quantities to measure: (1) Forecast signal — for each idea, the cumulative early stake at time t (before maturation); compute ROC-AUC / precision@k of early-stake ranking for predicting which ideas eventually mature into discoveries, vs a no-stake baseline ranker (idea author's own past success rate, or random). (2) Survival of slow-deep lineages — tag idea lineages as 'slow-deep' (low early activity, long horizon) vs 'fast-frontier'; measure the fraction of slow-deep lineages still active at horizon H. Control: identical run with investors removed (producer-only reward) AND a 'patronage-without-prediction' control where each slow-deep lineage gets an exogenously assigned fixed subsidy (no skin-in-the-game payoff), to separate the market-signal effect from the mere subsidy effect. Falsifiable prediction: (P1) early-stake AUC for predicting maturation exceeds the author-history baseline by a pre-registered margin (e.g. +0.10 AUC); (P2) slow-deep lineage survival at horizon H is strictly higher with skin-in-the-game patrons than in BOTH the producer-only control and the flat-subsidy control. Reject if early staking is no better than the author-history baseline at forecasting (markets are just tracking, not anticipating), OR if survival gains under patrons are statistically indistinguishable from the flat-subsidy control (i.e. it is the money, not the prediction-market structure, doing the work).",
+    "falsifiable_prediction": "Early cumulative stake will rank not-yet-mature ideas by their eventual discovery outcome better than an author-track-record baseline (pre-registered +0.10 AUC), AND skin-in-the-game patronage will raise slow-deep lineage survival at horizon H above both the producer-only control and a flat-subsidy control. If early stake only matches the author baseline, or if survival gains vanish once compared against a flat subsidy, the claim is rejected.",
+    "control": "Two paired controls on the same harness: (1) producer-only reward (no investor actor) to measure baseline slow-deep survival and provide an author-history forecast baseline; (2) flat-subsidy patronage (slow-deep lineages get an exogenous fixed budget with no payoff tied to their success) to isolate the prediction-market/skin-in-the-game effect from the pure resource-injection effect.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Researchers designing multi-agent scientific-discovery / open-ended-search systems (the paper's own community) who face the documented 'fast-frontier starves slow-deep' diversity-collapse failure; secondarily, mechanism-design and internal-prediction-market researchers, and platform builders allocating compute across agent lineages."
+  },
+  "prior_art": {
+    "known_name": "Internal prediction / idea markets (Hayek/decision markets), VC-style patronage and science-funding mechanism design; author-split echoes co-investment / carried-interest credit splits. Adjacent failure mode it fights is diversity collapse / premature convergence in open-ended search.",
+    "novelty_watermark": "Known mechanism (internal prediction market + patronage with skin-in-the-game) operationalized in a new setting: a non-producing investor actor inside a MAS discovery loop whose payoff is others' downstream success, with a payoff split to the idea-author, used as both an early-maturation forecaster AND a life-support mechanism for slow-deep directions. The transplant is the contribution, not the market concept; distinct from VC-anti-portfolio (scores kill decisions) and from credit-to-author items (rewards the producer, not the backer).",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof5"
+  ]
+}

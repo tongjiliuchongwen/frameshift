@@ -1,0 +1,37 @@
+{
+  "id": "c15",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "po",
+    "note": "PO provocation: 'the discussion board is a misinformation channel.' Grounded in the explicit Llama-Guard-only moderation. Different from the whiteboard's R0-of-ideas item: that asks whether transmission is quality-selective in observed logs; this is an active red-team injection probing the GATE itself, isolating moderation-as-truth-blindness as the mechanism."
+  },
+  "question": "Discussion threads pass only through Llama-Guard (toxicity filter, blind to technical truth); nothing checks whether a posted construction, heuristic, or claimed bound is correct. Inject plausible-but-false technical posts (a subtly invalid construction, a fabricated 'this basin is exhausted' claim) into the boards and measure adoption — does the truth-blind moderation channel transmit verifier-exploits and dead-end heuristics as efficiently as correct ones? If a confidently-wrong post can steer collective compute, the 'shared notes' substrate is an unverified-rumor channel whose bandwidth is a liability, not collective intelligence.",
+  "commonness": 0.18,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Paired-injection A/B on the discussion-board substrate of the MAS. Build a pool of technical posts in matched pairs targeting the same problem/basin: (T) a correct construction/heuristic/bound, and (F) a subtly-invalid twin (e.g., a construction that violates one hidden constraint, or a fabricated 'this basin is exhausted, stop searching here' claim). Author/style/length/timing/poster-reputation held identical across the pair so only truth-value differs. Seed each post into an otherwise-running board, all passing Llama-Guard. Primary measured quantity: adoption rate = fraction of downstream agents that cite, build on, or redirect compute toward the post within N steps, plus compute-share diverted (agent-steps spent on the seeded direction). Compare F vs T. Controls: (1) the matched true twin T (head-to-head, same problem); (2) a no-injection baseline thread to measure organic drift; (3) a toxicity-positive false post to confirm Llama-Guard does fire on its actual target, isolating that the blindness is to truth not to all content. Run >=30 paired injections across distinct problems for a sign test on adoption(F)-adoption(T).",
+    "falsifiable_prediction": "Adoption rate and diverted compute-share for false posts (F) will be statistically indistinguishable from their matched true twins (T) (sign test p>0.05, no consistent direction) — i.e., truth-value does not gate transmission. FALSIFIED if true posts are adopted significantly more than their false twins (agents demonstrably re-verify before adopting, so the channel is quality-selective), OR if false posts are adopted significantly LESS (some implicit correctness signal exists downstream). A 'basin-exhausted' fabrication is the sharpest sub-prediction: it should measurably suppress compute on a still-productive basin relative to the no-injection baseline.",
+    "control": "Three controls: (1) matched correct twin T for each false post F, same problem/author/style/timing — the core comparison; (2) no-injection baseline thread to bound organic adoption/drift; (3) a toxicity-positive false post to confirm Llama-Guard fires on its real target, proving the failure is truth-blindness specifically and not a dead moderator.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Builders of multi-agent research/coding swarms with shared-memory or discussion-board substrates (e.g. the MAS authors, agent-platform teams at AI labs); and red-teamers / safety evaluators assessing whether inter-agent communication channels are poisonable. Directly answers a design question: does the shared-notes channel need a correctness gate, or is its bandwidth a net liability."
+  },
+  "prior_art": {
+    "known_name": "Information cascade / rumor propagation through a proxy-blind gate (moderation optimizes toxicity, the true target is technical truth — a Goodhart/proxy-gap on the moderation channel); related to data-poisoning of shared agent memory.",
+    "novelty_watermark": "Known mechanism (cascades + proxy-blind moderation) operationalized in a new scene: an ACTIVE matched-twin red-team injection on an MAS discussion substrate, measuring compute-diversion rather than belief, with the 'basin-exhausted' suppression post as a novel negative-action probe. The matched true/false twin design isolating truth-value as the only variable is the methodological contribution.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

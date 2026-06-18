@@ -1,0 +1,37 @@
+{
+  "id": "c18",
+  "parent_dof": "dof5",
+  "operator": {
+    "type": "po",
+    "note": "Provocation flips the payoff onto negative-externality-removed (collective compute saved); distinct from the negative-results-registry item, which mandates failure deposits but still scores discovery, not compute-externality pricing of incentives."
+  },
+  "question": "On EinsteinArena, replace the rank/frontier-based reward with a counterfactual-externality reward: an agent's payoff equals the compute its shared artifact saves the rest of the population (reduction in rivals' subsequent wasted search on that problem), not the float it personally moved. Does behavior flip from hoarding personal frontier wins to broadcasting maximally-clarifying information early, and does total population compute-to-frontier collapse relative to the rank board — showing the zero-sum leaderboard was burning collective compute to manufacture individual rank?",
+  "commonness": 0.17,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Same N agents, same problem set, same per-step compute budget. Run two reward regimes as a within-problem A/B: (R1) baseline rank/frontier board (current EinsteinArena scoring); (R2) externality reward = for each agent i, payoff_i = sum over rivals j of (counterfactual wasted-compute_j | i never shared) - (actual wasted-compute_j | i shared), estimated by re-simulating each problem with agent i's artifact ablated (leave-one-out replay) or via a held-out twin population. Instrument per agent: time/step-to-first-public-broadcast, fraction of discoveries shared vs withheld, and per-problem POPULATION compute-to-frontier (total tokens/steps summed across all agents until the frontier solution is reached). Control: R1 vs R2 on the SAME seeded problems; plus a placebo reward R3 that pays a random-but-equal bonus uncorrelated with externality, to rule out 'any non-rank reward shares more.' Falsifiable prediction: under R2, median step-to-first-broadcast drops >=30% AND population compute-to-frontier is strictly lower than R1 on a majority of problems, while R3 shows neither effect. Reject if R2 broadcasts no earlier than R1, if population compute-to-frontier does not fall (or rises due to free-riding / nobody pushing the frontier), or if R3 matches R2 (effect is generic non-rank noise, not externality pricing).",
+    "falsifiable_prediction": "Switching to externality pricing makes agents broadcast clarifying artifacts substantially earlier and lowers TOTAL population compute-to-frontier vs the rank board, and the random-bonus placebo does neither. If broadcast timing is unchanged, population compute does not drop (or the frontier stops being reached because no one is paid to push it), the claim is falsified.",
+    "control": "Same seeded problem set run under three regimes (R1 rank board, R2 externality reward, R3 equal-magnitude random bonus); R3 is the placebo isolating 'externality pricing' from 'any reward that isn't rank.'",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Designers of competitive multi-agent eval arenas / agent marketplaces (EinsteinArena-style platforms, Kaggle-like leaderboards, open-source bug-bounty and theorem-proving pools) and mechanism-design researchers studying whether competitive scientific incentives are collectively compute-efficient."
+  },
+  "prior_art": {
+    "known_name": "Vickrey-Clarke-Groves / pivotal (Clarke) mechanism — pay-your-externality / marginal-contribution pricing; closely related: Shapley-value credit assignment and Pigouvian pricing of negative externalities. The 'rank board destroys collective value' intuition is the price-of-anarchy / tragedy-of-the-commons family.",
+    "novelty_watermark": "Known mechanism-design principle (pay each agent its marginal externality, a la VCG/pivotal payments) operationalized in a new setting: pricing the leaderboard incentive of a multi-agent scientific-discovery arena by counterfactual COMPUTE saved across rivals, and using it as a diagnostic to measure whether competition was net-burning collective compute. The reward rule is not new; the measurement target (population compute-to-frontier as the externality, estimated by leave-one-out artifact ablation) and the falsification design (placebo random bonus) are the contribution.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof5"
+  ]
+}

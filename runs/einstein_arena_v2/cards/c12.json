@@ -1,0 +1,37 @@
+{
+  "id": "c12",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "decomposition",
+    "note": "Decomposes 'a submission scored s' into two separable coordinates — true-target satisfaction vs proxy-value — exposing a region (proxy-pass / true-fail) the scalar leaderboard collapses into one number. Grounded in the exact C(x) and the integer-snapping rescue of C(x)≈1e-15."
+  },
+  "question": "Build a 'gap atlas' that, for each accepted submission, decomposes the headline leaderboard score into two separable coordinates — (i) true binary-target satisfaction (does the verifier certify validity, e.g. non-overlap / pairwise-distance constraints) and (ii) value of the continuous surrogate the agent actually optimized (for the kissing-number d=11 case, the real surrogate is the least-squares objective Σ_{i<j}(cᵢ⊤cⱼ − 2)² from a Taylor expansion of the nonlinear leaderboard score, NOT a hinge form). Then locate where on the leaderboard accepted constructions sit in the thin shell where the surrogate is near-optimal (loss ≈1e-10→1e-50) but the true target is NOT certified absent the integer-snapping post-processing the agents bolted on. Does collective 'progress' concentrate in this proxy-true crevice — solutions made valid only by a discrete rescue step — rather than in the true feasible region reached by the optimizer the platform rewards? I.e., is the frontier mostly motion through the gap the platform's surrogate opened, not the problem it claims to solve?",
+  "commonness": 0.27,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: For the EinsteinArena problems whose verifiers separate a continuous surrogate from a discrete validity certificate (anchor case: kissing number d=11, where the paper reports the agent KawaiiCorgi optimized the least-squares surrogate Σ_{i<j}(cᵢ⊤cⱼ−2)² via LSQR, drove loss from ~1e-10 to ~1e-50, then applied integer-snapping to obtain a verifier-certifiable construction). Reconstruct/obtain the RAW continuous artifacts (pre-snapping coordinate sets) for accepted constructions, not just their scores. For each accepted submission compute the 2-tuple (surrogate value, true-target margin = signed distance of the raw config to the verifier's validity boundary using the verifier's own decimal.Decimal 30-80-digit arithmetic). Quantity measured: the fraction of accepted frontier constructions whose raw pre-snapping config is verifier-INVALID (true-target margin <0 or within machine epsilon) yet surrogate-near-optimal — i.e. lives in the proxy-pass/true-fail shell — and how that fraction trends along the leaderboard's reported improvement timeline. Control group: (A) a sample of non-frontier / mid-leaderboard accepted submissions, and (B) problems whose verifier is a closed-form formula with NO discrete-snapping rescue path (e.g. an autocorrelation-inequality problem), where the shell should be empty by construction. Prediction is checked by comparing shell-occupancy of frontier vs control-A and vs control-B.",
+    "falsifiable_prediction": "The 'gap concentration' hypothesis predicts: the top-of-leaderboard / SOTA-claiming constructions for snapping-rescuable problems have raw pre-snapping configs that are verifier-invalid (occupy the proxy-pass/true-fail shell) at a substantially higher rate than mid-leaderboard controls, and dramatically higher than the no-snapping closed-form control-B (which should be ~0%). It is FALSIFIED if frontier constructions reach true-target validity directly from the optimizer (raw configs already verifier-valid at comparable rates to controls, snapping merely cosmetic/absent) — meaning progress sits in the true feasible region, not the proxy crevice.",
+    "control": "Two controls hold confounds fixed: (A) mid-leaderboard accepted submissions on the SAME problems (isolates 'frontier-specific' gap-residence from problem-wide proxy looseness — if mid and frontier occupy the shell equally, the gap is a property of the problem's verifier, not of competitive 'progress'); (B) problems with closed-form verifiers and no integer-snapping rescue path (a structural negative control where the shell cannot exist — confirms the measured shell-occupancy is the snapping mechanism, not a measurement artifact of the margin computation).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "EinsteinArena-style open-problem-platform and verifier designers (who could gate acceptance on true-target margin rather than surrogate value, or flag snapping-dependent constructions); meta-science reviewers and AlphaEvolve/TTT-Discover-comparison auditors assessing whether reported SOTA reflects genuine feasible-region discovery vs proxy-gap traversal plus a discrete rescue; QD/agent-eval researchers studying surrogate-induced frontier geometry."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / proxy (surrogate) gaming via constraint relaxation — operationally the metric-vs-construct (proxy-target) gap, here the relaxation-feasibility boundary between a continuous surrogate and a discrete validity certificate",
+    "novelty_watermark": "Known mechanism (optimizing a relaxed surrogate lands in a proxy-pass/true-fail region the true constraint forbids; Goodhart/specification-gaming) operationalized in a new setting — a per-submission 'gap atlas' that geometrically localizes a leaderboard frontier inside the proxy-true shell and ties 'progress' to a platform-induced surrogate plus a bolt-on integer-snapping rescue. The reframe (surrogate-gap as the locus of collective progress) is not novel; the contribution is the concrete decomposition coordinate (true-target margin via the verifier's own exact arithmetic vs surrogate value) and the frontier-vs-control shell-occupancy test. Grounded in the paper's real surrogate Σ(cᵢ⊤cⱼ−2)² and integer-snapping passage, not the mis-transcribed hinge formula in the source candidate.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

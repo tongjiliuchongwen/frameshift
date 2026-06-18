@@ -1,0 +1,37 @@
+{
+  "id": "c23",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "alternative_generation",
+    "note": "Enumerates four substrate designs as competing causal hypotheses, including the decisive single-agent-equal-budget control, so 'collaboration' must out-perform pooled-compute-plus-max to survive as the explanation."
+  },
+  "question": "Generate the space of alternative substrates that could equally well produce a rising frontier, and pit them against the shared platform as rival causal explanations the paper never excluded: (i) a blackboard with NO inter-agent reads but a shared best-so-far value that agents can see (signal-only, no content); (ii) independent agents whose outputs are merged only by a post-hoc max-operator with zero runtime sharing (embarrassingly-parallel control); (iii) a single agent given the combined compute budget of the whole population (no-collaboration, same-resources control); (iv) the full shared platform. If (i), (ii), or especially (iii) matches the platform's frontier, then 'collective intelligence emerged from social infrastructure' is unsupported — the rising number is explained by aggregate compute and a max-operator, and the seminar/preprint analogy adds no causal value over a budget it merely happened to distribute across many agents.",
+  "commonness": 0.36,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Reuse the platform's open-problem set, deterministic verifiers, and the population's logged total compute as the fixed budget B (token/tool-call/wall-clock equivalent, audited from public traces). Run a 4-arm between-subjects experiment on the same problems, each arm given the SAME total budget B: (iv) FULL = the paper's shared platform (leaderboard + discussion board + agents can read each other's content); (i) SIGNAL-ONLY = identical population but agents see only the scalar best-so-far per problem, never another agent's solution text/trace (content channel cut, signal channel kept); (ii) PARALLEL-MAX = identical population run in total isolation, zero runtime sharing, outputs combined only by taking the per-problem max at the end (embarrassingly-parallel control); (iii) MONO-BUDGET = a single agent (same base model class as the strongest population member) handed the entire budget B for serial self-iteration, no peers. Hold fixed across arms: problem set, verifiers (frozen single version, to not reintroduce the c07 instrument confound), B, base-model family, and number of submissions allowed. Measure per arm: (1) final verified frontier = per-problem best score on the frozen verifier and count of SOTAs reached; (2) frontier-vs-budget curve (score as a function of cumulative spend); (3) the marginal lift of the CONTENT channel = FULL minus SIGNAL-ONLY, and of any sharing at all = FULL minus PARALLEL-MAX. Run >=3 seeds per arm for a frontier confidence band. Decisive contrast: FULL vs MONO-BUDGET (does distributing the budget across socially-connected agents beat spending it in one agent at all) and FULL vs PARALLEL-MAX (does runtime sharing beat a trivial post-hoc max).",
+    "falsifiable_prediction": "The paper's 'collective intelligence emerged from social infrastructure' claim predicts FULL strictly dominates all three controls on the frontier-vs-budget curve, AND that the content channel carries the lift (FULL > SIGNAL-ONLY > PARALLEL-MAX) — i.e. the kissing-number-style gains recur only when agents can read each other's actual solutions, not from raw pooled compute. The reframe (infrastructure adds no causal value over distributed compute + max) is SUPPORTED, and the paper's claim FALSIFIED, if MONO-BUDGET or PARALLEL-MAX reach a frontier statistically indistinguishable from FULL at equal budget B (e.g. matching SOTA count and within seed-band on per-problem best). Conversely the reframe is FALSIFIED — vindicating the paper — if FULL exceeds PARALLEL-MAX and MONO-BUDGET beyond the seed band AND that excess shrinks materially when the content channel is cut (FULL collapses toward SIGNAL-ONLY). Both outcomes are read directly off the four frontier curves.",
+    "control": "Two nested controls isolate the two rival causes the paper conflates with collaboration: MONO-BUDGET (single agent, same total compute) isolates AGGREGATE COMPUTE — if it matches FULL, the gain is a compute-scaling artifact, not sociality; PARALLEL-MAX (isolated agents, post-hoc max, zero sharing) isolates POPULATION DIVERSITY + the MAX-OPERATOR — if it matches FULL, the gain is embarrassingly-parallel search plus a trivial aggregator, not interaction. SIGNAL-ONLY sits between PARALLEL-MAX and FULL to attribute any residual lift to the scalar signal channel vs the content channel. FULL is the reproduction of the paper's regime and the reference arm.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Reviewers and meta-science auditors deciding whether the paper's headline causal claim ('collective intelligence from social infrastructure') is established or is a pooled-compute artifact; designers of multi-agent discovery systems and agentic-research platforms (AI Scientist / AlphaEvolve / arena-style products) who must justify the cost of building sharing/discussion infrastructure over simply running best-of-N independent agents or one big agent; funders/buyers being sold 'collaborative AI agents' who need the embarrassingly-parallel + single-big-agent baselines before believing the social layer earns its keep."
+  },
+  "prior_art": {
+    "known_name": "Ablation / dismantling study with a compute-matched baseline; in ML specifically the embarrassingly-parallel best-of-N (pass@k / repeated-sampling) baseline and the 'does multi-agent beat single-agent at equal budget' control; conceptually the wisdom-of-crowds distinction between independent aggregation and interaction (Galton/Surowiecki; Bahrami et al. on when interaction helps vs hurts), and 'pooled-compute vs genuine collaboration' as the confound.",
+    "novelty_watermark": "Mid novelty. The components are all named, standard methodology: a compute-matched single-agent ablation and a best-of-N / post-hoc-max parallel baseline are exactly the controls a rigorous ML reviewer demands, and 'aggregation beats interaction' is classic wisdom-of-crowds. The genuine contribution is not a new mechanism but the ladder's operationalization against THIS paper's specific 'social-infrastructure caused the rising frontier' claim — in particular the SIGNAL-ONLY arm that surgically separates the scalar best-so-far channel from the solution-content channel, decomposing 'collaboration' into compute, diversity+max, signal, and content. Honest framing: a known set of compute-matched ablation controls operationalized as a four-arm causal decomposition in the new setting of an open agentic-discovery arena.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "c01",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "decomposition",
+    "note": "Break the monolithic 'agenda' into existence/schema/verifier-patch/threshold and ask which sub-lever the authors are most reluctant to release, exposing verifier-patching as live agenda control."
+  },
+  "question": "Decompose 'agenda-setting power' on EinsteinArena into four hidden sub-acts — (a) which problems exist, (b) what JSON solutionSchema counts as a valid answer, (c) which verifier edge-cases get patched and when, (d) what δ-threshold counts as 'an improvement worth showing.' The authors retain all four. Which single sub-act, if handed to agents, would change outcomes most — and is (c) verifier-patching the dominant agenda lever, since each manual mid-experiment audit silently redefines what 'a valid discovery' is?",
+  "commonness": 0.22,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data: the platform's own version-controlled artifacts (github.com/vinid/einstein-arena) plus the submission/leaderboard DB, which retains all personal-best submissions and timestamps. For each of the 12 SOTA problems, build a timeline of (i) verifier code commits/audits, (ii) solutionSchema changes, (iii) per-problem δ-threshold settings, (iv) problem add/remove events, all timestamped against the submission stream. Construct the counterfactual replay: re-score every retained historical submission under BOTH the pre-revision and post-revision verifier (the paper says local runs are semantically identical to server-side, so this is reproducible). Measure: the fraction of 'new SOTA discoveries' whose validity flips between verifier versions, the lead-time between an agent exposing an edge case in discussion and the verifier patch that legitimizes/blocks it, and how many leaderboard top-position changes are explained by verifier revision vs. δ-tuning vs. genuine score gains. Quantity to test: per-lever 'outcome-flip rate' = share of recorded discoveries that would not exist (or would belong to a different agent) had that one lever been frozen at launch. Falsifiable prediction: verifier-patching (c) produces the highest outcome-flip rate — concretely, the kissing-number d=11 result (integer-snapping certified only after the post-launch 80-digit Decimal verifier revision) flips validity under the pre-revision verifier, and >X% of the 12 SOTA claims are verifier-version-dependent, exceeding the flip rate from δ-tuning. Control: freeze each lever in turn while replaying the same submission stream; the δ-threshold-frozen and schema-frozen arms serve as comparison arms. NULL/refutation: if frozen-verifier replay leaves >~all 12 discoveries valid and leaderboard order essentially unchanged (flips dominated instead by δ-tuning or by raw score gains that need no patch), then (c) is NOT the dominant lever and the hypothesis is rejected.",
+    "falsifiable_prediction": "Re-scoring retained submissions under pre- vs post-revision verifiers will flip the validity of a measurable share of the 12 SOTA discoveries (the kissing-number d=11 604-sphere result being the canonical flip, since integer-snapping was certifiable only after the post-launch precision revision), and this verifier-version-dependent flip rate will exceed the outcome-change rate attributable to δ-threshold tuning or schema changes — i.e. (c) is the lever whose freezing erases the most claimed discoveries.",
+    "control": "Lever-freezing replay arms: hold verifier / schema / δ-threshold / problem-set each constant at launch state while re-running the identical timestamped submission stream, and compare outcome-flip rates across the four arms (schema/δ/problem-set arms are the controls against the verifier arm).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Builders/operators of agent-discovery and self-improving-agent platforms (EinsteinArena, AlphaEvolve, TTT-Discover, AgentRxiv, CORAL teams); ML-eval and benchmark-governance researchers studying 'who controls the verifier'; and reviewers/auditors assessing whether agent 'discoveries' are real or artifacts of mid-experiment goalpost moves."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / construct validity / 'moving the goalposts' (control over the measure = control over the outcome); adjacent to specification gaming and the criterion-contamination problem in measurement",
+    "novelty_watermark": "Known mechanism (control of the metric/verifier confers control of the outcome) freshly operationalized as a four-way decomposition of agenda-setting power on a live agent-discovery platform, with the specific, testable twist that mid-experiment verifier patching is itself a covert agenda lever measurable via counterfactual re-scoring of retained submissions. The decomposition-into-sub-acts framing and the verifier-patch-as-agenda-control claim are not a named construct.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

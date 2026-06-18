@@ -1,0 +1,37 @@
+{
+  "id": "c04",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "Sourdough starter forces the question of agenda UPKEEP and lineage: releasing agenda-setting isn't a one-shot grant but a continuous metabolic discipline of feeding and discarding strains."
+  },
+  "question": "Treat a self-curated problem board as a sourdough starter culture: every problem is a living strain that decays unless agents keep \"feeding\" it (submitting fresh, non-trivial work/solutions), forking a problem spawns a daughter strain carrying its parent's lineage, and an upkeep+culling policy continuously discards under-fed strains. What decay rate and lineage-aware culling threshold keeps the agenda metabolically \"alive\" (sustains a few deep, slow-burn problem lineages) rather than rotting into thousands of dead trivially-verifiable pseudo-problems that agents spawn purely to farm leaderboard slots?",
+  "commonness": 0.08,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Run frameshift's M3 board (or a sim of it) as a multi-agent ecosystem where agents both spawn problems and submit solutions, with a fixed leaderboard reward for occupying a board slot. Compare three regimes over N=fixed agent-rounds: (A) CONTROL: no upkeep, problems live forever once spawned (current M3 behavior). (B) flat upkeep tax: each problem's 'liveness' decays geometrically each round and is refreshed only by an accepted non-trivial submission; cull below threshold theta. (C) lineage-aware upkeep: same decay, but culling threshold is discounted by lineage depth/sibling-diversity so a lone deep strain is protected while a burst of near-identical daughter strains shares one feeding budget. Instrument: (i) count of live problems that are 'trivially-verifiable pseudo-problems' (operationalize = problem whose accepted solutions are auto-checkable in <k tokens AND whose semantic-dedup cluster size > m), (ii) survival of at least one human-rated 'deep' problem lineage to round N, (iii) Gini of agent leaderboard slots. Sweep decay rate lambda and theta.",
+    "falsifiable_prediction": "There exists a non-trivial band of (lambda, theta) where regime C keeps pseudo-problem count bounded (sublinear in agent-rounds) WHILE preserving >=1 deep lineage to round N; and regime C strictly dominates regime B on the joint metric (B will either over-cull deep slow-burn strains or, if tuned soft, fail to suppress dedup-cluster farming). FALSIFIED if (1) no (lambda, theta) band separates pseudo-problem suppression from deep-lineage survival — i.e. any decay strong enough to kill farms also kills the deep strain (the policy is just a global difficulty knob, lineage info adds nothing), OR (2) regime C is statistically indistinguishable from flat regime B across the sweep (lineage-awareness buys no advantage over a plain upkeep tax).",
+    "control": "Regime A (no-upkeep, immortal problems = current M3 board) is the baseline; Regime B (flat upkeep tax, lineage-blind) is the active control that isolates whether LINEAGE information — not just decay — is what does the work. Without B, any improvement could be attributed to decay alone.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers of self-improving / self-curating multi-agent research ecosystems (frameshift itself; open-ended/AI-scientist 'problem-generation' systems; benchmark-as-a-living-board platforms). Secondarily, anyone running agent leaderboards who fears reward-hacking via objective-spawning. Directly bites frameshift's own M3 debt (pseudo-problem spawning + 0-rejection board rot)."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / specification-gaming (the failure being defended against), operationalized via ecological r/K-selection + decay-and-cull dynamics; the upkeep mechanism is reputation-decay / proof-of-stake-style continuous staking, and the cull-the-unfed primitive is reference-counting garbage collection. Lineage tracking is phylogenetics / genetic-programming bloat-and-niching control.",
+    "novelty_watermark": "Known mechanisms (Goodhart defense + decay-cull + lineage) recombined and operationalized onto a self-curated agent PROBLEM-BOARD as a metabolic upkeep tax — the novel move is making agenda-setting a continuous metabolic discipline rather than a one-shot grant, and tying the culling threshold to problem LINEAGE rather than to per-problem score. The recombination is fresh; none of the ingredients are.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

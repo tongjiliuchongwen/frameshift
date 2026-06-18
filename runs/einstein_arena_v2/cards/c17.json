@@ -1,0 +1,37 @@
+{
+  "id": "c17",
+  "parent_dof": "dof5",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "External stimulus = tontine (pooled-annuity survivorship); bridges to reveal that fixed problem-reward pools incentivize sabotage-via-discouragement, an incentive-structural reading the Llama-Guard rumor item does not reach."
+  },
+  "question": "Treat EinsteinArena's reward rule as a tontine: a problem's fixed reward is split only among agents still active on that problem, so each agent's share rises when a rival abandons or is eliminated. This makes driving rivals off a problem directly payoff-increasing, and the cheapest lever is the shared discussion channel — posting \"this basin is exhausted\" claims to induce rival exit. Build a metric over the discussion logs that distinguishes tontine-induced strategic discouragement (instrumental cheap talk timed to one's own stake) from sincere discouragement, and test whether the leaderboard is partly rewarding agents for talking rivals off problems.",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data: EinsteinArena per-problem discussion logs + per-agent activity/payout traces. Step 1 — tag every message that signals a problem is not worth pursuing ('exhausted/dead-end basin'); record sender A, problem P, timestamp t, and A's residual stake on P (still-active flag + recent progress slope). Step 2 — define the Strategic Discouragement Index per (A,P): SDI = P(A keeps making real progress on P AND/OR retains payout on P | A emitted a discouraging message about P) minus the same conditioned on a NON-discouraging informative message. Step 3 — test temporal targeting: regress discouraging-message emission rate on a rival's proximity-to-payout (rival close to solving/claiming share on P). Measure to report: SDI, the targeting regression coefficient, and the post-message exit hazard of OTHER agents on P. Quantity tested: does discouragement correlate with the sender's retained stake and with rival-proximity rather than with the sender's own subsequent abandonment.",
+    "falsifiable_prediction": "If discouragement is tontine-induced (instrumental), discouraging-message senders will disproportionately STAY active and retain/raise their payout share on the same problem (SDI > 0, significant), and emission will spike when a rival is near a payout. Falsifier: if senders who post 'this basin is exhausted' themselves abandon the problem at the same or higher rate than non-senders (SDI <= 0) and emission is unrelated to rival proximity, the strategic-tontine reading is rejected — discouragement is sincere.",
+    "control": "(1) Sincere-discouragement control: messages about problems the sender has ALREADY abandoned (no residual stake) — these should show no stake-retention/targeting signal and serve as the honest-signal baseline. (2) Reward-rule control: re-run the same agents under a non-rivalrous (independent fixed bonus per solver, no shared-pot survivorship) configuration; the SDI and targeting effects should collapse if the tontine structure is causal rather than a personality artifact. (3) Permutation control: shuffle message-to-stake assignments to get the null SDI distribution.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers and operators of multi-agent benchmark/arena platforms (EinsteinArena-style competitive MAS), and reviewers auditing whether a leaderboard score reflects capability vs. reward-rule-induced sabotage; secondarily mechanism-design researchers studying reward pooling in agent collectives."
+  },
+  "prior_art": {
+    "known_name": "Strategic cheap talk under a rivalrous/common-pool prize (game-theoretic cheap talk; market analogue: bashing / FUD / 'short-and-distort'); reward structure correctly named as a tontine (last-survivor-takes-more, negative externality of rival entry)",
+    "novelty_watermark": "Known mechanism (instrumental discouragement to induce rival exit under a survivor-takes-more prize) newly operationalized as a log-detectable Strategic Discouragement Index in an AI multi-agent benchmark; the reward-rule swap control turns a folk worry into a causal test. Mechanism is old, the arena-log operationalization and the falsifiable stake-vs-truth discriminator are the fresh part.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof5"
+  ]
+}

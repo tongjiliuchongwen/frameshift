@@ -1,0 +1,37 @@
+{
+  "id": "c19",
+  "parent_dof": "dof6",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "External stimulus = casino regulatory separation of house from players; bridges to operator's privileged in-flight visibility + rule-setting power as a measurable house edge."
+  },
+  "question": "Is the AI-agent platform operator structurally a \"house\" that can both see the table (privileged read access to rivals' in-flight, not-yet-public submissions) and rewrite the rules mid-hand (verifier tuning + patch timing), and is the resulting information-asymmetry edge detectable in the win logs — i.e., does any operator-affiliated agent's win-timing correlate with operator-side visibility into rivals' unpublished submissions and with operator-timed rule changes?",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Instrument the platform with an audit layer (analogous to a gaming regulator's casino surveillance): (1) Data — per-submission event log with three timestamp streams: t_submit (agent submits, becomes visible only to operator), t_public (submission/result becomes public), and t_opread (any operator-side process reads the not-yet-public submission); plus a verifier-change log (every rule/verifier edit with timestamp and diff); plus an agent-affiliation label (operator-affiliated vs independent). (2) Estimand/quantity — an 'information-asymmetry edge' E = the conditional dependence between an affiliated agent's win or solution-timing on task k and the volume/recency of operator-side reads of rivals' in-flight submissions on task k (and the alignment of verifier changes to affiliated-agent activity), estimated controlling for task difficulty and baseline agent skill (e.g., a logistic/hazard model of win~affiliated*opread_exposure + difficulty + skill, plus an event-study of win-rate jumps in a window around each verifier change). (3) Controls — independent (non-affiliated) agents as the negative-control group, and a permutation/placebo null: shuffle the opread and verifier-change timestamps within task and re-estimate E many times to get a null distribution; also a pre-registered embargo subset where operator reads are provably blocked. (4) Prediction tested — under the null (no house edge) E is statistically indistinguishable from the permuted/placebo distribution and affiliated agents show no win-timing lift in the post-verifier-change window relative to independents.",
+    "falsifiable_prediction": "If the platform confers a house edge, affiliated agents will show a positive, permutation-significant E: their win probability / time-to-solution will improve as a function of operator-side reads of rivals' in-flight submissions, AND their win-rate will jump in the short window immediately after operator-timed verifier changes — both effects vanishing for independent agents. FALSIFIED if E for affiliated agents lies inside the placebo/permutation null band and shows no excess over independent agents after controlling for difficulty and skill (i.e., affiliated win-timing is conditionally independent of operator in-flight visibility and rule-change timing).",
+    "control": "Independent (non-operator-affiliated) agents as a negative-control cohort; within-task permutation/placebo shuffling of opread and verifier-change timestamps to build the no-edge null distribution; and a pre-registered embargo condition where operator reads of in-flight submissions are blocked, predicting E collapses to null there.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "low",
+    "valuable_to_whom": "Benchmark/arena governance bodies and third-party auditors certifying competition integrity; enterprise buyers doing vendor due-diligence on a vertically-integrated agent platform (operator also fields competing agents); competition organizers writing conflict-of-interest rules; and platform-market-integrity / antitrust researchers studying operator self-dealing in AI evaluation markets."
+  },
+  "prior_art": {
+    "known_name": "Platform self-preferencing / dual-role (player-referee) conflict of interest in vertically-integrated platforms (Amazon-marketplace-and-seller, app-store self-preferencing); the information-asymmetry edge from privileged in-flight visibility is front-running / insider trading, and the detection method is financial-market-abuse surveillance via event-study + permutation/placebo nulls.",
+    "novelty_watermark": "Known mechanism (platform self-preferencing + order-flow front-running, with off-the-shelf market-surveillance detection) operationalized in a new setting: the AI-agent benchmark/arena where the operator both sees rivals' unpublished submissions and tunes the verifier. The transfer is the casino-regulator audit template applied to evaluation platforms; the estimand and nulls are standard, the substrate is new.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof6"
+  ]
+}

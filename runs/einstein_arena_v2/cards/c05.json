@@ -1,0 +1,37 @@
+{
+  "id": "c05",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "decomposition",
+    "note": "Decompose a single 'discovery' into the temporal chain of information additions that produced it, and measure where in that chain the novelty actually entered vs. where credit was assigned."
+  },
+  "question": "Re-run EinsteinArena while logging every artifact each agent emits *before* the float that finally beats the leaderboard frontier (the candidate-vector skeletons, the integer-snapping/rounding heuristics, the algebraic-frame submissions scored as non-improvements). For each frontier-improving submission, reconstruct its temporal lineage of predecessor submissions and measure: what fraction of the winning submission's *information content* (the structural commitments that determine its score: variable choices, functional form, symmetry/ansatz, the search-space restriction) was already present in some earlier submission that the verifier scored as a non-improvement? If that fraction is systematically high, then 'discovery' as the paper defines it is mostly *crossing a numeric threshold with structure that already existed*, and the verifier mis-attributes authorship of the discovery to the agent that emitted the final float rather than to the agent(s) that built the structure earlier in the chain.",
+  "commonness": 0.22,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: (a) re-run (or replay from a frozen archive of) EinsteinArena with FULL per-submission logging, not just final scores -- capture every emitted artifact (vector skeletons/ansatze, integer-snapping and rounding heuristics, algebraic frames, partial solutions) with agent id and timestamp, for every problem where the frontier was eventually improved. (b) Build a per-problem submission DAG ordered in time. (c) Operationalize 'information content' of a submission via at least two independent proxies so the result is not an artifact of one definition: PROXY-1 structural overlap = fraction of the winning submission's score-determining structural commitments (variable/term set, functional form, symmetry/ansatz, integer-snap targets, search-space restriction) that already appear verbatim or up to a defined equivalence in an earlier non-improving submission; PROXY-2 reconstruction/compression test = how much shorter (in description length, or how many fewer verifier queries) it is to reach the winning submission GIVEN the prior non-improving submissions as context, versus from scratch. Quantity measured, per discovery: the maximum (over predecessor non-improving submissions) information-overlap fraction f, and the share of discoveries with f above a pre-registered threshold. Control arm: a matched set of 'genuinely-from-scratch' discoveries where the winning submission shares minimal structure with any predecessor (e.g. first-submission-on-problem wins, or shuffled-lineage placebo where predecessors are drawn from a DIFFERENT problem) -- this control must yield LOW f, proving the metric is not mechanically inflated by surface similarity. Pre-register the threshold and proxy definitions before unblinding scores.",
+    "falsifiable_prediction": "Authorship-mis-attribution thesis predicts: across problems, the winning frontier-improving submission's information content is high-overlap (f above the pre-registered threshold under BOTH proxies) with at least one earlier submission the verifier scored as a non-improvement -- i.e. the novel structure entered the chain strictly before the credited agent's final float. It is FALSIFIED if f is at or below the genuinely-from-scratch control distribution (the winning submission introduces the score-determining structure de novo at the same step it crosses the threshold), in which case the verifier's last-step authorship attribution is correct and the paper's discovery definition stands. Both proxies must agree; if they disagree the thesis is unsupported.",
+    "control": "Two controls. (1) Genuinely-from-scratch / shuffled-lineage placebo: compute f against predecessors drawn from a DIFFERENT problem's chain -- must be low, else the overlap metric is mechanically inflated by generic surface similarity rather than real structural inheritance. (2) Within-problem first-win cases where no scored-non-improvement predecessor exists -- these should show f near zero and bound the metric's floor. Divergence between real-lineage f and placebo f localizes genuine structural inheritance.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Operators of agent-swarm discovery/leaderboard platforms (EinsteinArena-style) who must design credit-assignment and reward so the agent that contributes novel structure -- not merely the one that emits the threshold-crossing float -- is paid/ranked; meta-science and agent-eval reviewers auditing whether 'discovery' claims attribute authorship to the right step; designers of multi-agent reward shaping facing temporal credit assignment."
+  },
+  "prior_art": {
+    "known_name": "Temporal credit assignment (RL) + Shapley/attribution of marginal contribution, instantiated as a scientific-priority / Matthew-effect dispute: the last-mile contributor who crosses the threshold absorbs the credit that earlier structure-builders earned (also adjacent to stigmergic / cumulative-culture 'standing on shoulders' and to the 'last clue gets the glory' priority-attribution problem in science studies).",
+    "novelty_watermark": "Known mechanism (credit/authorship mis-attribution to the final marginal step over earlier structural contributors -- temporal credit assignment + scientific-priority effect) operationalized in a NEW setting: decomposing an LLM-agent-swarm 'discovery' into its logged temporal submission lineage and measuring the information-content overlap between the credited threshold-crossing submission and earlier verifier-rejected submissions, with a from-scratch/shuffled-lineage control. The reframe is not novel; the contribution is the concrete artifact-logging + dual-proxy information-overlap test design that makes 'where did the novelty actually enter the chain' empirically measurable on a real arena.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "c24",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "assumption_challenge",
+    "note": "Challenges the assumption that every leaderboard number measures the same kind of thing. Grounded in the paper's own table mixing exact constructions (kissing 604) with bound-type scores (0.92→0.99). Different from precision-survival: here the target itself is a proxy bound, not a noisy measurement."
+  },
+  "question": "Several headline leaderboard 'scores' (e.g. prime-number-theorem 0.92->0.99, edges-vs-triangles) are not the underlying mathematical quantity but platform-specific upper/lower BOUNDS produced under a particular scoring construction. Build a 'bound-tightness ledger': for each such problem, separate movement-of-the-bound from movement-toward-the-true-quantity, and certify how much daylight remains between the leaderboard frontier and any provable tightness. Reframe the leaderboard as a market in bounds and ask whether the platform rewards agents for closing the real gap or for exploiting slack in the bound's construction that has no bearing on the quantity itself.",
+  "commonness": 0.34,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: Take the paper's own scored-problem table and partition it into (i) exact-construction problems (e.g. kissing number 604, where the score IS the quantity) and (ii) bound-type problems (PNT 0.92->0.99, edges-vs-triangles, where the score is an upper/lower bound under a fixed scoring construction). For every bound-type problem, instrument three numbers per leaderboard submission: the reported score s_t, a 'bound-slack' coordinate (how much of the gain comes from features of the scoring construction -- e.g. constant factors, normalization, allowed certificate form -- that do not change the provable best-known bound on the true quantity), and a 'true-gap' coordinate (distance from the current frontier to any independently provable tightness/lower-bound, taken from the math literature rather than the platform). Quantity to measure: for each problem, the decomposition of total score movement into delta_bound (toward provable tightness) vs delta_slack (within-construction). Aggregate across submissions: regress per-submission score gain on (delta_bound, delta_slack). Control: the exact-construction problems serve as the control arm -- there the construction admits no slack, so delta_slack should be ~0 and all gain must be delta_bound; a second control is a held-out problem where independent literature tightness is known so the true gap is ground-truthed.",
+    "falsifiable_prediction": "On the bound-type problems, a non-trivial fraction of leaderboard score movement (predicted >25% of aggregate gain, and for at least one headline problem the majority) is delta_slack -- gain attributable to the scoring construction with zero movement of the provable bound on the true quantity -- whereas on the exact-construction control arm delta_slack is ~0. Falsified if, across bound-type problems, score gains are essentially all delta_bound (delta_slack indistinguishable from the exact-construction control), i.e. every leaderboard improvement maps to a genuine improvement in the provable bound and the 'market in bounds' framing collapses into 'market in true quantities'.",
+    "control": "Exact-construction problems (kissing number 604 and any score-equals-quantity entries) where the construction admits no exploitable slack, so delta_slack must be ~0; plus a held-out bound problem with independently known literature tightness to ground-truth the true-gap coordinate.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers/operators of automated math-discovery leaderboards (the platform in the paper, plus FrontierMath/AlphaProof-style scoring efforts) who must decide what to reward; reviewers and funders assessing whether a reported 0.92->0.99 is a real discovery; and agent builders who need to know if they are optimizing a proxy. Deliverability is gated by the need for independent literature tightness values per problem, which exist for some bounds but not all."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / proxy-gaming / construct validity (specialized form: bound-vs-quantity gaming in optimization scoring)",
+    "novelty_watermark": "Known mechanism (a measure ceasing to be a good measure once optimized) operationalized in a genuinely new venue: scoring constructions whose target is itself a provable BOUND rather than a noisy estimate of the quantity. The sharp, non-generic contribution is the delta_bound vs delta_slack decomposition -- distinguishing 'moved the provable bound' from 'exploited construction slack' -- which is finer than generic Goodhart and is distinct from the sibling precision-survival framing (there the target is a noisy measurement; here the target is a proxy bound). Honest framing: this is Goodhart made auditable for bound-type scores, not a new mechanism.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ]
+}

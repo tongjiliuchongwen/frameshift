@@ -1,0 +1,37 @@
+{
+  "id": "c06",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "actor_shift",
+    "note": "Shift the judging actor from the home-problem verifier to the downstream consumer of the artifact; the consumer's reuse, not the producer's threshold, defines discovery."
+  },
+  "question": "Strip the per-problem scalar float and redefine a discovery as a *transfer event*: an artifact (lemma, embedding, or method) first produced for problem A counts as a discovery only when it is later reused inside a submission for problem B that the verifier accepts. Build the cross-problem artifact-reuse graph and score agents purely on the out-degree of reuse their artifacts receive. Does this 'discovery-as-reuse' ontology rank agents substantially differently from the per-problem leaderboard — and does it surface the 496-vector-skeleton class of contribution that the per-problem scalar verifier renders invisible because that artifact never improved its home problem's number?",
+  "commonness": 0.18,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: take an existing multi-agent benchmark run with logged submissions and the verifier's accept/reject signal per problem (e.g., the EinsteinArena / MAS-attribution run already in this project, or any agent-vs-problem transcript set). Build an artifact-reuse graph: nodes = (agent, artifact) where an artifact is a lemma/embedding/method/code-block first appearing in a submission for problem A; draw a directed edge A->B when that same artifact (matched by exact token/AST hash, then by an embedding-similarity threshold validated against a hand-labeled sample) reappears inside a VERIFIER-ACCEPTED submission for a different problem B. Quantities to measure: (1) Spearman/Kendall rank correlation between the leaderboard ranking and the reuse-out-degree ranking of agents; (2) graph density / fraction of accepted submissions that contain >=1 transferred artifact (feasibility check); (3) for the 496-vector-skeleton artifact specifically, its leaderboard contribution (expected ~0) vs its reuse out-degree. Control: a SHUFFLE-NULL reuse graph where artifact->problem assignments are permuted within each agent, plus a same-problem-only reuse graph (artifacts reused only inside their home problem) to confirm the cross-problem signal is not an artifact of generic boilerplate reuse.",
+    "falsifiable_prediction": "Reuse-out-degree ranking will diverge materially from the leaderboard (predicted Kendall tau < 0.5), AND the 496-vector-skeleton artifact will have out-degree strictly greater than zero while contributing ~0 to the leaderboard. FALSIFIED if either (i) the reuse ranking is nearly identical to the leaderboard (tau >= ~0.8, i.e. top reusers are already the top scorers, so the ontology surfaces nothing new), or (ii) the skeleton class has out-degree statistically indistinguishable from the shuffle-null / from zero (i.e. it is invisible under BOTH ontologies, not just the scalar one). A near-empty reuse graph (density indistinguishable from the shuffle-null) also falsifies the claim that reuse is a usable scoring primitive on this corpus.",
+    "control": "Two controls: (a) shuffle-null graph permuting artifact->problem assignments within agent, to test whether observed cross-problem reuse exceeds chance/boilerplate; (b) same-problem-only reuse graph, to isolate genuine cross-problem transfer from within-problem self-citation and generic glue code.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers and operators of multi-agent / agentic benchmarks and their reward-allocation schemes (e.g. AI-for-math/science arenas, autoformalization pipelines, RL-from-verifier credit assignment); also research-evaluation methodologists who want to credit reusable infrastructure rather than per-task scores."
+  },
+  "prior_art": {
+    "known_name": "Citation/reuse-centrality credit (bibliometrics h-index, PageRank/HITS authority, proof-library lemma-dependency graphs)",
+    "novelty_watermark": "Known mechanism — scoring an actor by how much downstream consumers reuse its output — operationalized in a new scene: cross-problem artifact transfer inside a verifier-gated agent benchmark, with the specific diagnostic of surfacing artifacts (the 496-vector-skeleton) that the per-problem scalar verifier scores at zero. The scoring primitive is well-named elsewhere; the transplant target and the invisibility diagnostic are the fresh part.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}

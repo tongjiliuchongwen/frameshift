@@ -1,0 +1,37 @@
+{
+  "id": "c11",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "actor_shift",
+    "note": "Shifts the actor from agents-as-collaborators to platform-as-randomizing-experimenter. The platform deliberately blocks reads at random to create exogenous variation, identifying per-submission visibility LATEs the observational lineage graph can never recover."
+  },
+  "question": "Make the platform an A/B experimenter rather than asking \"did agents collaborate?\": per agent-problem cell, randomly suppress (read-block) a fraction of submissions from the shared board. Because suppression is exogenous, the gap in downstream improvement between agents who would-have-seen vs. did-not-see a given submission is a clean local average treatment effect of that submission's visibility. Aggregate per-submission LATEs into the first unbiased estimate of how much each shared artifact actually caused later progress, and rank submissions by causal contribution instead of by who crossed the threshold last.",
+  "commonness": 0.2,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: a multi-agent problem-solving platform with a shared board (the MAS-attribution setting from the source paper). For each agent-problem cell, a randomizer independently hides each posted submission from that agent's read view with probability p (e.g. 0.3), logging the assignment. Each agent's downstream improvement (score delta, solve event, or rubric gain on its next k steps) is recorded. Quantity measured: per-submission LATE = mean downstream improvement of agents randomized to SEE submission s minus those randomized NOT-to-see s, estimated within strata where s was board-eligible; aggregate into a causal-contribution ranking of submissions. Compare this ranking against the paper's existing observational similarity-lineage attribution ranking (rank correlation) AND against an oracle in a synthetic generator where true per-submission causal effects are planted. Falsifiable prediction: in the synthetic world with planted effects, the randomized LATE ranking recovers the true effect ordering with significantly lower error (e.g. Kendall-tau distance) than the similarity-lineage graph, AND the two rankings disagree on real runs by more than sampling noise (i.e. lineage systematically mis-ranks artifacts that were highly visible-but-redundant vs. pivotal-but-dissimilar). It is falsified if (i) randomized read-blocking produces no detectable downstream-improvement difference for any submission stratum (suppression has ~zero average effect, so visibility never caused progress and the whole 'collaboration' framing collapses to independent solving), or (ii) the LATE ranking is statistically indistinguishable from the cheap similarity-lineage ranking on both synthetic and real data, in which case the costly intervention buys nothing. Control: (a) the observational similarity-lineage attribution as the comparison ranking; (b) a sham-suppression arm where the block is logged but not actually applied to the read view, which must yield null LATEs (placebo); (c) within-cell randomization holds problem difficulty and agent identity fixed.",
+    "falsifiable_prediction": "In a synthetic generator with planted per-submission causal effects, the randomized read-block LATE ranking recovers true effect order with significantly lower Kendall-tau error than the similarity-lineage graph; and on real runs the two rankings disagree beyond sampling noise, with lineage over-crediting highly-visible-but-redundant submissions. Falsified if suppression yields no detectable downstream difference in any stratum, or if LATE ranking is statistically indistinguishable from the cheap lineage ranking on both synthetic and real data.",
+    "control": "Three-way: (1) observational similarity-lineage attribution ranking (the incumbent the paper uses); (2) sham/placebo arm where suppression is logged but the submission is still shown (must produce null LATEs); (3) within agent-problem-cell randomization fixing difficulty and agent identity so only visibility varies.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "MAS/agent-platform researchers doing credit assignment and contribution attribution; designers of agent marketplaces/leaderboards who want to reward causally-useful shared artifacts rather than threshold-crossers; reviewers of the source MAS-attribution paper who will demand an interventional check on the observational lineage graph. Commercially relevant to operators of multi-agent products needing to decide which shared content to surface."
+  },
+  "prior_art": {
+    "known_name": "Randomized encouragement / information-suppression design yielding LATE (Imbens-Angrist potential-outcomes), i.e. the causal-inference 'intervene to break confounding' move; closely related to ablation/leave-one-out and to randomized recommendation hold-outs in recsys A/B testing.",
+    "novelty_watermark": "Known causal-identification machinery (randomized read-blocking = encouragement-design instrument; per-unit LATE) operationalized in a new scene: per-submission visibility on a multi-agent shared board, turning the platform into the experimenter so the observational lineage/similarity attribution the source paper relies on is replaced by an exogenous-variation estimate the graph can never recover.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ]
+}

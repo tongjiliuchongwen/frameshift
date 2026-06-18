@@ -1,0 +1,37 @@
+{
+  "id": "c10",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "reversal",
+    "note": "Reverses the platform's storage policy (store survivors -> store everything especially failures) precisely to rebuild the destroyed negative space, then uses node-ablation replay to convert the descriptive lineage graph into a falsifiable causal one."
+  },
+  "question": "Reconstruct the negative space the platform deliberately destroyed: re-run the platform with a storage mandate that EVERY submission — including rejected and lower-scoring ones — is persisted, then build the counterfactual replay engine the original similarity-reconstructed lineage graph cannot support. For each headline 'collective discovery,' ablate (delete) the specific prior submission(s) that the lineage graph credits as its parent and re-simulate forward from that node. Does the discovery still occur (parent was decorative → lineage is post-hoc storytelling) or vanish (parent was load-bearing)? What fraction of claimed lineage edges are causally necessary versus correlational artifacts of a similarity metric applied after the fact?",
+  "commonness": 0.22,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: re-run the EinsteinArena-style platform under reversed storage policy so the full submission stream (survivors + rejects + low-scorers) is persisted with seeds/state, giving a deterministic-ish replay engine keyed by node. Sample N headline 'collective discoveries' that the post-hoc similarity lineage graph attributes to specific parent submission(s). For each: (1) TREATMENT — ablate the credited parent node(s), re-simulate forward from that node K times (K>=20 seeds), record whether the discovery (operationalized as the same target artifact/result, matched by an independent verifier, not by the similarity metric under test) reappears; (2) CONTROL/PLACEBO — for the same discovery, ablate a RANDOM non-parent submission of comparable score/timing and re-simulate K times. Measured quantity: per-edge causal-necessity score = P(discovery | parent present) - P(discovery | parent ablated), and the placebo disruption rate from the random ablation; aggregate to the fraction of lineage edges whose necessity score significantly exceeds the placebo baseline. Falsifiable prediction: if the platform's lineage narrative reflects real cumulative dependency, ablating credited parents will destroy the downstream discovery far more often than placebo ablation (necessity fraction high). PREDICTION TO BE FALSIFIED: a large majority (operationalize: >50%) of credited lineage edges show necessity scores statistically indistinguishable from the random-ablation placebo — i.e. the discovery recurs without its 'parent' just as often as without an unrelated node — proving the lineage is a correlational artifact of post-hoc similarity, not causal ancestry. Control group: the random-non-parent placebo ablation establishes the baseline disruption attributable to replay stochasticity rather than to removing the specific parent.",
+    "falsifiable_prediction": "Ablating the similarity-credited parent of a headline discovery will suppress that discovery's recurrence significantly more than ablating a random comparable non-parent (placebo). The reframe is falsified if >50% of credited edges show necessity scores indistinguishable from placebo — discoveries recur without their named parents as readily as without unrelated nodes — exposing the lineage as a post-hoc similarity artifact.",
+    "control": "Random-non-parent placebo ablation matched on score/timing, re-simulated over the same K seeds, isolates replay-stochasticity disruption from genuine parent-removal effect; necessity is credited only when treatment exceeds this baseline.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Builders/funders/auditors of AI-science and multi-agent 'collective discovery' platforms who need to know whether headline cumulative-discovery claims are causal or marketing; and meta-science / ML-evaluation researchers studying whether similarity-derived lineage graphs license causal attribution."
+  },
+  "prior_art": {
+    "known_name": "Counterfactual node-ablation / knockout causal mediation (the do-operator on an attribution graph; cf. gene-knockout, ML causal-tracing/ablation, correlation-vs-causation in post-hoc attribution)",
+    "novelty_watermark": "Known causal-inference mechanism (ablation/knockout, do-calculus) operationalized in a new setting: AI-submission-platform lineage. The genuinely fresh move is the storage-policy REVERSAL — persisting the deliberately-destroyed negative space (failures/rejects) — which is the precondition that makes counterfactual replay possible at all; without it the question is unanswerable, and that inversion is not a standard part of the knockout playbook.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ]
+}

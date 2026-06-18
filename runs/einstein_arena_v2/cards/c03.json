@@ -1,0 +1,37 @@
+{
+  "id": "c03",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "Negate the paper's load-bearing measurement chain (verifier+leaderboard) and re-locate 'progress' entirely in the agenda-editing graph, testing whether collectivity survives without a ground-truth float to chase."
+  },
+  "question": "Build the same human-research-infrastructure platform, but invert the validation object: discard the deterministic verifier and scalar leaderboard entirely, and instead record only the agenda-graph (problems proposed, merged, forked, declared ill-posed, formalized). Scoring exists purely over agenda-editing acts, not over solutions. Ask whether 'collective intelligence' is even visible — let alone emergent — when there is no ground-truth float to chase.",
+  "commonness": 0.18,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Setup: take an existing multi-agent collaboration platform and run TWO arms on the same problem corpus (e.g. open math/ML conjectures). Arm A (control) = the paper's design: agents submit solutions, neutral verifier scores them, scalar leaderboard visible. Arm B (treatment) = identical agents/corpus but the ONLY recorded/rewarded objects are agenda-editing acts (propose / merge / fork / declare-ill-posed / formalize); no verifier, no float, no leaderboard. Build the agenda-graph as a typed DAG of these acts. Measure, in both arms: (i) structural signatures of the agenda-graph over time — fork-then-merge convergence rate, fraction of problems reaching 'formalized', depth of refinement chains, and whether edits by different agents are causally chained (agent B's fork builds on agent A's proposal) vs independent; (ii) a held-out panel of domain experts blind-rates, from the agenda-graph alone, whether each arm shows 'genuine collective problem-shaping' vs 'parallel solo noise'. Quantity to test: does Arm B's agenda-graph exhibit ABOVE-CHANCE inter-agent causal chaining and convergent refinement relative to a shuffled-null baseline (agenda acts randomly reassigned across agents/time)?",
+    "falsifiable_prediction": "Prediction: with the float removed (Arm B), inter-agent causal chaining in the agenda-graph collapses to the shuffled-null baseline — agents proliferate forks and 'ill-posed' declarations but do NOT converge (formalization rate and fork-then-merge rate drop sharply vs Arm A), because without a shared scalar target there is no selection pressure coordinating which agenda edits to build on. I.e. 'collective intelligence' becomes statistically invisible in pure agenda-editing. This is falsified if Arm B shows convergent, causally-chained agenda refinement indistinguishable from or exceeding Arm A — which would demonstrate collectivity does NOT require a ground-truth float.",
+    "control": "Two controls: (1) the verifier+leaderboard arm (Arm A) as the positive control for 'collectivity is visible'; (2) a shuffled-null permutation of agenda-edit authorship/timestamps within each arm, as the chance baseline that any observed chaining must beat.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "low",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Researchers in collective-intelligence / multi-agent science-of-science and metascience; designers of open research platforms and 'AI co-scientist' systems who need to know whether progress metrics can be relocated off a solution-float; reviewers/skeptics of the source paper who suspect its emergence claim is an artifact of having a verifier."
+  },
+  "prior_art": {
+    "known_name": "Construct validity / criterion-vs-construct measurement (and the metascience 'problem-choice' literature); partially Goodhart-adjacent",
+    "novelty_watermark": "The general move — questioning whether a measured construct ('collective intelligence') survives when you swap the measurement instrument from outcome (solution float) to process (agenda edits) — is a known construct-validity question, and 'what gets worked on' is studied in metascience as problem selection. What is NOT named: operationalizing problem-CHOICE itself as the sole scored object in an agentic platform and testing emergence against a shuffled-null on a typed agenda-DAG. This is a known measurement-theory mechanism (does the construct dissociate from its usual proxy) operationalized in a genuinely new scene (LLM-agent collective research with the verifier deliberately ablated).",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.15,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "c22",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "alternative_generation",
+    "note": "Open the occupant-of-the-curator-role design space and add an external-relevance criterion (transfer to problems humans care about) that the closed curation never has to satisfy."
+  },
+  "question": "Open the curator-role design space: who else, besides the 4 human authors, could set the agenda for a self-improving problem-generation population? Enumerate and pit four mechanisms against each other — (i) an adversarial curator rewarded for proposing problems the population fails to crack, (ii) a 'translator' curator that formalizes problems from open human math forums into efficiently-verifiable form, (iii) a citation-graph crawler that auto-imports problems by research momentum, (iv) a needs-market where downstream agents post bounties for problems they want solved — and ask which curator produces an agenda whose SOLVED results most transfer to problems humans actually care about.",
+  "commonness": 0.4,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Fix one solver population and one verifier interface. Implement the 4 curators as agenda generators. Pre-register a frozen external-relevance set BEFORE any run: a held-out benchmark of human-posed problems carrying an independent demand signal (e.g., forum upvotes/view counts, or downstream-task usefulness scores) — this set is never visible to any curator. Run the population under each curator for a fixed compute budget; collect the set of problems each curator's agenda got SOLVED. Measure transfer = performance lift on the frozen external-relevance set from training/conditioning on each curator's solved-results (held-out eval, identical solver). Control = a 'closed self-curation' arm reproducing the original 4-author-style internal agenda (no external-relevance criterion), plus a random-problem-sampling arm as a floor. Report transfer per curator with seed variance.",
+    "falsifiable_prediction": "The needs-market curator's solved-results yield strictly higher transfer to the frozen human-value set than the citation-graph crawler's, AND both beat the closed self-curation control; specifically the crawler underperforms because research-momentum is a proxy that decouples from end-use demand. Falsified if the crawler matches or exceeds the needs-market on transfer, or if no curator beats the closed-curation control beyond seed noise.",
+    "control": "Closed self-curation arm (original internal agenda, no external-relevance term) as the primary baseline; random-problem-sampling arm as a lower floor. Same solver, verifier, compute budget, and frozen external set across all arms.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Builders of self-improving agentic problem-generation / open-ended-search systems (the EinsteinArena line) deciding who or what should occupy the curator slot, and evaluation researchers worried that closed self-play agendas drift away from human-relevant objectives."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / proxy-vs-true-objective divergence (with market-as-preference-aggregator for the needs-market arm)",
+    "novelty_watermark": "Known mechanism (curation objective is a proxy that can decouple from external use-value; a demand market aggregates true preference) operationalized in a new setting: comparing automated agenda-setters for a problem-generation population by transfer of their SOLVED results to a pre-registered frozen human-value benchmark. The reframing — make the curator role itself a choosable variable and add an external-transfer criterion the closed loop never had to meet — is the contribution, not a new mechanism.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

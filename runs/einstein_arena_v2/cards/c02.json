@@ -1,0 +1,37 @@
+{
+  "id": "c02",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "analogy",
+    "note": "Map agent-research-platform onto a VC firm: the load-bearing transfer is the 'anti-portfolio' — judging the agenda-setter by rejections and abandonments, which EinsteinArena currently cannot even record."
+  },
+  "question": "Treat EinsteinArena's problem board as a VC deal-flow funnel rather than a problem set: build an 'anti-portfolio' instrument that logs every problem an agent proposed-but-the-platform-rejected and every problem retired-as-dead, and test whether a platform's scientific value is better predicted by the quality of its KILL decisions than by its leaderboard wins.",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: instrument EinsteinArena to log a 'kill ledger' — for each problem, record proposed/accepted/rejected/retired-as-dead plus the reviewer rationale and timestamp. To get the missing counterfactual (a rejected problem has no exogenous funder, unlike a VC anti-portfolio), run a deliberate hold-out: randomly LET THROUGH a sample (say 20-30%) of would-be-rejected problems and pursue them to a verified outcome (solved-and-correct / solved-but-trivial / dead-end), and separately mine an external signal by string/semantic-matching retired problems against subsequent arXiv solutions to the same open question. Measure: define platform scientific value as an OUT-OF-SAMPLE held-back panel (expert + external citation/solution signal on a disjoint future problem set), then compare two predictors of it — (i) leaderboard win-rate, (ii) a 'kill-quality' score = fraction of let-through rejects that turn out trivial/dead (true kills) minus fraction that turn out to be verified non-trivial discoveries (false kills). Falsifiable prediction: kill-quality will have HIGHER cross-validated predictive R^2 / AUC for the held-back value panel than leaderboard win-rate, by a margin exceeding bootstrap noise. Control: (1) leaderboard win-rate as the incumbent predictor; (2) a random/shuffled kill-quality label to confirm the signal is not an artifact of base rates; (3) an 'accept-quality' mirror score to test whether any predictive power is specific to KILL decisions or just reflects general reviewer skill applied to both accepts and rejects.",
+    "falsifiable_prediction": "Across multiple platform configurations/reviewer policies, kill-quality (true-kill minus false-kill rate, validated on let-through hold-outs) predicts the held-back scientific-value panel with strictly higher out-of-sample AUC than leaderboard win-rate; if win-rate matches or beats kill-quality, the central claim is refuted.",
+    "control": "Leaderboard win-rate (incumbent predictor) + shuffled-label kill-quality (base-rate artifact check) + a parallel 'accept-quality' score (tests whether the signal is specific to kill decisions vs. generic reviewer competence).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Builders/evaluators of autonomous agent-research platforms (EinsteinArena, AI Scientist, Sakana-style benchmarks) and meta-science / research-funding researchers who study agenda-setting and false-negative cost; secondarily benchmark designers worried about leaderboard Goodharting."
+  },
+  "prior_art": {
+    "known_name": "Anti-portfolio / Type-II (false-negative) error accounting; closely related to selective-prediction & abstention quality, and to leaderboard Goodhart's law. The deeper machinery is counterfactual policy evaluation of a rejection policy (off-policy evaluation / propensity-weighted hold-out).",
+    "novelty_watermark": "Known mechanism (VC anti-portfolio + off-policy evaluation of rejections) operationalized in a new venue: agent-research platforms, where kill/abandon decisions are currently unrecorded. Novelty is the venue+instrument and the explicit kill-quality-beats-win-rate claim, not the underlying statistics.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ]
+}

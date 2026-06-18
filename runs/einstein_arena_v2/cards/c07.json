@@ -1,0 +1,37 @@
+{
+  "id": "c07",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "Bridge from medicine's negative-results registry: institutionalize and reward the information in failures, which the binary accept/reject verifier currently incinerates."
+  },
+  "question": "On EinsteinArena, mandate that every verifier-rejected submission deposit a structured failure-region record (what was attempted, why it failed, what region of solution-space is now ruled out), and define a \"discovery\" as a rejected submission whose record measurably reduces later agents' wasted attempts in that region. Test whether a registry of certified dead-ends accelerates collective frontier progress more per-unit-compute than spending the same compute on additional frontier submissions.",
+  "commonness": 0.2,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Run EinsteinArena (arXiv:2606.10402) on a fixed problem batch under three arms, each given an identical total compute budget C and identical agent population. ARM-A (control, status quo): all C spent on frontier submissions; rejections discard their reasoning, agents see only accept/reject. ARM-B (registry): on every rejection the agent emits a structured failure-region record (attempted approach + machine-checkable predicate describing the ruled-out region, e.g. a parameter box / proof-strategy class / solution-form constraint); later agents receive a retrieval of records relevant to their current target before submitting. Compute spent generating+indexing records is charged against C, so ARM-B makes strictly fewer frontier submissions. ARM-C (ablation / placebo-info): identical to B but the deposited record is a free-text rejection note with NO machine-checkable region predicate and NO targeted retrieval (records are dumped into a shared log agents may read but that is not indexed) — this isolates 'structured certified region-pruning' from 'agents just see more text'. MEASURED QUANTITIES: (1) per-unit-compute frontier progress = number of verifier-accepted novel solutions per unit C (primary); (2) wasted-attempt rate = fraction of submissions falling inside an already-deposited ruled-out region (the registry's mechanism-of-action probe); (3) time-to-first-solve per problem; (4) registry overhead = C fraction consumed by record generation/retrieval. Run >=20 seeds per arm; report effect sizes with CIs. FALSIFIABLE PREDICTION: ARM-B beats ARM-A on primary metric (1) by a margin exceeding the registry overhead (4), AND this gain is driven by a measurable drop in wasted-attempt rate (2) in B vs A, AND ARM-B beats ARM-C (i.e. the structured region predicate, not mere exposure to more text, carries the gain). The hypothesis is REFUTED if any of: B <= A on per-unit-compute progress; or B > A but B ~= C (the benefit is just 'more context', not certified pruning); or wasted-attempt rate does not fall in B (gain, if any, comes from somewhere other than the claimed mechanism). A secondary failure mode to log: the registry over-prunes — agents avoid a ruled-out region that actually contained the solution under a slightly different framing, raising time-to-first-solve on a held-out subset; if frequent, 'certified dead-end' is poisoning rather than accelerating.",
+    "falsifiable_prediction": "Under equal compute, the registry arm (B) yields more verifier-accepted solutions per unit compute than the pure-frontier control (A) by a margin larger than the registry's own compute overhead, the gain is mediated by a measurable fall in the rate of submissions landing in already-ruled-out regions, and B outperforms the unstructured-note placebo (C). If B<=A, or B's advantage equals C's (mere extra context), or wasted-attempt rate does not drop, the claim is refuted.",
+    "control": "Two controls. Primary control ARM-A: identical compute budget and agent population spent entirely on frontier submissions with rejections discarded (status quo binary verifier) — isolates 'does logging failures beat just trying more'. Placebo control ARM-C: failures are logged as unstructured free-text into a non-indexed shared log with no machine-checkable region predicate and no targeted retrieval — isolates the load-bearing claim (structured certified region-pruning) from the confound (agents simply being fed more text).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Operators/designers of open-ended multi-agent benchmark arenas (EinsteinArena and successors) and of LLM-agent scientific-discovery / automated-theorem-proving pipelines deciding how to spend a fixed compute budget; secondarily, RL-environment and self-play designers reasoning about reward for informative failure. NOT directly valuable to end users or to a near-term commercial buyer — the payoff is a design principle for research infrastructure, not a product."
+  },
+  "prior_art": {
+    "known_name": "Nogood/conflict-driven clause learning (CDCL SAT solvers), tabu / no-good lists, and the pruning half of branch-and-bound — i.e. 'learning from certified failures to prune search space'. Also adjacent: experience replay of negative trajectories, and the real-world ClinicalTrials.gov / FDAAA-2007 negative-results-registry analogue the stimulus drew from.",
+    "novelty_watermark": "Known search-pruning mechanism (nogood/clause learning, branch-and-bound pruning) operationalized in a new setting: an open-ended multi-agent LLM discovery arena where the 'nogood' is a natural-language-checkable solution-region predicate shared across heterogeneous agents, and 'reduce wasted attempts per unit compute' is promoted to a first-class definition of discovery. The transfer is non-trivial because classical nogood learning assumes a formal, machine-decidable region predicate; whether fuzzy LLM-emitted failure-regions are crisp enough to prune without poisoning is the genuinely open question — but the core insight (failures carry prunable information worth rewarding) is decades old.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ]
+}
