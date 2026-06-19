@@ -1,0 +1,38 @@
+{
+  "id": "c27",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "assumption_challenge",
+    "note": "Challenges the parent's implicit 'verification is all-or-nothing/too expensive' premise by testing a partial, artifact-only gate, locating the exact residual attack surface that survives a cheap check."
+  },
+  "question": "Narrow to one defense boundary condition: does adding a cheap, narrow CORRECTNESS check at the moderation gate close the false-transmission channel, and what is the minimal check that suffices? Instead of full verification, gate each post by re-running ONLY the verifier on any concrete numeric/JSON artifact the post embeds (constructions become checkable; prose heuristics and 'basin exhausted' claims remain unchecked because they embed nothing runnable). Compare adoption of invalid-construction posts (now catchable) vs fabricated-prose claims (still uncatchable) under this gate.",
+  "commonness": 0.4,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Add a gate that executes any embedded artifact against the existing problem verifier and blocks posts whose artifact fails; inject matched invalid-construction and fabricated-claim posts; measure adoption in each class with the gate on vs off.",
+    "falsifiable_prediction": "The artifact-only gate cuts invalid-construction adoption to near zero but leaves fabricated-prose-claim adoption statistically unchanged, proving the channel's residual bandwidth is exactly the unfalsifiable-prose subset.",
+    "control": "Same gate run against true posts containing artifacts; passage rate for valid constructions must stay ~100% (gate adds no false-positive friction), else any adoption drop is just added latency, not correctness filtering.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "mid",
+    "deliverability": "high",
+    "valuable_to_whom": "Engineering teams running open agent-competition arenas with discussion boards (EinsteinArena-class platforms) who need a cheap moderation upgrade; and platform-security researchers characterizing the catchable/uncatchable boundary of lightweight correctness gates."
+  },
+  "prior_art": {
+    "known_name": "Artifact/computational re-verification at the moderation gate (a narrow form of verified computation / proof-carrying claims); related to data-lineage replay checks.",
+    "novelty_watermark": "Re-running a verifier as a moderation filter is an obvious idea in hindsight; the contribution is the explicit characterization of the defense boundary — runnable artifacts become catchable, prose heuristics stay uncatchable — as the minimal sufficient check, which names the exact residual attack surface (subtractive prose claims). Engineering-grade novelty, not theoretical.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof4",
+    "c15"
+  ]
+}

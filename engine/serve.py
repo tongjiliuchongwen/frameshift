@@ -123,6 +123,12 @@ class Handler(SimpleHTTPRequestHandler):
             return self._send_json(_map_for(run_dir))
         if sub == "run":
             return self._send_json(_run_for(run_dir))
+        if sub == "requests":
+            rdir = run_dir / "requests"
+            if not rdir.is_dir():
+                return self._send_json([])
+            return self._send_json(
+                [_load_json(p) for p in sorted(rdir.glob("req-*.json"))])
         return self._send_json({"error": "unknown endpoint"}, 404)
 
     def do_GET(self):
@@ -149,6 +155,36 @@ class Handler(SimpleHTTPRequestHandler):
             self.wfile.write(body)
             return
         return super().do_GET()
+
+    def do_POST(self):
+        parts = [p for p in self.path.split("?")[0].split("/") if p]
+        # POST /api/runs/<id>/request -> enqueue a human-in-the-loop request
+        if (len(parts) == 4 and parts[:2] == ["api", "runs"]
+                and parts[3] == "request"):
+            run_dir = RUNS / parts[2]
+            if not run_dir.is_dir():
+                return self._send_json({"error": "run not found"}, 404)
+            try:
+                length = int(self.headers.get("Content-Length", 0) or 0)
+                body = json.loads(self.rfile.read(length) or b"{}")
+            except Exception:  # noqa: BLE001
+                body = {}
+            rdir = run_dir / "requests"
+            rdir.mkdir(exist_ok=True)
+            rid = f"req-{len(list(rdir.glob('req-*.json'))) + 1:03d}"
+            rec = {
+                "id": rid,
+                "action": body.get("action", "deepen"),
+                "card_id": body.get("card_id"),
+                "dof_id": body.get("dof_id"),
+                "note": body.get("note", ""),
+                "status": "pending",
+                "result_cards": [],
+            }
+            (rdir / f"{rid}.json").write_text(
+                json.dumps(rec, ensure_ascii=False, indent=2), encoding="utf-8")
+            return self._send_json({"ok": True, "request": rec})
+        return self._send_json({"error": "unknown endpoint"}, 404)
 
 
 def serve(port=8420):

@@ -169,7 +169,7 @@ function FloorBlock({ floor }) {
   )
 }
 
-function CardView({ card, dofs }) {
+function CardView({ card, dofs, onDeepen, pending }) {
   if (!card) return null
   const dof = (dofs || []).find((d) => d.id === card.parent_dof)
   const vp = card.value_profile || {}
@@ -234,11 +234,17 @@ function CardView({ card, dofs }) {
           </>
         )}
       </dl>
+      {onDeepen && card.status === 'survivor' && (
+        <button className="deepen-btn" disabled={pending}
+                onClick={() => onDeepen(card.id)}>
+          {pending ? '机器正在跑下一轮…' : '🔬 顺这条方向再深挖一轮'}
+        </button>
+      )}
     </div>
   )
 }
 
-function Panel({ cardId, cardsById, dofs, rejected }) {
+function Panel({ cardId, cardsById, dofs, rejected, onDeepen, pending }) {
   if (!cardId) {
     return (
       <div className="panel empty-panel">
@@ -261,7 +267,8 @@ function Panel({ cardId, cardsById, dofs, rejected }) {
   }
   return (
     <div className="panel">
-      <CardView card={cardsById[cardId]} dofs={dofs} />
+      <CardView card={cardsById[cardId]} dofs={dofs}
+                onDeepen={onDeepen} pending={pending} />
     </div>
   )
 }
@@ -275,6 +282,7 @@ export default function App() {
   const [runMeta, setRunMeta] = useState(null)
   const [selected, setSelected] = useState(null)
   const [error, setError] = useState(null)
+  const [pending, setPending] = useState(false)
 
   useEffect(() => {
     getJSON('/api/runs')
@@ -282,18 +290,48 @@ export default function App() {
       .catch((e) => setError(String(e)))
   }, [])
 
+  const loadData = React.useCallback(async (rn) => {
+    const [g, cs, m, rm] = await Promise.all([
+      getJSON(`/api/runs/${rn}/graph`),
+      getJSON(`/api/runs/${rn}/cards`),
+      getJSON(`/api/runs/${rn}/map`),
+      getJSON(`/api/runs/${rn}/run`),
+    ])
+    setGraph(g); setCards(cs); setMap(m); setRunMeta(rm)
+  }, [])
+
   useEffect(() => {
     if (!run) return
     setSelected(null)
-    Promise.all([
-      getJSON(`/api/runs/${run}/graph`),
-      getJSON(`/api/runs/${run}/cards`),
-      getJSON(`/api/runs/${run}/map`),
-      getJSON(`/api/runs/${run}/run`),
-    ])
-      .then(([g, cs, m, rm]) => { setGraph(g); setCards(cs); setMap(m); setRunMeta(rm) })
-      .catch((e) => setError(String(e)))
-  }, [run])
+    setPending(false)
+    loadData(run).catch((e) => setError(String(e)))
+  }, [run, loadData])
+
+  // human-in-the-loop: ask the engine to deepen a chosen direction, then poll
+  async function deepen(cardId) {
+    if (pending || !run) return
+    setPending(true)
+    let rid = null
+    try {
+      const res = await fetch(`/api/runs/${run}/request`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'deepen', card_id: cardId }),
+      })
+      rid = (await res.json())?.request?.id
+    } catch (e) { setError(String(e)); setPending(false); return }
+    const started = Date.now()
+    const timer = setInterval(async () => {
+      try {
+        const reqs = await getJSON(`/api/runs/${run}/requests`)
+        const mine = reqs.find((r) => r.id === rid)
+        if ((mine && mine.status === 'done') || Date.now() - started > 300000) {
+          clearInterval(timer)
+          await loadData(run)
+          setPending(false)
+        }
+      } catch (e) { /* transient: keep polling */ }
+    }, 4000)
+  }
 
   const cardsById = useMemo(
     () => Object.fromEntries(cards.map((c) => [c.id, c])), [cards])
@@ -345,11 +383,18 @@ export default function App() {
         </p>
       )}
 
+      {pending && (
+        <div className="pending-banner">
+          机器正在沿你选的方向跑下一轮（发散 → 闸门），约 1-2 分钟，完成后新方向会自动出现在图上。
+        </div>
+      )}
+
       <main className="main">
         <ValueMap map={map} cardsById={cardsById}
                   selected={selected} onSelect={setSelected} />
         <Panel cardId={selected} cardsById={cardsById}
-               dofs={graph.clamped_dofs || []} rejected={rejectedCards} />
+               dofs={graph.clamped_dofs || []} rejected={rejectedCards}
+               onDeepen={deepen} pending={pending} />
       </main>
     </div>
   )

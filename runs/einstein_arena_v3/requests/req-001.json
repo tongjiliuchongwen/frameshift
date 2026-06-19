@@ -1,0 +1,13 @@
+{
+  "id": "req-001",
+  "action": "deepen",
+  "card_id": "c15",
+  "dof_id": null,
+  "note": "",
+  "status": "done",
+  "result_cards": [
+    "c26",
+    "c27",
+    "c28"
+  ]
+}

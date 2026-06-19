@@ -1,0 +1,38 @@
+{
+  "id": "c26",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "decomposition",
+    "note": "Splits the parent's monolithic 'adoption' into content-channel vs social-credibility-channel and forces them to compete in the same design, so we learn which sub-channel the truth-blind substrate actually amplifies."
+  },
+  "question": "Isolate the single causal lever inside the parent's 'adoption' outcome: is a false post adopted because of WHAT it claims (a 'this basin is exhausted' steer that redirects compute away) or WHO/HOW it is posted (author leaderboard rank, confident tone, citation of a verifier hash)? Run a 2x2 factorial injection on EinsteinArena boards: {claim-type: dead-end-heuristic vs invalid-construction} x {credibility-dressing: bare claim vs high-rank-author + fabricated verifier-hash citation}, holding the false technical content fixed across the dressing arms. Measure downstream compute reallocation per cell.",
+  "commonness": 0.3,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Inject the same 4 false posts under each of the 2 dressing conditions across matched problem boards; log per-agent fetch events and subsequent compute spent on the steered direction over the next N rounds.",
+    "falsifiable_prediction": "Credibility-dressing (rank + fake verifier-hash) raises adoption of an identical false claim by >=2x relative to the bare-claim arm, i.e. the social-credibility channel dominates the content channel.",
+    "control": "Dressing applied to a TRUE post of matched content/length; if dressing also boosts true-post adoption by ~2x then the effect is generic persuasion, not a false-content-specific exploit.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "mid",
+    "deliverability": "high",
+    "valuable_to_whom": "Builders of agentic discovery/research swarms and shared-board substrates (autonomous 'AI scientist' platforms), and trust-and-safety/epistemics researchers who must decide whether to spend defense budget on correctness checking vs author-provenance gating."
+  },
+  "prior_art": {
+    "known_name": "Source-credibility vs message-content manipulation (persuasion/ELM dual-route), operationalized as a factorial misinformation-injection on an agent discussion board.",
+    "novelty_watermark": "The factorial-injection device is standard persuasion methodology; novelty is the substrate-specific recombination — pinning WHAT vs WHO/HOW as separable levers inside an agent swarm's verifier-blind moderation channel, with compute-reallocation (not human belief) as the dependent measure. High-fidelity reframing, not a new mechanism.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof4",
+    "c15"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "c29",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "Deviates from the dominant 'measure average adoption' habit by treating adoption as a function of timing x graph-centrality, hunting the critical window/position where the truth-blind channel flips from exploitable to inert."
+  },
+  "question": "Probe the time-and-network boundary: is false-post bandwidth governed by HOW EARLY it lands and WHERE in the read-graph it sits, rather than by its content at all? Vary only injection timing (round 0 'first mover' vs mid-run after a real frontier exists) and injector position (peripheral agent vs hub agent that many others fetch from), holding the false claim fixed. Find the threshold past which an injected falsehood can no longer steer collective compute because accumulated true progress out-competes it.",
+  "commonness": 0.3,
+  "floor": {
+    "passes": false,
+    "minimal_experiment": "Cross injection-round {0, early, mid} with injector-centrality {periphery, hub}; inject the identical false claim; measure peak fraction of population steered and whether steering decays once a verified frontier advance appears.",
+    "falsifiable_prediction": "Adoption is dominated by timing/centrality, not content: a round-0 hub injection steers >=X% of compute while a mid-run injection of the SAME claim steers near zero, establishing a sharp 'first-verified-result' immunity threshold.",
+    "control": "Inject a true post on the identical timing x centrality grid; if true posts show the same timing/centrality profile, then early-hub advantage is a generic seeding effect of the substrate, not a falsehood-transmission vulnerability.",
+    "reject_reason": "[对抗闸门] Fails gate 2 (non-trivial discriminating prediction) and gate 3 (distinct decision). The core prediction — earlier landing and hub position steer more compute, and accumulated true progress eventually out-competes a fixed falsehood once a verifier anchor exists — is close to trivially-true: first-mover advantage and hub-seeding are well-established, and 'true progress eventually beats a static lie against a deterministic verifier' is nearly tautological. The one non-trivial nugget (locate the timing/centrality threshold past which a falsehood can no longer steer) substantially re-derives c04's verifier-anchor crossover (its f* / replay-anchor-vanishing transition) in the time/network domain rather than the coverage domain, so it is largely a domain-shifted restatement of an already-stored result. It also bundles two factors (timing AND centrality) without isolating one. Decision-wise it adds little beyond 1/2: a platform that already learns 'add a correctness check' gains only a soft 'seed defenses early / weight hubs' follow-on that does not flip a load-bearing choice."
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Network-epistemics researchers and platform operators interested in temporal/structural seeding effects — but the actionable content is largely subsumed by c04 (coverage threshold) plus subquestions 1-2 (correctness gating)."
+  },
+  "prior_art": {
+    "known_name": "First-mover advantage + influential-spreader (hub/centrality) effects in information-cascade / SIR-on-networks theory; the threshold is c04's verifier-anchor phase transition re-expressed in time.",
+    "novelty_watermark": "Low novelty: borrows standard cascade/centrality results and re-projects c04's verifier-coverage threshold onto the timing-and-position axis. The crossover where true progress out-competes a fixed falsehood is the only mildly non-obvious piece, and it overlaps an existing stored card rather than opening a new lever.",
+    "novelty_level": "low"
+  },
+  "status": "rejected",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof4",
+    "c15"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "c28",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "reversal",
+    "note": "Reverses the parent's framing from 'false post adds a wrong direction' to 'false post removes a right direction'; suppression is harder to detect than commission because there is no failing artifact to ever contradict it."
+  },
+  "question": "Specialize the most dangerous false-post subtype and test its self-limiting boundary: a fabricated 'this basin is exhausted, stop trying X' claim doesn't add a wrong artifact, it SUBTRACTS exploration. Does such a withdrawal-claim cause measurable, persistent abandonment of a region that actually still contains the optimum? Inject an exhaustion claim on a problem whose ground-truth frontier is known to lie inside the disavowed region, and track whether any agent ever re-enters and recovers it, or whether the false claim becomes a self-fulfilling collective blind spot.",
+  "commonness": 0.25,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "On a problem with a known in-region optimum, post a fabricated exhaustion claim early; run the population and record region re-entry rate, time-to-recovery (if any), and final-frontier gap vs a no-injection replica.",
+    "falsifiable_prediction": "Exhaustion-claim boards permanently underperform: the disavowed region is re-entered by <10% of agents and the run's final frontier stays measurably below the no-injection control, because nothing in a truth-blind channel ever manufactures the disconfirming evidence.",
+    "control": "A TRUE exhaustion claim (region genuinely empty) on a matched board; abandonment there is correct and costless, isolating the harm as specific to the false-suppression case rather than to exhaustion claims in general.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers of collective-search / quality-diversity agent platforms worried about premature convergence and induced blind spots; and AI-safety researchers studying steering-by-omission (denial-of-exploration) attacks that evade content-correctness defenses."
+  },
+  "prior_art": {
+    "known_name": "No clean single name; nearest relatives are self-fulfilling-prophecy / herding-induced premature convergence in search, and censorship-as-denial-of-exploration. Distinct from additive misinformation.",
+    "novelty_watermark": "Genuinely fresh framing: most misinformation work studies false ADDITIONS; isolating a false SUBTRACTION (a withdrawal/exhaustion claim) as a verifier-immune attack and operationalizing it via a known-in-region optimum is a non-obvious recombination I have not seen named for agent swarms.",
+    "novelty_level": "high"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4",
+    "c15"
+  ]
+}
