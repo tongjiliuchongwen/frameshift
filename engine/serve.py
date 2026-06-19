@@ -19,7 +19,7 @@ the cards on disk.
 from __future__ import annotations
 
 import json
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
 from . import mapping
@@ -152,7 +152,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def serve(port=8420):
-    httpd = HTTPServer(("127.0.0.1", port), Handler)
+    httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     where = "dashboard/dist" if DIST.is_dir() else "landing page"
     print(f"frameshift serving at http://127.0.0.1:{port}")
     print(f"  api    : /api/runs")
