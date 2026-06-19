@@ -1,0 +1,58 @@
+{
+  "id": "c19",
+  "parent_dof": "dof6",
+  "operator": {
+    "type": "random_stimulus",
+    "note": "External stimulus = casino regulatory separation of house from players; bridges to operator's privileged in-flight visibility + rule-setting power as a measurable house edge."
+  },
+  "question": "Is the AI-agent platform operator structurally a \"house\" that can both see the table (privileged read access to rivals' in-flight, not-yet-public submissions) and rewrite the rules mid-hand (verifier tuning + patch timing), and is the resulting information-asymmetry edge detectable in the win logs — i.e., does any operator-affiliated agent's win-timing correlate with operator-side visibility into rivals' unpublished submissions and with operator-timed rule changes?",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Instrument the platform with an audit layer (analogous to a gaming regulator's casino surveillance): (1) Data — per-submission event log with three timestamp streams: t_submit (agent submits, becomes visible only to operator), t_public (submission/result becomes public), and t_opread (any operator-side process reads the not-yet-public submission); plus a verifier-change log (every rule/verifier edit with timestamp and diff); plus an agent-affiliation label (operator-affiliated vs independent). (2) Estimand/quantity — an 'information-asymmetry edge' E = the conditional dependence between an affiliated agent's win or solution-timing on task k and the volume/recency of operator-side reads of rivals' in-flight submissions on task k (and the alignment of verifier changes to affiliated-agent activity), estimated controlling for task difficulty and baseline agent skill (e.g., a logistic/hazard model of win~affiliated*opread_exposure + difficulty + skill, plus an event-study of win-rate jumps in a window around each verifier change). (3) Controls — independent (non-affiliated) agents as the negative-control group, and a permutation/placebo null: shuffle the opread and verifier-change timestamps within task and re-estimate E many times to get a null distribution; also a pre-registered embargo subset where operator reads are provably blocked. (4) Prediction tested — under the null (no house edge) E is statistically indistinguishable from the permuted/placebo distribution and affiliated agents show no win-timing lift in the post-verifier-change window relative to independents.",
+    "falsifiable_prediction": "If the platform confers a house edge, affiliated agents will show a positive, permutation-significant E: their win probability / time-to-solution will improve as a function of operator-side reads of rivals' in-flight submissions, AND their win-rate will jump in the short window immediately after operator-timed verifier changes — both effects vanishing for independent agents. FALSIFIED if E for affiliated agents lies inside the placebo/permutation null band and shows no excess over independent agents after controlling for difficulty and skill (i.e. affiliated win-timing is conditionally independent of operator in-flight visibility and rule-change timing).",
+    "control": "Independent (non-operator-affiliated) agents as a negative-control cohort; within-task permutation/placebo shuffling of opread and verifier-change timestamps to build the no-edge null distribution; and a pre-registered embargo condition where operator reads of in-flight submissions are blocked, predicting E collapses to null there.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "mid",
+    "deliverability": "low",
+    "valuable_to_whom": "Benchmark/arena governance bodies and third-party auditors certifying competition integrity; enterprise buyers doing vendor due-diligence on a vertically-integrated agent platform (operator also fields competing agents); competition organizers writing conflict-of-interest rules; and platform-market-integrity / antitrust researchers studying operator self-dealing in AI evaluation markets."
+  },
+  "prior_art": {
+    "known_name": "Platform self-preferencing / dual-role (player-referee) conflict of interest in vertically-integrated platforms (Amazon-marketplace-and-seller, app-store self-preferencing); the information-asymmetry edge from privileged in-flight visibility is front-running / insider trading, and the detection method is financial-market-abuse surveillance via event-study + permutation/placebo nulls.",
+    "novelty_watermark": "Known mechanism (platform self-preferencing + order-flow front-running, with off-the-shelf market-surveillance detection) operationalized in a new setting: the AI-agent benchmark/arena where the operator both sees rivals' unpublished submissions and tunes the verifier. The transfer is the casino-regulator audit template applied to evaluation platforms; the estimand and nulls are standard, the substrate is new.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof6"
+  ],
+  "gate": {
+    "survives": true,
+    "refuted_count": 1,
+    "lenses": [
+      {
+        "lens": "duplication",
+        "refuted": false,
+        "reason": "机制上与已收方向[1]独立,refuted=false。两者对象都是平台,但攻击的假设、信号源、可检验实验完全不同。\n\n[1](dof1)的本质机制:把平台当VC funnel,审查的是平台自身\"拒绝/枪毙\"决策的质量(KILL decisions),用anti-portfolio衡量平台作为评判者的科学判断力。它是一个关于\"平台决策质量评价\"的良性视角——平台是否会挑/会杀好问题,信号来自被拒/退役问题集,假设是\"杀的质量比赢的数量更能预测平台价值\"。\n\n本问题的本质机制:把平台当作赌场\"庄家\"(house),攻击的是结构性利益冲突+信息不对称作弊——平台既能\"看牌\"(对竞争对手未公开、in-flight提交的特权读取)又能\"中途改规则\"(verifier tuning + patch timing)。这是一个关于\"自我交易/内幕优势的取证检测\"的对抗视角,核心假设是\"operator-affiliated agent的赢局时点与operator侧对rivals未公开提交的可见性及operator自定的规则变更在时间上相关\",信号来自win logs中的时序相关性(visibility窗口 × rule-change时点 × win-timing),可单独设计实验:对operator-affiliated与independent agent做win-timing与submission-visibility/patch-timing的相关性/事件研究检验。\n\n区分点:[1]检验平台的\"鉴别力质量\"(它杀得对不对),本问题检验平台的\"廉洁性/作弊取证\"(它有没有用看牌+改规则的特权优势)——前者用拒绝集做质量回归,后者用时序日志做泄漏/内幕检测。二者既不攻击同一假设也不共享同一信号源,实验互不蕴含。属机制独立的新方向。"
+      },
+      {
+        "lens": "discriminating",
+        "refuted": true,
+        "reason": "实验的对照机制本身是合格的(独立 agent 做负对照、任务内打乱时间戳的置换零分布给出精确 null band、围绕 verifier 变更的事件研究、外加 embargo 子集做封锁操控)——这些确实让\"有 house edge\"与\"无 house edge\"在同一统计量 E 上给出分叉预测,正预测不是平凡为真。但实验在【可执行性 + 可判别性】上都被同一个根本缺陷击穿:核心暴露变量 t_opread(\"运营方任意进程读取了尚未公开的提交\")以及 verifier-diff 日志、embargo 的执行,全部由【被审计的嫌疑方=运营方本人】生成并背书。会偷看对手提交去牟利的\"庄家\",恰恰是最不会忠实记录自己偷看行为的一方(可走未记录的镜像/缓存/侧信道/权重更新等通道)。这等于让赌场自己持有监控摄像头。后果有二:(1)可执行性——该审计需要让独立监管者对运营方内部读取路径与规则改动流水线拥有不可篡改、完整、对抗独立的插桩权,外加可信执行的 embargo,而这正是对抗性运营方有强烈动机拒绝或做手脚的访问权,实际拿不到。(2)更致命的是证伪臂被污染:E 落在 null band 内,既符合\"无 house edge\",也同样符合\"有 house edge 但偷看走了审计层捕捉不到的链路\"——null 结果无法区分\"没作弊\"与\"用未插桩通道作弊\"。因此\"E 落入 placebo null 即判 FALSIFIED\"这一可证伪预测并不真正成立:测到的 t_opread 在嫌疑方掌控仪器时并非真实暴露量,阴性结果不可判别。实验只能抓住\"用受插桩通道笨拙作弊的庄家\",却无法证伪 house-edge 假设本身。故 refuted=true。"
+      },
+      {
+        "lens": "so_what",
+        "refuted": false,
+        "reason": "This survives the so-what test because it names concrete actors who would flip a concrete decision on a binary answer.\n\nDecision flipped, named:\n1. A rival lab / competing team deciding whether to KEEP submitting to this operator's agent benchmark or platform. If the win-log analysis shows operator-affiliated agents' win-timing correlates with operator-side visibility into rivals' unpublished submissions plus operator-timed verifier/patch changes, the rational move is to WITHDRAW from the platform (or stop submitting in-flight work that the operator can see pre-publication) and route to a neutral, blind-submission venue. If no such correlation, they keep submitting. That is a real go/no-go, not \"deepens understanding.\"\n2. A funder / sponsor of the benchmark (or an enterprise buyer choosing which agent platform to standardize on) deciding whether to underwrite or trust leaderboard results from a house that is also a player. A positive finding moves them to demand structural separation (independent verifier custody, sealed-submission escrow, patch-freeze windows during competition) as a funding/procurement condition, or to switch vendors.\n3. A standards/governance body (or the operator's own trust-and-safety side) deciding whether to mandate timing-blind submission and pre-registered verifier configs. A detectable edge in the logs is the trigger that justifies imposing the control; absence of it lets them not pay that cost.\n\nThe question is also falsifiable and the answer is decision-relevant in BOTH directions: refuted-in-data (no correlation) is itself load-bearing because it lets participants and funders justify staying, rather than acting on suspicion. The \"house can see the table and rewrite the rules mid-hand\" framing maps to two operationalizable, log-measurable signals (win-timing vs. rival-submission visibility; win-timing vs. operator-timed verifier/patch changes), so the experiment yields a yes/no that gates the above choices. This is not glue, not a restatement of the obvious, and not \"worth studying\" hand-waving — it identifies a structural conflict of interest and a concrete test whose outcome changes who submits, who funds, and who must impose separation controls."
+      }
+    ]
+  }
+}

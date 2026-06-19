@@ -1,0 +1,58 @@
+{
+  "id": "c09",
+  "parent_dof": "dof2",
+  "operator": {
+    "type": "dominant_deviation",
+    "note": "Deviate from 'transplant social infra → push a float on closed problems': keep the verifier but make the scored object the certified generality of the claim, not the magnitude of one instance."
+  },
+  "question": "Invert the validation object at the unit of 'discovery': require every accepted submission to emit a machine-checkable *generalization* (parametric family, conjecture, or method statement) that the verifier spot-tests on a harness-fixed set of adjacent instances. Define discovery as the breadth of the certified generalization, not the magnitude of the single answered instance. Does scoring the *reach of the claim* rather than the *value of the instance* reorder which agents and problems look productive, and does it separate 'pushed a number via brute search' from 'found structure that explains a family' — the distinction the n=604 vs. integer-604 episode shows the per-float ontology erases?",
+  "commonness": 0.16,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Take the existing EinsteinArena-style verifier run (the M3 target regime, one float per problem). Re-score under a reach metric WITHOUT changing the underlying solver agents: (1) For each problem, fix a harness-controlled set of K adjacent instances (e.g. parameter perturbations / neighboring n / sibling problem variants) BEFORE agents see them — proposers may NOT choose the instance set (this is the anti-Goodhart control). (2) Require each submission to additionally emit a generalization artifact: a parametric family/conjecture/method statement in a checkable form. (3) Verifier spot-tests the artifact on the K fixed adjacent instances; reach = fraction of adjacent instances the certified claim correctly covers. (4) Compute two rankings of agents (and of problems by 'productivity'): magnitude-rank (current per-float) vs reach-rank. Measured quantity: rank correlation (Kendall tau) between the two rankings, AND the per-submission reach score of the specific n=604-type brute-search submissions vs structure-finding submissions. Control group: same agents scored under the unchanged per-float ontology; plus a negative control where the adjacent-instance set is proposer-chosen (should let brute-search regain high reach, confirming the fixed-set is what does the work).",
+    "falsifiable_prediction": "Reach-ranking will materially reorder agents relative to magnitude-ranking (Kendall tau well below 1), and brute-search 'pushed-a-number' submissions (the n=604 type) will score near-zero reach on the harness-fixed adjacent instances while structure-finding submissions score high. FALSIFIED if tau is ~1 (rankings near-identical, i.e. reach is just a proxy for magnitude and adds nothing) OR if brute-search submissions score high reach on the FIXED instance set (meaning the metric does not actually isolate structure). The proposer-chosen-set control is predicted to collapse the separation, isolating the fixed-set as the causal ingredient.",
+    "control": "Two controls: (a) baseline = identical agents/answers scored under the current unchanged per-float magnitude ontology (establishes the reordering is due to the new metric, not new agents); (b) negative control = reach metric but with proposer-chosen adjacent instances instead of harness-fixed ones (predicted to let brute-search regain reach, isolating instance-set control as the operative mechanism and guarding against the obvious gaming path).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Benchmark/leaderboard designers for LLM math-and-science verifier arenas (EinsteinArena, FrontierMath-style, AlphaProof-adjacent eval teams) and RL reward-shaping teams who currently train on per-instance verifier floats and want a signal that rewards generalization over brute force; secondarily, reviewers/meta-science auditors of 'AI made a discovery' claims who need to distinguish a number-push from a structural result."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / construct validity (operationalized as a generalization-gap or out-of-distribution / leave-instance-out test on a held-fixed neighbor set)",
+    "novelty_watermark": "The component mechanisms are all named elsewhere: scoring the proxy vs the target is Goodhart; spot-testing a claim on held-out neighbors is OOD/generalization-gap testing; requiring a checkable family rather than a point is the conjecture-vs-witness distinction in automated theorem proving (a proof generalizes, a single witness does not). What is NOT pre-named is fusing them into the *unit of submission and the scored object* for an autonomous-discovery arena — making 'breadth of a verifier-certified generalization' the leaderboard primitive rather than a post-hoc validity audit. Honest framing: this is a known-mechanism (anti-Goodhart generalization testing) operationalized in a new scene (discovery-arena scoring), not a new mechanism. Novelty sits in the relocation of the metric to the scoring primitive plus the falsifiable claim that doing so reorders productivity rankings; the central unsolved risk it inherits is who fixes the adjacent-instance set, which the experiment must control or the new metric is gamed exactly like the old one.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof2"
+  ],
+  "gate": {
+    "survives": true,
+    "refuted_count": 1,
+    "lenses": [
+      {
+        "lens": "duplication",
+        "refuted": false,
+        "reason": "机制与两条已收方向都不同名、可单独设计实验区分,故不判为换皮重复。逐条核验:[1](dof1)攻击的是\"平台层的问题选择/淘汰决策质量\"——把问题板当 VC 漏斗,记录被拒/被杀问题,检验平台价值是否由 KILL 决策质量(而非排行榜)预测;其单位是\"漏斗中的问题/决策\",度量的是平台的筛选判断力。[2](dof6)攻击的是\"运营方=庄家\"的治理/利益冲突——特权读取对手在飞提交、中途改规则带来的信息不对称,在胜负日志里是否可检出。二者都不触碰\"验证对象本身是什么\"。本提案攻击的是第三处独立机制:把\"被验证/被计分的单位\"从\"被回答的单个实例\"反转为\"一个机器可校验的泛化(参数族/猜想/方法陈述)\",并要求验证器在 harness 固定的相邻实例集上抽检该泛化,再把\"发现\"重定义为\"被认证泛化的覆盖宽度\"而非\"单实例的数值大小\"。这是对验证器接受准则 + 计分度量的改造,直接区分\"暴搜推大一个数\"与\"找到解释一族的结构\"。可单独实验:构造要求强制吐泛化的 harness,按认证 reach 重排行榜,观察 agent/问题的生产力排序是否重排——全程无需引用 KILL 决策(区别于[1])或运营方信息不对称(区别于[2])。唯一需点明的张力:它正是论文核心洞见\"标量/逐实例验证器是谎言\"(n=604 vs 整数-604)的建设性正面形式,但该核心洞见并不在待去重的 [1]/[2] 任何一条之内,且本提案给出了二者都不具备的具体新机制(泛化作为验证单位 + 相邻实例抽检),故对 [1] 和 [2] 均机制独立。refuted=false。"
+      },
+      {
+        "lens": "discriminating",
+        "refuted": true,
+        "reason": "REFUTED on three independent grounds, all verifiable in the local data (paper OCR .ocr_report/paper_2606.txt; card D:\\claude\\frameshift\\frameshift_M3\\runs\\einstein_arena_v2\\cards\\c09.json).\n\n(1) NOT THE STATED EXPERIMENT / DATA DOES NOT EXIST. The 'minimal experiment' claims to \"Take the EXISTING run ... Re-score ... WITHOUT changing the underlying solver agents.\" But step (2) \"require each submission to ADDITIONALLY EMIT a generalization artifact (parametric family/conjecture/method statement)\" is not a re-scoring — no such artifact exists on any logged submission. The paper records only leaderboard floats, 'best submitted solutions,' discussion threads, and per-submission fingerprints (140 scalar features for kissing); it contains ZERO occurrences of 'conjecture,' 'generaliz,' 'family,' or 'adjacent.' You cannot retroactively extract a machine-checkable conjecture from a float that never carried one. Emitting artifacts requires RE-RUNNING the agents under a new protocol, contradicting the experiment's own 'existing run / unchanged agents' premise. The arena is an external platform (arXiv:2606.10402); the project has no agent access, no submission corpus, no verifier source, and only ONE of the 12 SOTA problems is documented — so the K-adjacent-instance verifiers, the artifact emission, and the re-scoring would all have to be built from scratch. This is constructing a new arena, not re-scoring; the data/access is not in hand.\n\n(2) FLAGSHIP CONTRAST MISCLASSIFIES ITS OWN ANCHOR. The prediction hinges on 'brute-search pushed-a-number (n=604 type) scores near-zero reach while structure-finding scores high.' But the paper's ONLY worked example, n=604, IS the structure-finding case: LSQR refinement -> inner products near integers -> integer-snapping -> discovery of a shared 496-vector backbone across 594<=n<=600 -> extension in a larger algebraic space. The canonical '604 submission' found the family. So whichever way results fall they can be narrated as confirming the thesis — the contrast is built on a misreading of its own evidence and is self-sealing.\n\n(3) PREDICTION TRIVIALLY TRUE ON BOTH ARMS. 'Kendall tau well below 1 / materially reorder' has no threshold and is computed over ~12 items (one fully documented); tau!=1 is near-guaranteed by sampling alone regardless of mechanism. And 'family covers fixed neighbors better than a point answer' is true BY CONSTRUCTION: the proposer who fixes the adjacent set also defines 'covers,' and the experiment REQUIRES structure-finders to emit a parametric family while a number-push emits a point — so reach separation is baked into the mandated artifact type, not discovered. The only genuinely discriminating arm (proposer-chosen-set negative control) also requires re-running agents and never touches real data.\n\nNet: the experiment is a disguised re-run needing nonexistent data and agent access; its headline two-arm split mislabels the single documented episode; and its falsifiable prediction is satisfiable on both arms (tau<1 trivial at n~12; family-beats-point true by the required artifact's definition). It self-confirms rather than discriminates -> refuted=true."
+      },
+      {
+        "lens": "so_what",
+        "refuted": false,
+        "reason": "Names a decision that flips on the outcome. Decision-maker: EinsteinArena/FrontierMath-style leaderboard designers and RL reward-shaping teams who currently train on per-instance verifier floats (the c09 value_profile names exactly these). Decision: keep the per-float magnitude metric as the scored primitive, or replace it with verifier-certified-generalization breadth. The experiment is two-sided and not foregone — it re-scores the SAME solver agents and computes Kendall tau between magnitude-rank and reach-rank. (a) If tau≈1 OR brute-search submissions score high reach on the harness-fixed neighbor set, reach is just a proxy for magnitude → team rationally keeps per-float, builds nothing. (b) If tau is well below 1 AND the n=604-type brute submissions score near-zero reach while structure-finders score high, the team has empirical grounds to change a costly thing — the leaderboard scoring primitive / RL reward signal — and to reword the headline '12 new SOTAs = discoveries' claim the kissing-number 593→604 episode exposes (the agent produced a 496-vector skeleton + algebraic framework, but only integer 604 was credited). The negative control (proposer-chosen vs harness-fixed instance set) gates a second concrete implementation decision: who fixes the adjacent set, since proposer-choice would let brute search regain reach and re-game the metric. The card's own prior_art admission that every component mechanism is pre-named (Goodhart, OOD generalization-gap, conjecture-vs-witness) lowers novelty but not so-what: no one has measured tau on THIS arena's real submission stream, and that measurement is what a leaderboard team would actually condition the redesign on. Not glue, not restatement — a specific person changes a specific design based on a result that could genuinely land either way."
+      }
+    ]
+  }
+}

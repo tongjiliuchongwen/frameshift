@@ -1,0 +1,58 @@
+{
+  "id": "c02",
+  "parent_dof": "dof1",
+  "operator": {
+    "type": "analogy",
+    "note": "Map agent-research-platform onto a VC firm: the load-bearing transfer is the 'anti-portfolio' — judging the agenda-setter by rejections and abandonments, which EinsteinArena currently cannot even record."
+  },
+  "question": "Treat EinsteinArena's problem board as a VC deal-flow funnel rather than a problem set: build an 'anti-portfolio' instrument that logs every problem an agent proposed-but-the-platform-rejected and every problem retired-as-dead, and test whether a platform's scientific value is better predicted by the quality of its KILL decisions than by its leaderboard wins.",
+  "commonness": 0.12,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: instrument EinsteinArena to log a 'kill ledger' — for each problem, record proposed/accepted/rejected/retired-as-dead plus the reviewer rationale and timestamp. To get the missing counterfactual (a rejected problem has no exogenous funder, unlike a VC anti-portfolio), run a deliberate hold-out: randomly LET THROUGH a sample (say 20-30%) of would-be-rejected problems and pursue them to a verified outcome (solved-and-correct / solved-but-trivial / dead-end), and separately mine an external signal by string/semantic-matching retired problems against subsequent arXiv solutions to the same open question. Measure: define platform scientific value as an OUT-OF-SAMPLE held-back panel (expert + external citation/solution signal on a disjoint future problem set), then compare two predictors of it — (i) leaderboard win-rate, (ii) a 'kill-quality' score = fraction of let-through rejects that turn out trivial/dead (true kills) minus fraction that turn out to be verified non-trivial discoveries (false kills). Falsifiable prediction: kill-quality will have HIGHER cross-validated predictive R^2 / AUC for the held-back value panel than leaderboard win-rate, by a margin exceeding bootstrap noise. Control: (1) leaderboard win-rate as the incumbent predictor; (2) a random/shuffled kill-quality label to confirm the signal is not an artifact of base rates; (3) an 'accept-quality' mirror score to test whether any predictive power is specific to KILL decisions or just reflects general reviewer skill applied to both accepts and rejects.",
+    "falsifiable_prediction": "Across multiple platform configurations/reviewer policies, kill-quality (true-kill minus false-kill rate, validated on let-through hold-outs) predicts the held-back scientific-value panel with strictly higher out-of-sample AUC than leaderboard win-rate; if win-rate matches or beats kill-quality, the central claim is refuted.",
+    "control": "Leaderboard win-rate (incumbent predictor) + shuffled-label kill-quality (base-rate artifact check) + a parallel 'accept-quality' score (tests whether the signal is specific to kill decisions vs. generic reviewer competence).",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Builders/evaluators of autonomous agent-research platforms (EinsteinArena, AI Scientist, Sakana-style benchmarks) and meta-science / research-funding researchers who study agenda-setting and false-negative cost; secondarily benchmark designers worried about leaderboard Goodharting."
+  },
+  "prior_art": {
+    "known_name": "Anti-portfolio / Type-II (false-negative) error accounting; closely related to selective-prediction & abstention quality, and to leaderboard Goodhart's law. The deeper machinery is counterfactual policy evaluation of a rejection policy (off-policy evaluation / propensity-weighted hold-out).",
+    "novelty_watermark": "Known mechanism (VC anti-portfolio + off-policy evaluation of rejections) operationalized in a new venue: agent-research platforms, where kill/abandon decisions are currently unrecorded. Novelty is the venue+instrument and the explicit kill-quality-beats-win-rate claim, not the underlying statistics.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof1"
+  ],
+  "gate": {
+    "survives": true,
+    "refuted_count": 1,
+    "lenses": [
+      {
+        "lens": "duplication",
+        "refuted": false,
+        "reason": "这是档案中的第一张卡，没有任何已收方向可供比对，因此不存在\"换皮重复\"的对象。按去重判据，唯一能判 refuted=true 的依据是与某条已收方向[n]攻击同一假设/本质同一机制——而当前已收档案为空，无 [n] 可指认，故不构成重复。\n\n仅就独立性做一句记录（不替代其他维度审查官的职责）：该提案提出了一个机制上可单独检验的命题——把 EinsteinArena 的问题板当作风投 deal-flow 漏斗，建立\"反组合\"(anti-portfolio) 仪器，记录每一个被平台拒绝(proposed-but-rejected)和退役为死题(retired-as-dead)的问题，并检验\"平台科学价值由其 KILL 决策质量预测，优于由 leaderboard 胜场预测\"这一可证伪假设。其攻击对象（拒绝/淘汰决策的信息价值 vs. 正向得分的信息价值）与来路标签 dof1 / analogy 一致，且能设计区分实验（对比 KILL 质量与 leaderboard 名次对未来科学产出的预测力）。\n\n结论：因档案为空、无重复对象，refuted=false。"
+      },
+      {
+        "lens": "discriminating",
+        "refuted": true,
+        "reason": "设计层面看似可判别(预设方向性对赌:kill-quality AUC 严格 > win-rate AUC，并写明\"若 win-rate 持平或胜则证伪\"，外加三组对照:增量基线/打乱标签零假设/accept-quality 镜像)。但三处使其实际不可判别/不可执行:\n\n(1) 标签拿不到。\"科研价值\"=长周期信号(后续 arXiv 解答、引用、未来不相交题集的专家共识)。要把 20-30% 放行的\"将被驳回\"问题判成 true-kill/false-kill(琐碎·死路 vs 已验证非平凡发现),就必须把每个被驳回问题真的做到\"已验证科研结局\"——这等于跑完平台的全部科研工作量,而非一次仪器加挂。任何现实窗口内放行样本大多右删失(\"尚未解决\"≠\"死路\"),所以决定 AUC 的核心标签是不可观测,而不只是昂贵。\n\n(2) 分析单元是\"平台配置/审稿策略\"而非单题,预测明文\"across multiple platform configurations\"。能真正跑出的不同配置只有个位数,却要求两个相关 AUC 之差\"超过 bootstrap 噪声\"——功效近乎为零,几乎任何结果都和\"噪声\"相容,两个方向都判不死。\n\n(3) 结局构念太软+两预测量不独立。accept-quality 镜像对照本身就承认\"审稿人技能\"同时载荷于 accept 和 reject:若 kill-quality 赢,镜像也可能赢→被解释成\"通用审稿技能\"而非 KILL 特异(claim 被稀释但未被干净证伪);若 win-rate 赢,辩方可归咎\"价值面板算错/放行样本太小\"。\"科研价值\"是可事后重设的专家+引用复合指标,能吸收任一结果。\n\n(4) 支撑不可比:放行只在\"将被驳回\"的尾部随机化,kill-quality 估在拒稿尾部,win-rate 是全平台统计,头条 AUC 对比把\"哪类决策\"和\"哪个总体\"混为一谈。\n\n综上:可证伪预测在实践中不可决定性检验——载荷标签拿不到、配置级 AUC 对比 N 太小压不过 bootstrap 噪声、结局构念软到无论结果如何都能自圆其说。故 refuted=true。"
+      },
+      {
+        "lens": "so_what",
+        "refuted": false,
+        "reason": "点名决策:EinsteinArena/同类自动科研竞技平台的运营者(及其上层资助方/产品负责人)对\"评分闸门要不要默认驳回、要不要把 KILL 决策作为一等公民记录并优化\"这一具体设计选择。这正是 frameshift M3/v2 诊断里反复撞到的真命门——\"闸门仍 0 驳回,价值闸门=整个项目可辩护性的命门,仍未解\"(frameshift-project.md L21)。该提案不是空泛\"加深理解\",它给出一个可证伪的对照预测:平台科学价值由 KILL 决策质量预测,优于由 leaderboard wins 预测。\n\n为什么它能翻转决策而非胶水:① 若实验出\"KILL 质量是更强预测变量\",运营方会把\"反组合/退役登记 + 默认驳回闸门\"从可选演示升级为核心仪器,直接决定 EinsteinArena 是否重构其问题板与排名机制(改/不改设计,非纸面)。② 若出\"leaderboard wins 仍是更强预测变量、KILL 记录无增量信号\",则直接证伪 frameshift 当前最重要的开发方向(对抗式默认驳回闸门),作者会停止投这条线、回到产出侧优化——这是一个会被关掉的具体投入决策。两个方向都改变某人下周写哪段代码。\n\n但需扣分诚实标注:这是 frameshift 项目内部研究者的设计决策,样本上仅一个平台,\"better predicted\"在 n=1 平台上难有统计判别力,存在退化为\"自评能否编出实验恒为 yes\"的同病(L21 已记录闸门自评失效)。不过这恰恰是把已知命门做成可对照测量,而非复述。故不判 refuted。"
+      }
+    ]
+  }
+}

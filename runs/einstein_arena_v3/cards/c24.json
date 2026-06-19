@@ -1,0 +1,58 @@
+{
+  "id": "c24",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "assumption_challenge",
+    "note": "Challenges the assumption that every leaderboard number measures the same kind of thing. Grounded in the paper's own table mixing exact constructions (kissing 604) with bound-type scores (0.92->0.99). Different from precision-survival: here the target itself is a proxy bound, not a noisy measurement."
+  },
+  "question": "Several headline leaderboard 'scores' (e.g. prime-number-theorem 0.92->0.99, edges-vs-triangles) are not the underlying mathematical quantity but platform-specific upper/lower BOUNDS produced under a particular scoring construction. Build a 'bound-tightness ledger': for each such problem, separate movement-of-the-bound from movement-toward-the-true-quantity, and certify how much daylight remains between the leaderboard frontier and any provable tightness. Reframe the leaderboard as a market in bounds and ask whether the platform rewards agents for closing the real gap or for exploiting slack in the bound's construction that has no bearing on the quantity itself.",
+  "commonness": 0.34,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Data/setup: Take the paper's own scored-problem table and partition it into (i) exact-construction problems (e.g. kissing number 604, where the score IS the quantity) and (ii) bound-type problems (PNT 0.92->0.99, edges-vs-triangles, where the score is an upper/lower bound under a fixed scoring construction). For every bound-type problem, instrument three numbers per leaderboard submission: the reported score s_t, a 'bound-slack' coordinate (how much of the gain comes from features of the scoring construction -- e.g. constant factors, normalization, allowed certificate form -- that do not change the provable best-known bound on the true quantity), and a 'true-gap' coordinate (distance from the current frontier to any independently provable tightness/lower-bound, taken from the math literature rather than the platform). Quantity to measure: for each problem, the decomposition of total score movement into delta_bound (toward provable tightness) vs delta_slack (within-construction). Aggregate across submissions: regress per-submission score gain on (delta_bound, delta_slack). Control: the exact-construction problems serve as the control arm -- there the construction admits no slack, so delta_slack should be ~0 and all gain must be delta_bound; a second control is a held-out problem where independent literature tightness is known so the true gap is ground-truthed.",
+    "falsifiable_prediction": "On the bound-type problems, a non-trivial fraction of leaderboard score movement (predicted >25% of aggregate gain, and for at least one headline problem the majority) is delta_slack -- gain attributable to the scoring construction with zero movement of the provable bound on the true quantity -- whereas on the exact-construction control arm delta_slack is ~0. Falsified if, across bound-type problems, score gains are essentially all delta_bound (delta_slack indistinguishable from the exact-construction control), i.e. every leaderboard improvement maps to a genuine improvement in the provable bound and the 'market in bounds' framing collapses into 'market in true quantities'.",
+    "control": "Exact-construction problems (kissing number 604 and any score-equals-quantity entries) where the construction admits no exploitable slack, so delta_slack must be ~0; plus a held-out bound problem with independently known literature tightness to ground-truth the true-gap coordinate.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "mid",
+    "valuable_to_whom": "Designers/operators of automated math-discovery leaderboards (the platform in the paper, plus FrontierMath/AlphaProof-style scoring efforts) who must decide what to reward; reviewers and funders assessing whether a reported 0.92->0.99 is a real discovery; and agent builders who need to know if they are optimizing a proxy. Deliverability is gated by the need for independent literature tightness values per problem, which exist for some bounds but not all."
+  },
+  "prior_art": {
+    "known_name": "Goodhart's law / proxy-gaming / construct validity (specialized form: bound-vs-quantity gaming in optimization scoring)",
+    "novelty_watermark": "Known mechanism (a measure ceasing to be a good measure once optimized) operationalized in a genuinely new venue: scoring constructions whose target is itself a provable BOUND rather than a noisy estimate of the quantity. The sharp, non-generic contribution is the delta_bound vs delta_slack decomposition -- distinguishing 'moved the provable bound' from 'exploited construction slack' -- which is finer than generic Goodhart and is distinct from the sibling precision-survival framing (there the target is a noisy measurement; here the target is a proxy bound). Honest framing: this is Goodhart made auditable for bound-type scores, not a new mechanism.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ],
+  "gate": {
+    "survives": true,
+    "refuted_count": 1,
+    "lenses": [
+      {
+        "lens": "duplication",
+        "refuted": false,
+        "reason": "候选属于\"验证器≠真值\"大族（与[3][6]同根），但它在该族内钉住了一个未被任何已收方向 instrument 的独立攻击点，能单独设计可判别实验，故不算换皮。机制定位：链条 真值→C(x)→agent surrogate 上，已收[6](dof4)攻击的是 **agent 侧缝隙**（agent 爬\"代理的代理\"、surrogate 跨主体借用），且[6]显式把 C(x) 当成\"verifier 的真目标\"、从不质疑 C(x) 本身是不是 bound；候选攻击的是 **打分构造侧缝隙**——分数 C(x) 本身就是单边 upper/lower BOUND 而非那个数学量，即便 agent 忠实地优化 C(x)，分数也可能因 bound 构造中的可利用 slack（与该量无关）而上升。两者可正交真假：[6]为真（agent 爬错目标）时候选可假（bound 恰好紧、无可利用构造缝隙），反之 bound 有巨大可利用 slack 而 agent 直接优化 C(x) 无 surrogate 时[6]假候选真——故\"distinguishing experiment\"成立。候选独有的实验对象（任一问题逐题分析分数是 upper/lower bound、构造里哪段 slack 与真量无关、再出具一张可证明紧度证书量化 frontier 与最优可证 bound 之间的 daylight，从而把\"分数涨=bound 松/吃构造伪影\"与\"分数涨=逼近真量\"分开）是[6]的 surrogate 链路仪器与 surrogate-borrowing 种群检验、[3]的\"claim 广度而非单实例值\"都不构建的。与[3](dof2)正交：[3]是广度/泛化轴（一族相邻实例的 reach），候选是单一量的\"bound vs 真值\"紧度/正确性轴，非广度。与[1][2][4][5]机制不同（KILL 决策/运营方做庄/问责层/真值盲信道）。最接近的是[6]且共享\"把排行榜当某种 misspecified-objective 市场\"的修辞口吻，是本族里最需警惕的边界，但承重的实验仪器（逐题 bound 构造分析 + 可证紧度 daylight 证书）确实独立、能单独跑，故 refuted=false。"
+      },
+      {
+        "lens": "discriminating",
+        "refuted": true,
+        "reason": "The \"bound-tightness ledger\" cannot discriminate \"market in slack\" from \"market in true quantities\", for three reasons grounded in the paper itself (arXiv:2606.10402v1, Appendix A; text at D:\\claude\\frameshift\\.ocr_report\\paper_2606.txt).\n\n(1) Structural triviality where the bound is a proven identity. The appendix proves that for most bound-type problems the EinsteinArena score IS a valid bound on the true quantity verbatim: 1st autocorr \"C(v) is an upper bound of C\", 2nd autocorr \"lower bound of C\", 3rd autocorr \"upper bound\", flat polynomials \"CS(c) is an upper bound of inf C(c)\", dist-ratio, edges-vs-triangles. Where the score-to-bound map is a proven identity, delta_slack (defined as gain that does NOT move the provable bound) is forced to ~0 by theorem, not by measurement. The experiment's own \"falsified\" branch (delta_slack indistinguishable from the exact-construction control) is thus pre-satisfied for these problems regardless of any submission data -> non-informative.\n\n(2) Unmeasurable where slack actually exists. Genuine slack lives only in the discretization/sampling gap: PNT checks the constraint Phi_f(x)<=1 via 10^7 RANDOM samples (Appendix A.8), flat polynomials sample max|g| on 10^6 points (A.6), autocorrelation uses finite-n discretization. To split a submission's gain into delta_slack vs delta_bound you must, per submission (hundreds of them), re-derive what continuum quantity that specific discrete certificate PROVABLY bounds -- original rigor mathematics for each. The proposed \"true-gap coordinate taken from the math literature\" does not exist for these bespoke functionals (Cdis, CS, R(P)); the literature scores the continuum quantity, not EinsteinArena's construction. Data needed is not just hard, it is undefined.\n\n(3) Circularity + degenerate control. The regression of score-gain on (delta_bound, delta_slack) presupposes both coordinates are already computed per submission; if computable, the question is already answered and the regression is decorative; if not (the discretized cases), the regressors are unobtainable. The exact-construction control (kissing number 604) gives delta_slack~0 by definition of \"exact\", a tautology that calibrates nothing for bound-type problems. PNT's literature tightness is the Prime Number Theorem limit = 1 (a KNOWN constant, not open), so 0.92->0.99 is movement of a lower bound toward a known 1; the only slack there is binary verifier-evasion (passing sampled Phi_f<=1 while violating it elsewhere), a validity yes/no, not the continuous delta the >25%-of-aggregate-gain prediction requires.\n\nNet: the falsifiable prediction is auto-satisfied where the bound is a proven identity and uncomputable where slack genuinely exists; the decomposition is circular and the control is tautological. Predictions either trivially true or not testable with obtainable data -> not discriminating."
+      },
+      {
+        "lens": "so_what",
+        "refuted": false,
+        "reason": "This survives the so-what gate because it names a concrete decision a specific actor would flip — and that actor is the frameshift收敛-鉴价/闸门 itself plus its human operator.\n\nThe decision that flips: which card sits at the frontier of the value map and gets shipped to a reviewer. Memory records that the most-defensible surviving card is c07 (freeze历史提交, separate仪器漂移 vs真实能力 — i.e. separating movement-of-the-instrument from movement-toward-the-true-quantity), while c01/c02 are \"漂亮但实验空\". The bound-tightness ledger is the SAME move as c07 applied to the math-problem scores: separate bound-movement from quantity-movement. If the experiment shows that prime-number-theorem 0.92→0.99 is the agent exploiting slack in the bound's construction with zero bearing on the true quantity, then the EinsteinArena paper's headline \"scientific discovery\" claim is falsified for those problems — which is exactly the \"致命攻击线(那12个数学问题算不算真发现)\" that memory flags as \"整批缺席\" and the single most defensible attack the project is missing. That is a binary, falsifiable test (compute the provable tightness gap; check whether leaderboard movement lands inside the slack), not \"deepens understanding.\"\n\nNamed decisions that change on the result:\n1. The frameshift operator decides whether to ship a NEW card built on this ledger to the human/reviewer — memory explicitly says this attack族 is missing and would be the strongest card; a non-empty daylight/slack result makes it a survivor, an empty-slack result kills it. Either way the value map changes.\n2. A reader/evaluator of the EinsteinArena paper decides whether to believe its \"agents make discoveries\" headline. If the ledger shows the gains are pure bound-slack with no movement toward the true quantity, they stop citing those scores as evidence of capability.\n3. The platform designer decides whether to change the scoring construction (reward closing the real gap, not exploiting bound slack).\n\nThis is not glue/restatement: it converts a vague \"scores look fishy\" intuition into a measurable certificate (remaining daylight to provable tightness) that flips a publish/believe decision. refuted=false."
+      }
+    ]
+  }
+}

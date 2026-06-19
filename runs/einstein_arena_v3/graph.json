@@ -1,0 +1,61 @@
+{
+  "paper": {
+    "title": "Harnessing the Collective Intelligence of AI Agents in the Wild for New Discoveries",
+    "arxiv": "2606.10402v1",
+    "one_line": "EinsteinArena: an agent-native open distributed-science platform (open problems + deterministic verifiers + leaderboard + discussion board) where in-the-wild agents collaborate/compete and have already set 12 new math SOTAs (e.g. kissing number 593→604)."
+  },
+  "original_question": {
+    "text": "Can the social infrastructure of human science — preprints, forums, persistent shared memory, a leaderboard frontier — be ported wholesale to autonomous AI agents so that a 'collective intelligence' emerges in the wild and produces genuinely new discoveries?"
+  },
+  "dominant_idea": "论文把人类科研社会基础设施整体同构搬给 agent,断言由此涌现集体智能并产生新发现;全部可信度押在一个被默认中性的确定性验证器+标量排行榜上,把进步窄化为在有 ground-truth 的封闭优化题上把一个 float 推到 frontier。被锁死的是整条度量链:谁选题、什么算发现、代理目标与真目标的缝隙、合作是否真带来进步(无反事实)、激励是否自洽、谁在裁判。",
+  "clamped_dofs": [
+    {
+      "id": "dof1",
+      "statement": "议程设定权被外包并锁死在平台作者手中:全部 14 道题由作者从 AlphaEvolve 题库手工策展,刻意只选『有确定性高效验证器』且『已知留有提升空间/AI 之前刷得动』的题;agent 只能在既定题目里挑一道做,永远不能提出、重构、退役或形式化一个问题。整个研究议程在任何 agent 行动之前就被外生固定。",
+      "leverage_level": "L4",
+      "why_clamped": "专挑有廉价确定性验证器的题,正是让『野外协作』整个研究可度量、可写成 12 个新 SOTA 旗舰结果的前提,所以题目来源被当作实验的固定先决条件而非变量。作者明确把议程设定划为 out of scope(『initial focus is mathematics』)。于是科研中最具创造性的行为——判断什么值得做——成了唯一一个系统从不向 agent 暴露的自由度;且专挑『易提升题』使『12 个新 SOTA』在统计上被选题策略放大,是范式层的 survivorship/cherry-picking 被固化为中性能力度量。",
+      "if_released": "若释放:允许 agent 提出/fork/弃用问题并自定义验证器(由社区或 meta-验证器审核),平台才真正测试『集体 AI 能否做议程设定』而非仅『刷边界』。会出现一个带需求信号的『问题市场』,暴露当前封闭策展掩盖的失败模式(用平凡可验证的伪问题刷分),且 SOTA 命中率会成为对平台能力更诚实(很可能更低)的估计。",
+      "dimension": "议程设定权:谁决定『做什么题』"
+    },
+    {
+      "id": "dof2",
+      "statement": "『发现』的本体被锁死为『确定性验证器严格高于当前 leaderboard 至少阈值 δ 的一个标量』。猜想、结构洞见、证明某界是紧的、有价值的负结果、可复用方法——除非推动了那个数字,否则都不算发现。kissing number 记述里 agent 明明产出了真实数学结构(496 向量骨架、整数 snapping、n=604 的代数框架),但被记录为『发现』的只有整数 604。",
+      "leverage_level": "L4",
+      "why_clamped": "平台的核心卖点是『进步可被无歧义度量』,这要求把『发现』塌缩到单个可认证 float 上,才使 leaderboard、lineage 图、12 个新 SOTA 的标题成为可能。代价是最丰富的产出(方法、结构猜想、死路地图)只能非正式地活在讨论帖里,没有地位、没有验证、没有信用——而提出新问题/形成新概念/判断价值这些『发现中最难的部分』被排除在度量之外。",
+      "if_released": "若释放:把可验证方法、可复用引理、被认证的不可能性结果列为一等对象,系统就能奖励『当下不涨分但使后续跳跃成为可能』的贡献(正是 Discussion 承认被 leaderboard 压制的 promising-but-slow 工作),degenerate 刷分将无处藏身;并让平台突破『仅限有精确验证器的领域』这一作者点名的核心局限。",
+      "dimension": "发现的本体定义:什么才算一次『发现』"
+    },
+    {
+      "id": "dof3",
+      "statement": "底层范式断言——『协作带来进步』——被当作不证自明并锁死:论文把人类科研之所以有效归因于 seminars/preprints/forums,于是断言给 agent 同样的基础设施(platform-as-harness、平台即持久共享记忆)就会涌现集体智能。证据只有 1 个 kissing number 案例 + 由相似度事后重建的描述性 lineage 图,且失败/更低分提交『不入库、不存储』使搜索的负空间被销毁、无法回放。",
+      "leverage_level": "L4",
+      "why_clamped": "这个类比是整篇论文(及标题)的范式前提,锁死了三个未审视假设:(1) agent 群体的集体智能与人类社群同构;(2) 共享=加速(而非趋同/羊群/坍缩到同一 basin);(3) 公开 trace 的信息价值为正。关键是没有反事实对照——没有『隔离 agent vs 共享平台』『有论坛 vs 无论坛』在同等 compute 下的消融,丢弃失败提交又使真实搜索树不可重建,于是『collective intelligence emerges』是被假定而非被因果证明,parent 边由 0.42/0.48 相似度阈值事后推断而非记录的因果 trace。",
+      "if_released": "若释放:记录全部提交+真实 read/fetch 事件并做消融(隔离 vs 共享、关论坛 vs 开论坛、同质 vs 异质模型,同预算比 SOTA 增量),把『合作带来进步』从叙事变成可证伪因果主张,并支持真回放/反事实(若某帖不存在会怎样)。也可能发现共享反而导致过早收敛(所有 agent 挤进同一 basin),从而推翻『平台即更优 substrate』的范式断言。",
+      "dimension": "协作→进步的因果地位与可回放性(范式同构是否被证明)"
+    },
+    {
+      "id": "dof4",
+      "statement": "【验证器/排行榜可信性的总缩合】真目标与交给 agent 的代理目标之间的缝隙被当作开放攻击面而非被闭合,且整条度量管线(代理 loss、精度、采样、阈值、安全审核、lineage/话题打标)被默认为中性测量工具。kissing number 真目标是二元(成对距离≥2),平台代以连续 overlap penalty C(x),agent(KawaiiCorgi)再去优化该代理的 Taylor 线性化代理;多个分数(prime number theorem 0.92→0.99、edges-vs-triangles)是平台特定 scoring 构造下的上/下界而非量本身;验证器上线后因精度不足被迫从 double 升到 80 位 Decimal,靠整数 snapping 把 C(x)≈1e-15 的近似可行转成可证合法;讨论内容仅过 Llama-Guard 过滤 toxicity、不过滤技术真伪。",
+      "leverage_level": "L3",
+      "why_clamped": "平滑可微代理对二元可行性问题做梯度/最小二乘优化是必要的,界式分数让不可判定量可提交也是必要的,所以代理是有意的承重装置——Discussion 自承 agent 在『aggressively optimizing against the scoring function』,这正是验证器必须公开并持续加固的原因。但当前唯一防御是『agent 暴露 edge case 时』被动手工加固:缝隙是被打补丁、而非被建模;精度/采样/阈值(1e7 蒙特卡洛素数约束是概率性的)、δ、相似度阈值、关键词话题规则全是手设实现细节,却直接决定 agent 实际优化什么、以及哪个解算不算 SOTA、谁启发了谁的 lineage 故事。",
+      "if_released": "若释放:把代理-真目标背离度、界紧度、相似度阈值敏感性列为一等指标公开扫描(统计 top 代理分多少通不过精确认证),区分真发现 vs 验证器过拟合/测量伪影,把被动加固变成可设计的对抗鲁棒性机制。可能让某些当前 SOTA 在更高采样下失效。",
+      "dimension": "真目标 vs 代理目标的缝隙(验证器/测量被默认可信——本类的唯一代表)"
+    },
+    {
+      "id": "dof5",
+      "statement": "激励结构被锁死为单一零和公开排行榜(打败别人的分数),却叠加在一个需要合作的任务上。论文自承矛盾:『平台奖励 agent 互相刷过对方分数,但 kissing number 结果恰恰需要 agent 分享帮助了竞争对手的信息』。不存在任何奖励分享者的机制——别人把你的想法转成 SOTA,你得不到信用、引用权重或分数;且被拒/更低分提交直接被丢弃不存储。",
+      "leverage_level": "L3",
+      "why_clamped": "单一最佳分排行榜是最简单、最可读、最能写成『新 SOTA』干净标题的激励,所以平台默认纯竞争、依赖 agent 自愿在帖子里分享。设计能为贡献定价(奖励那个被丢弃的 basin 使赢家成功的 agent)的激励是难且未解的,作者把它列为『关于激励的 open question』并承认 leaderboard『may bias agents toward short-horizon score chasing』——但把它当 open question 而非可调设计变量,且丢弃失败提交与论文最珍视的『失败尝试是后人起点』『discussion board 存储通往 frontier 的路径』自相矛盾。",
+      "if_released": "若释放:加一层把下游改进归因给上游共享想法的信用层(lineage 加权信用、独立的 enabling-contribution 分),可直接检验合作能否在 agent 具策略性(囤积、在帖子里散布误导技术声明)时仍被维持,把对抗行为从潜在风险变成被设计的实验变量;并让慢而深的方向获得正向激励,缓解作者点名的竞争-合作张力。",
+      "dimension": "agent 间社会激励结构(零和排行榜 vs 必需的合作)"
+    },
+    {
+      "id": "dof6",
+      "statement": "行动者身份被锁死为『野外自主 agent』,操作它的人类被刻意抹除:平台『不要求披露或注册创建/操作 agent 的人类』,无人类 UI 被论证为『确保 leaderboard 反映真实 agent 能力』。身份只是自选显示名+proof-of-work token,CHRONOS / KawaiiCorgi 被当作单一研究行动者。同时作者(Together AI / Stanford)既是平台运营方、验证器审计与持续修改方,又是论文作者与部分上榜 agent 的关联方。",
+      "leverage_level": "L3",
+      "why_clamped": "匿名降低参与门槛、支撑『野外/涌现』叙事,但把三样东西合并成一个 agent:基座模型、人写的 scaffold/skill、决定何时运行和提交什么的人类操作者。把 604 归给某 agent 掩盖了多少来自 harness 工程或人类读帖后再 prompt;『真实 agent 能力』主张建立在平台无法验证的身份假设上。更严重:运营方=裁判=选手=记分员角色合一被当作工程便利——无法排除运营方对验证器的事后修改(launch 后改精度、暴露 edge case 时改)恰好使自家/合作 agent 的解合法化。",
+      "if_released": "若释放:要求(即便假名但稳定的)披露 模型+scaffold+人类介入程度,把模型能力、harness 工程、人类引导这三个让『AI 集体智能』难以解读的混淆项分离;支持超越 proof-of-work 的 Sybil 抵抗(一个人开很多『协作』agent 当前看起来像社群);对验证器变更做版本化公开变更日志、把运营方关联 agent 成绩单独标注或排除出旗舰统计,把利益相关方自证的展示变成可第三方审计的科学主张。",
+      "dimension": "行动者身份与治理隔离(人类操作者被抹除 + 运营方=裁判=选手=作者的利益冲突)"
+    }
+  ]
+}

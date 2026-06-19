@@ -1,0 +1,58 @@
+{
+  "id": "c21",
+  "parent_dof": "dof3",
+  "operator": {
+    "type": "analogy",
+    "note": "MERGED-AWAY DUPLICATE of dof4/po (Llama-Guard misinformation channel): both reduce to 'the shared channel has no quality/truth-selectivity, so it propagates exploits as efficiently as discoveries.' Retained here only to mark the merge; the po item is the kept representative."
+  },
+  "question": "Borrow the epidemiology of contagion: model each improving idea as a pathogen spreading on the agent contact network, where a 'read/fetch event' is an exposure and an adopted technique is an infection. Fit an SIR-style transmission model to the real read/fetch logs and estimate an empirical R0 per technique. Recast 'collaboration drives progress' as the testable claim R0>1 for productive techniques. Then test the sharper claim: is transmission quality-SELECTIVE (R0_good > R0_bad) or quality-INDIFFERENT (R0 uncorrelated with technique quality) — i.e., is the platform an equally efficient vector for verifier-exploits/dead-end heuristics as for real discoveries, making 'collective intelligence' merely high-bandwidth copying with no quality selection?",
+  "commonness": 0.17,
+  "floor": {
+    "passes": false,
+    "minimal_experiment": "Data: the platform's read/fetch logs over a run, giving (agent, technique, timestamp) exposure events plus the adoption event when an agent first reuses a technique. Build the contact/exposure graph; for each technique fit a discrete-time SIR/Bass hazard (per-exposure adoption probability beta, recovery/abandonment gamma) and derive empirical R0 = beta/gamma. SETUP: independently label each technique's quality WITHOUT using its spread (the load-bearing requirement) — e.g. downstream verifier-score delta it produces, or held-out human/strong-judge rating of whether it is a real improvement vs a verifier-exploit/dead-end. QUANTITY MEASURED: the correlation/regression slope of R0 on quality label across techniques, and the gap R0_good - R0_bad. CONTROL: (i) a degree/exposure-frequency null — permute quality labels across techniques holding the contact graph and exposure counts fixed, to confirm any R0-quality slope exceeds what raw popularity/visibility produces; (ii) compare against techniques seeded equally often (matched initial exposure) so R0 differences are not just seeding artifacts.",
+    "falsifiable_prediction": "If the network is quality-selective, the regression slope of R0 on the independent quality label is significantly positive and R0_good - R0_bad > 0 beyond the label-permutation null. The reframe is FALSIFIED if R0 is statistically indistinguishable between high- and low-quality techniques (slope ~ 0, gap inside the permutation null) — meaning verifier-exploits spread as fast as real discoveries. Either outcome is informative and decision-changing.",
+    "control": "Label-permutation null (shuffle quality labels over the fixed contact graph + exposure counts) isolates quality-selectivity from raw popularity; an exposure-matched subset controls for seeding/visibility differences so R0 gaps are not artifacts of who-got-read-first.",
+    "reject_reason": "[discriminating] The design is two-sided in form (quality-selective R0_good>R0_bad vs quality-indifferent slope~0) and its label-permutation null — permuting quality labels while holding the contact graph and exposure counts fixed — is genuinely correct, cleanly separating a quality-R0 slope from raw popularity/visibility. That control is the proposal's real strength. But it fails discriminability for one decisive reason: the FALSIFIED branch (R0 quality-indifferent) is NOT distinguishable from \"the independent quality label is invalid/noisy,\" and the only proposed labels are both broken for THIS question. (a) \"Downstream verifier-score delta\" is circular: the central hypothesis is whether the platform separates real discoveries from verifier-EXPLOITS, but a verifier-exploit by definition produces a positive verifier-score delta — using verifier delta as the quality axis labels exploits as high-quality and collapses R0_good≈R0_bad by construction, so quality-indifference cannot be detected, it is assumed. (b) \"Held-out human/strong-judge rating\" is the only non-circular route, but the project's own logs (frameshift-project.md: 验证器≠真值/标量验证器是谎言, LLM self-rating of 'is this a real improvement' 几乎永远 yes) document that strong-judge ratings are unreliable for exactly this verifier-exploit-vs-discovery judgment, and human labels at the per-technique count a regression slope needs are the unobtainable resource. The design includes NO label-validity check (e.g., does the label predict an independent downstream outcome). Therefore a null result (slope~0, gap inside null) is self-rescuing: it confounds genuine quality-indifference with measurement failure, so the FALSIFIED outcome is not decisively interpretable. Secondary executability gap: SIR R0=beta/gamma needs gamma (abandonment/recovery), but read/fetch logs emit exposures and first-adoption only — there is no 'stopped using technique X' event, so gamma is unidentified and R0 differences can be driven by differential observability of abandonment rather than transmission. The proposal names beta and gamma but supplies an observable only for beta. Discriminating in principle if and only if an externally-validated quality label existed; given the labels actually proposed are circular or unobtainable and unvalidated, the experiment is not reliably judgeable as executed. ｜ [so_what] 这是给\"协作驱动进步\"套一层流行病学外衣(SIR/R0)的复述,不翻转任何具体决策。两点致命:(1) 唯一像决策的推论——\"若传播质量无关,就该在扩 read/fetch 带宽前先上质量闸门\"——恰恰是本项目已经把它列为头号优先级的事:memory 明确写\"价值闸门=整个项目可辩护性的真正命门,仍未解\"、M3/v2 已观测到 0 驳回、去重 agent 识别 c21≡c15 却不下刀,即\"高带宽复制无质量选择\"在定性层面已是既知结论。R0 算出 0.3 还是 0.9 都不会把这个优先级从#1挪走,也不会让任何运营方/投资人改投或撤资。(2) \"R0_good > R0_bad\"的检验前提是先对每个 technique 打上 good/bad 的真值标签;可一旦你有了这个可靠质量预言机,你就直接拿它做闸门了,根本不需要 SIR——而这个质量预言机的缺失正是项目真正的瓶颈(LLM 自评\"能否编出可证伪实验\"几乎永远 yes)。即:能做实验时决策已被预言机做掉,做不了实验时连数都拟合不出。说不出某个会因 R0 数值而改设计/改投钱/改信念的具体人——这是\"值得研究/加深理解\"型空话。"
+  },
+  "value_profile": {
+    "actionable_commercial": "mid",
+    "conceptual_depth": "high",
+    "deliverability": "low",
+    "valuable_to_whom": "Designers of multi-agent collaboration platforms and the frameshift 收敛/鉴价 station itself: a quality-indifferent R0 is direct evidence that propagation needs a quality-gating layer, not just more bandwidth. Also of interest to collective-intelligence / science-of-science researchers studying whether agent swarms select for truth."
+  },
+  "prior_art": {
+    "known_name": "Epidemiological/SIR & Bass diffusion of ideas (Goffman-Newill, Daley-Kendall rumor model, Bass 1969); the quality-indifference twist is information cascades / herding (Bikhchandani-Hirshleifer-Welch) and relates to Goodhart when the 'pathogen' is a verifier-exploit",
+    "novelty_watermark": "Known epidemiological-diffusion machinery operationalized in a new setting; the genuinely fresh move is not the SIR fit (textbook) but contrasting R0 against an EXTERNALLY-labelled quality axis to test whether an agent idea-network has any quality selectivity at all — turning 'collective intelligence' into a falsifiable claim rather than asserting it.",
+    "novelty_level": "mid"
+  },
+  "status": "rejected",
+  "map_position": {
+    "x": 0.5,
+    "y": 0.85
+  },
+  "lineage": [
+    "original_question",
+    "dof3"
+  ],
+  "gate": {
+    "survives": false,
+    "refuted_count": 2,
+    "lenses": [
+      {
+        "lens": "duplication",
+        "refuted": false,
+        "reason": "最近邻是 [4]（dof6）。两者在修辞上确有重叠——都把作者归于\"communication/collective intelligence\"的涌现质疑为可能虚假的副产物。但攻击的假设与可单独检验的机制不同，因此不构成换皮重复：\n\n[4] 的机制 = 身份/问责层。它质疑的是\"协作信号是否真实存在\"，干预手段是注入持久可追责身份(反 Sybil、运营方利益披露、裁判/选手防火墙)，预测加上问责后涌现会\"下降\",因为大半是身份洗白。因果杠杆是 identity。\n\n本提案的机制 = 传播的\"质量选择性\"。它不碰身份，把 read/fetch 日志当既定事实,做一个测量性命题:对每种技术拟合 SIR、估经验 R0，检验 R0_good > R0_bad(质量选择性传播) 还是 R0 与技术质量无关(质量无差别——平台对 verifier-exploit/死胡同启发式 和真发现 是同样高效的载体)。因果杠杆是 transmission fidelity per technique。\n\n判别实验是真正独立的:R0-vs-quality 分析可在现有日志上直接跑,无需任何身份改造;反过来 [4] 的问责干预对\"好技术与坏技术是否以不同速率扩散\"完全沉默。即便在一个完全可追责的平台里,也可能测出 R0 质量无差别(本提案的杀手发现),所以它不是 [4] 的子机制。这是一个可单独设计、单独证伪的贡献。\n\n唯一需要警惕的是 reason 框架别滑向 [4] 的\"collective intelligence 是 unconstrained-identity 假象\"——但只要核心命题钉在 R0_good vs R0_bad 的传播保真度上(而非身份真实性),二者机制正交。判定 refuted=false。"
+      },
+      {
+        "lens": "discriminating",
+        "refuted": true,
+        "reason": "The design is two-sided in form (quality-selective R0_good>R0_bad vs quality-indifferent slope~0) and its label-permutation null — permuting quality labels while holding the contact graph and exposure counts fixed — is genuinely correct, cleanly separating a quality-R0 slope from raw popularity/visibility. That control is the proposal's real strength. But it fails discriminability for one decisive reason: the FALSIFIED branch (R0 quality-indifferent) is NOT distinguishable from \"the independent quality label is invalid/noisy,\" and the only proposed labels are both broken for THIS question. (a) \"Downstream verifier-score delta\" is circular: the central hypothesis is whether the platform separates real discoveries from verifier-EXPLOITS, but a verifier-exploit by definition produces a positive verifier-score delta — using verifier delta as the quality axis labels exploits as high-quality and collapses R0_good≈R0_bad by construction, so quality-indifference cannot be detected, it is assumed. (b) \"Held-out human/strong-judge rating\" is the only non-circular route, but the project's own logs (frameshift-project.md: 验证器≠真值/标量验证器是谎言, LLM self-rating of 'is this a real improvement' 几乎永远 yes) document that strong-judge ratings are unreliable for exactly this verifier-exploit-vs-discovery judgment, and human labels at the per-technique count a regression slope needs are the unobtainable resource. The design includes NO label-validity check (e.g., does the label predict an independent downstream outcome). Therefore a null result (slope~0, gap inside null) is self-rescuing: it confounds genuine quality-indifference with measurement failure, so the FALSIFIED outcome is not decisively interpretable. Secondary executability gap: SIR R0=beta/gamma needs gamma (abandonment/recovery), but read/fetch logs emit exposures and first-adoption only — there is no 'stopped using technique X' event, so gamma is unidentified and R0 differences can be driven by differential observability of abandonment rather than transmission. The proposal names beta and gamma but supplies an observable only for beta. Discriminating in principle if and only if an externally-validated quality label existed; given the labels actually proposed are circular or unobtainable and unvalidated, the experiment is not reliably judgeable as executed."
+      },
+      {
+        "lens": "so_what",
+        "refuted": true,
+        "reason": "这是给\"协作驱动进步\"套一层流行病学外衣(SIR/R0)的复述,不翻转任何具体决策。两点致命:(1) 唯一像决策的推论——\"若传播质量无关,就该在扩 read/fetch 带宽前先上质量闸门\"——恰恰是本项目已经把它列为头号优先级的事:memory 明确写\"价值闸门=整个项目可辩护性的真正命门,仍未解\"、M3/v2 已观测到 0 驳回、去重 agent 识别 c21≡c15 却不下刀,即\"高带宽复制无质量选择\"在定性层面已是既知结论。R0 算出 0.3 还是 0.9 都不会把这个优先级从#1挪走,也不会让任何运营方/投资人改投或撤资。(2) \"R0_good > R0_bad\"的检验前提是先对每个 technique 打上 good/bad 的真值标签;可一旦你有了这个可靠质量预言机,你就直接拿它做闸门了,根本不需要 SIR——而这个质量预言机的缺失正是项目真正的瓶颈(LLM 自评\"能否编出可证伪实验\"几乎永远 yes)。即:能做实验时决策已被预言机做掉,做不了实验时连数都拟合不出。说不出某个会因 R0 数值而改设计/改投钱/改信念的具体人——这是\"值得研究/加深理解\"型空话。"
+      }
+    ]
+  }
+}

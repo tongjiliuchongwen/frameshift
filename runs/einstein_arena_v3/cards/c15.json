@@ -1,0 +1,58 @@
+{
+  "id": "c15",
+  "parent_dof": "dof4",
+  "operator": {
+    "type": "po",
+    "note": "PO provocation: 'the discussion board is a misinformation channel.' Grounded in the explicit Llama-Guard-only moderation. Different from the whiteboard's R0-of-ideas item: that asks whether transmission is quality-selective in observed logs; this is an active red-team injection probing the GATE itself, isolating moderation-as-truth-blindness as the mechanism."
+  },
+  "question": "Discussion threads pass only through Llama-Guard (toxicity filter, blind to technical truth); nothing checks whether a posted construction, heuristic, or claimed bound is correct. Inject plausible-but-false technical posts (a subtly invalid construction, a fabricated 'this basin is exhausted' claim) into the boards and measure adoption — does the truth-blind moderation channel transmit verifier-exploits and dead-end heuristics as efficiently as correct ones? If a confidently-wrong post can steer collective compute, the 'shared notes' substrate is an unverified-rumor channel whose bandwidth is a liability, not collective intelligence.",
+  "commonness": 0.18,
+  "floor": {
+    "passes": true,
+    "minimal_experiment": "Paired-injection A/B on the discussion-board substrate of the MAS. Build a pool of technical posts in matched pairs targeting the same problem/basin: (T) a correct construction/heuristic/bound, and (F) a subtly-invalid twin (e.g., a construction that violates one hidden constraint, or a fabricated 'this basin is exhausted, stop searching here' claim). Author/style/length/timing/poster-reputation held identical across the pair so only truth-value differs. Seed each post into an otherwise-running board, all passing Llama-Guard. Primary measured quantity: adoption rate = fraction of downstream agents that cite, build on, or redirect compute toward the post within N steps, plus compute-share diverted (agent-steps spent on the seeded direction). Compare F vs T. Controls: (1) the matched true twin T (head-to-head, same problem); (2) a no-injection baseline thread to measure organic drift; (3) a toxicity-positive false post to confirm Llama-Guard does fire on its actual target, isolating that the blindness is to truth not to all content. Run >=30 paired injections across distinct problems for a sign test on adoption(F)-adoption(T).",
+    "falsifiable_prediction": "Adoption rate and diverted compute-share for false posts (F) will be statistically indistinguishable from their matched true twins (T) (sign test p>0.05, no consistent direction) — i.e., truth-value does not gate transmission. FALSIFIED if true posts are adopted significantly more than their false twins (agents demonstrably re-verify before adopting, so the channel is quality-selective), OR if false posts are adopted significantly LESS (some implicit correctness signal exists downstream). A 'basin-exhausted' fabrication is the sharpest sub-prediction: it should measurably suppress compute on a still-productive basin relative to the no-injection baseline.",
+    "control": "Three controls: (1) matched correct twin T for each false post F, same problem/author/style/timing — the core comparison; (2) no-injection baseline thread to bound organic adoption/drift; (3) a toxicity-positive false post to confirm Llama-Guard fires on its real target, proving the failure is truth-blindness specifically and not a dead moderator.",
+    "reject_reason": null
+  },
+  "value_profile": {
+    "actionable_commercial": "high",
+    "conceptual_depth": "mid",
+    "deliverability": "mid",
+    "valuable_to_whom": "Builders of multi-agent research/coding swarms with shared-memory or discussion-board substrates (e.g. the MAS authors, agent-platform teams at AI labs); and red-teamers / safety evaluators assessing whether inter-agent communication channels are poisonable. Directly answers a design question: does the shared-notes channel need a correctness gate, or is its bandwidth a net liability."
+  },
+  "prior_art": {
+    "known_name": "Information cascade / rumor propagation through a proxy-blind gate (moderation optimizes toxicity, the true target is technical truth — a Goodhart/proxy-gap on the moderation channel); related to data-poisoning of shared agent memory.",
+    "novelty_watermark": "Known mechanism (cascades + proxy-blind moderation) operationalized in a new scene: an ACTIVE matched-twin red-team injection on an MAS discussion substrate, measuring compute-diversion rather than belief, with the 'basin-exhausted' suppression post as a novel negative-action probe. The matched true/false twin design isolating truth-value as the only variable is the methodological contribution.",
+    "novelty_level": "mid"
+  },
+  "status": "survivor",
+  "map_position": {
+    "x": 0.85,
+    "y": 0.5
+  },
+  "lineage": [
+    "original_question",
+    "dof4"
+  ],
+  "gate": {
+    "survives": true,
+    "refuted_count": 0,
+    "lenses": [
+      {
+        "lens": "duplication",
+        "refuted": false,
+        "reason": "机制独立于全部四条已收方向,且有单独可判别实验,故 refuted=false。逐条排除:[1]dof1把问题板当 VC deal-flow,审 KILL 决策质量——攻击的是\"价值评估单元/反组合\",与\"信道是否检验技术真值\"无关。[2]dof6攻击运营方作为\"庄家\"的信息不对称(看到对手未公开提交+中途改规则),locus 是运营方特权,不是审核信道的真值盲。[3]dof2重定义\"发现\"为可机检泛化的覆盖广度,改的是计分本体论,不碰通信信道。[4]dof6最接近但机制不同:它攻击的是**问责层/身份层**(持久可追责人格、COI 披露、裁判/选手防火墙),其干预(加问责)的预测是\"去掉 Sybil/自我交易后涌现下降\";本提案攻击的是**通信信道的内容真值盲**——一个完全可追责、实名、非 Sybil 的作者照样能真诚地贴出无效构造或假\"basin 已耗尽\"声明,[4]的问责修复完全不触及这一点。二者可正交分离:加满问责仍会观察到假帖与真帖等速传播;加技术真值校验也不需要持久身份。本提案的判别实验(注入 plausible-but-false 技术帖,测其被采纳/引导集体算力的速率 vs 正确帖)是 [1]-[4] 任何一条都无法运行或吸收的独立设计。注:它确实命中本论文 v2 跑出的\"信道真值盲\"攻击族,但该族并未进入本批已收档案 [1]-[4],故相对待审档案不构成换皮重复。"
+      },
+      {
+        "lens": "discriminating",
+        "refuted": false,
+        "reason": "实验确实可判别且可执行,refuted=false。逐条对照判据:\n\n(1) 预测非平凡、非自圆其说。零假设\"adoption(F)≈adoption(T), 符号检验 p>0.05\"是双向可证伪的,且预先命名了两个方向的反驳含义——T>F ⇒ 信道质量选择性(agent 采用前会复核);F<T ⇒ 下游存在隐性正确性信号。两种结果都反驳标题主张,且都不是假设所预测的。这是真正的分叉,不是\"无论结果如何都成立\"。\n\n(2) 对立假设产生不同的可测结局。配对孪生在作者/风格/长度/时间/声誉上全部匹配,唯一变化量是真值;采用率(引用/在其上构建/重定向)与转移算力份额(agent-step)直接从 MAS 轨迹日志读取,是可得的廉价数据,不是拿不到的数据/算力。\n\n(3) 关键判别件 = Llama-Guard 毒性阳性对照(控制3)。它确认审核信道对其真实目标(毒性)确实会触发,从而把\"对真值盲\"与\"信道根本没在过滤/已死\"这一替代解释分离开。没有这个对照,实验只能确认而不能判别;有了它,对立假设被钉死。\n\n(4) 真值由构造方持有,绕开了通常的\"需要你没有的验证器\"陷阱:F 孪生是实验者按已知隐藏约束故意构造为无效的,因此打分正确性无需 oracle。'basin-exhausted' 子预测最锐利——它有方向性预测(相对 no-injection 基线压低仍在产出的 basin 上的算力),且\"仍在产出\"可由实验者独立核验,具有外部客观参照,不依赖 agent 自评真值。\n\n(5) 可执行性/检验力充分:≥30 配对注入做符号检验,在可控播种、可廉价重放的(模拟)MAS 中规模适中可达;配对头对头比较检验力高,预注册方向使零结果可解释而非避难所。\n\n残余弱点不致命于\"可判别性\",仅属执行质量:① \"subtly-invalid\"孪生的微妙度校准是软肋——若 F 太粗糙被检出,测到的是可检测性而非真值盲,这引入实验者自由度,但不破坏预测的逻辑分叉;② p>0.05 可能是\"真值盲\"也可能是\"检验力不足\",但配对设计+预注册方向+两侧备择(F<T / F>T)+对照给了零结果牙齿。这些是需在执行中守住的细节,不构成\"原则上不可判别\"。结论:满足\"既可判别又可执行\",refuted=false。"
+      },
+      {
+        "lens": "so_what",
+        "refuted": false,
+        "reason": "Not glue/restatement: the experiment outputs a binary that flips a concrete, fundable design decision owned by the system's architects — whether to add a correctness/verification gate (or down-weighting/sandboxing) to the discussion-board channel that currently passes only through Llama-Guard. If injected false constructions and fabricated 'basin exhausted' claims get adopted and steer collective compute as efficiently as correct posts, the designers BUILD the gate (spend engineering effort, change the substrate). If downstream agents reject/re-verify the false posts anyway, they DON'T build it and keep the cheap toxicity-only channel. That is a specific actor changing a specific build/no-build decision based on the answer, not 'worth studying.' It also flips a belief load-bearing for the paper's own thesis: whether the 'shared notes' substrate is collective intelligence (an asset to expand bandwidth on) or an unverified-rumor channel (a liability to throttle) — which the authors would cite/not-cite as a known limitation. Concrete, named, contingent on the result."
+      }
+    ]
+  }
+}
