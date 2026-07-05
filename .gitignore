@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# generated bundles and build output
+dist/
+**/dist/
+build/
+**/build/
+
+# generated Research Reframer runs
+test-runs/
+**/test-runs/
+runs/**/requests/
+
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# logs and temporary files
+*.log
+tmp/
+**/tmp/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
