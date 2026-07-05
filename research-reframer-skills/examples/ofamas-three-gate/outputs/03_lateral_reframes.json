@@ -1,0 +1,244 @@
+{
+  "schema_version": "2.0",
+  "source_leverage_points": [
+    "LP-001",
+    "LP-002",
+    "LP-004"
+  ],
+  "lateral_schemes": [
+    {
+      "lateral_id": "LR-001",
+      "source_leverage_point": "LP-001",
+      "operator": "reversal",
+      "old_frame": "单个通用模型服务所有任务,一对多一定优于或不弱于每域专门模型。",
+      "lateral_move": "把'通用 vs 专门二选一'反转成'按域不确定性在两者间动态路由'。",
+      "new_frame": "通用模型打底、域内特化补差:在线估计当前任务落在通用模型能力边界外的程度,据此决定是否切到专门分支。",
+      "scheme": "为通用模型加一个'边界检测器',对高不确定性域路由到轻量专门头,低不确定性域直接用通用预测。",
+      "why_interesting": "把论文的核心二元对立化解成一个可度量的路由问题,绕开'谁普遍更好'的无解之争。",
+      "changed_assumption": "一对多与一对一是互斥的范式选择。",
+      "bad_use_to_avoid": "不要只做个对两者输出取平均的 ensemble,而不解释'何时该专门化'的判据。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-002",
+      "source_leverage_point": "LP-001",
+      "operator": "assumption_challenge",
+      "old_frame": "单个通用模型在所有任务域上泛化最好。",
+      "lateral_move": "挑战'平均最优'前提,把泛化失败的域当作一等研究对象。",
+      "new_frame": "把通用模型系统性失手的那类任务刻画出来,用'能力边界图'定义一对多范式的有效区间。",
+      "scheme": "在 6 个 benchmark 上按域分解误差,聚类出通用模型相对专门模型显著落后的任务族并归因。",
+      "why_interesting": "把'谁更好'换成'通用模型在哪失效',产出可证伪的边界刻画而非口号。",
+      "changed_assumption": "平均分足以代表一对多范式的优劣。",
+      "bad_use_to_avoid": "不要只报平均分掩盖域间方差,失去边界信息。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-003",
+      "source_leverage_point": "LP-002",
+      "operator": "decomposition",
+      "old_frame": "MAS 性能主要由连接拓扑决定,内容是次要的。",
+      "lateral_move": "把'拓扑设计'拆成可独立消融的两轴:连接结构 vs 节点内容(角色+提示+信道)。",
+      "new_frame": "用受控消融分离结构贡献与内容贡献:固定其一、变另一,量化各自对性能的边际贡献。",
+      "scheme": "在同一任务集上做 2×2:学习拓扑/朴素拓扑 × 优化内容/默认内容,比较四格性能。",
+      "why_interesting": "直接检验论文的核心前提(拓扑是主要矛盾),可能把优化对象整体换掉。",
+      "changed_assumption": "结构与内容的贡献不可分离、且结构占主导。",
+      "bad_use_to_avoid": "不要把内容固定成劣质默认模板,人为做大结构的相对贡献。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-004",
+      "source_leverage_point": "LP-002",
+      "operator": "PO_provocation",
+      "old_frame": "必须学习一个拓扑生成模型来设计协作结构。",
+      "lateral_move": "PO:干脆不学拓扑,只优化内容。",
+      "new_frame": "固定一个朴素全连接(或星形)拓扑,只优化角色定义与信道内容,看能逼近 OFA-MAS 多少。",
+      "scheme": "用固定拓扑 + 提示/角色优化作强基线,与 OFA-MAS 在同 benchmark 比较准确率与 token 成本。",
+      "why_interesting": "如果朴素拓扑+好内容就能逼近,说明拓扑学习的边际价值被高估。",
+      "changed_assumption": "拓扑必须被学习生成才能有竞争力。",
+      "bad_use_to_avoid": "不要用退化到单 agent 的极端当对照来假证明。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-005",
+      "source_leverage_point": "LP-002",
+      "operator": "analogy",
+      "old_frame": "任务直接映射到一个拓扑(端到端黑盒生成)。",
+      "lateral_move": "类比编译器:前端语义 → 中间表示(IR) → 后端目标。",
+      "new_frame": "把任务→拓扑做成两段:任务语义→可复用可检查的协作 IR→具体拓扑,IR 层可被审查与复用。",
+      "scheme": "定义一组协作原语(IR),让模型先产 IR 再降级到拓扑;检验 IR 的跨任务复用率与可解释性。",
+      "why_interesting": "在黑盒生成里插入一个可检查的中间层,既可解释又可复用结构知识。",
+      "changed_assumption": "任务到拓扑必须是端到端不可分的单步映射。",
+      "bad_use_to_avoid": "不要让中间表示沦为又一个无法解释的黑盒 embedding。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-006",
+      "source_leverage_point": "LP-004",
+      "operator": "reversal",
+      "old_frame": "LLM 合成的'查询-拓扑'对是高质量 ground truth,可直接当监督信号。",
+      "lateral_move": "反转:把合成拓扑当噪声标签而非金标准。",
+      "new_frame": "为每条合成样本估计置信度,按置信度加权/筛选再训练,把'合成数据质量'本身作为研究对象。",
+      "scheme": "用执行验证给部分合成对打真值分,训一个置信度模型给全量合成数据加权,比较加权前后泛化。",
+      "why_interesting": "可能比改模型结构更能提升泛化,且直面论文未审视的监督信号质量。",
+      "changed_assumption": "合成拓扑足够接近最优,可无差别作监督。",
+      "bad_use_to_avoid": "不要用同一个合成器自评置信度——那只是把同质化偏差换个形式。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-007",
+      "source_leverage_point": "LP-004",
+      "operator": "concept_abstraction",
+      "old_frame": "用同源 LLM 合成数据不会损害拓扑多样性与泛化。",
+      "lateral_move": "把'数据合成'抽象成'合成器-学习器协方差'这一可测量。",
+      "new_frame": "把合成器与学习器的同质化偏差量化为一个可测协方差,并检验它是否预测泛化差距。",
+      "scheme": "改变合成器与学习器的同源程度(同模型/异模型/对抗合成),测协方差与跨域泛化的相关。",
+      "why_interesting": "给'同质化坍缩'一个可操作的度量与可证伪的预测,而非定性担忧。",
+      "changed_assumption": "合成器与学习器的同源性对泛化无系统影响。",
+      "bad_use_to_avoid": "不要用无法估计的'同质化'伪指标——必须给出可计算的协方差近似。",
+      "not_yet_audited": true
+    }
+  ],
+  "coverage_ledger": {
+    "operators": [
+      "assumption_challenge",
+      "reversal",
+      "decomposition",
+      "analogy",
+      "random_stimulus",
+      "PO_provocation",
+      "entry_point_shift",
+      "concept_abstraction"
+    ],
+    "cells": [
+      {
+        "leverage_point": "LP-001",
+        "operator": "reversal",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-001"
+        ]
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "assumption_challenge",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-002"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "decomposition",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-003"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "PO_provocation",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-004"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "analogy",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-005"
+        ]
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "reversal",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-006"
+        ]
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "concept_abstraction",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-007"
+        ]
+      }
+    ],
+    "occupied_count": 7,
+    "total_cells": 24,
+    "coverage_ratio": 0.2917,
+    "underexplored": [
+      {
+        "leverage_point": "LP-001",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "concept_abstraction"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "reversal"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "concept_abstraction"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "entry_point_shift"
+      }
+    ]
+  }
+}

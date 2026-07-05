@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0",
+  "idea_cards": [
+    {
+      "id": "IC-001",
+      "title": "缺席证明锚定的问题发现",
+      "one_sentence": "用可证伪的'为何此前无人问'缺席证明来筛选 agent 自生成的研究问题，把发现的重心从求解前移到提问。",
+      "original_problem": "PHYSMASTER 把发现等同于在被给定问题上端到端求解成功并被 critic 判新。",
+      "reframed_problem": "在单一成熟语料库上，检验检索锚定的缺席证明能否比标准 LLM 选题 + 纯检索新颖性过滤更能提高专家验证的非平凡新问题产率。",
+      "changed_assumption": "问题是外部给定的，不属于发现过程的一部分。",
+      "system_trace": {
+        "input_evidence": "让 agent 端到端跑完一个被给定/被选定的物理问题，并用一个 LLM critic 判断结果好不好、新不新",
+        "system_node": "G01",
+        "leverage_point": "LP-001",
+        "lateral_operation": "reversal",
+        "reframe": "VA-001"
+      },
+      "method_trace": {
+        "source_vertical_audit": "VA-001",
+        "source_lateral_scheme": "LR-001",
+        "source_leverage_point": "LP-001",
+        "operator": "reversal",
+        "source_system_nodes": [
+          "G01",
+          "G04",
+          "BD01",
+          "U01"
+        ],
+        "old_frame": "发现 = 在一个已被提出的问题上端到端求解成功并被判为新。",
+        "new_frame": "发现 = 系统自己提出并论证一个先前未被提出、且非平凡的问题。",
+        "changed_assumption": "问题是外部给定的，不属于发现过程的一部分。",
+        "audit_verdict": "revise",
+        "audit_score": {
+          "coherence": 4,
+          "testability": 4,
+          "novelty_potential": 3,
+          "research_value": 4,
+          "risk": 3,
+          "overall": 3.6
+        }
+      },
+      "why_not_obvious": "普通新颖性过滤问'有没有人说过'；缺席证明要求给出'为何此前结构性地无人能问'的可证伪论证，这把不可判别的新颖性主张变成可被检索反驳的约束。",
+      "minimal_experiment": "三组对照（缺席证明 / 标准选题 / 纯检索新颖性过滤）在同一成熟语料上各生成 N 个候选问题，由盲审专家判定非平凡新问题产率。",
+      "evaluation_metrics": [
+        "专家验证非平凡新问题产率",
+        "缺席证明被检索反驳的比率",
+        "与已问问题的语义最近邻距离"
+      ],
+      "expected_observation": "若缺席证明确为生成性约束，缺席证明组的专家通过率显著高于纯新颖性过滤组。",
+      "failure_case": "若缺席证明可被检索轻易反驳的比率很高，说明它是事后合理化而非生成器，缺席证明组退化到与基线无异。",
+      "related_work_queries": [
+        "literature-based discovery absence of prior work",
+        "automated research question generation novelty",
+        "retrieval-augmented hypothesis generation novelty filter"
+      ],
+      "next_steps": [
+        "定义'缺席证明'的可操作模板与检索反驳协议",
+        "选定一个成熟语料与专家评审池",
+        "与 VA-004 的条件分支记忆合并为持久化机制做联合实验"
+      ],
+      "status": "needs_literature_check"
+    },
+    {
+      "id": "IC-002",
+      "title": "条件感知的失败重激活记忆",
+      "one_sentence": "给被否决路径标注原因与有效条件，仅在上下文变化使其重新有效时定向重激活，而非永久避免。",
+      "original_problem": "PHYSMASTER 默认丢弃被否决/走不通的路径，失败被当作噪声。",
+      "reframed_problem": "在'失败可随上下文变有效'的任务上，检验条件感知的失败重激活能否比匹配的 tabu 记忆基线提高回收率与搜索效率。",
+      "changed_assumption": "只有成功且被验证的轨迹才值得沉淀。",
+      "system_trace": {
+        "input_evidence": "被否决/走不通的路径要不要留下来",
+        "system_node": "S02",
+        "leverage_point": "LP-005",
+        "lateral_operation": "reversal",
+        "reframe": "VA-004"
+      },
+      "method_trace": {
+        "source_vertical_audit": "VA-004",
+        "source_lateral_scheme": "LR-006",
+        "source_leverage_point": "LP-005",
+        "operator": "reversal",
+        "source_system_nodes": [
+          "S02",
+          "RL03",
+          "BD03",
+          "FM04",
+          "U03"
+        ],
+        "old_frame": "被否决/走不通的路径是噪声，默认丢弃。",
+        "new_frame": "失败路径进入带原因标注的分支记忆，作为约束影响下一轮搜索的采样。",
+        "changed_assumption": "只有成功且被验证的轨迹才值得沉淀。",
+        "audit_verdict": "revise",
+        "audit_score": {
+          "coherence": 4,
+          "testability": 4,
+          "novelty_potential": 3,
+          "research_value": 3,
+          "risk": 3,
+          "overall": 3.4
+        }
+      },
+      "why_not_obvious": "普通禁忌搜索只记'别再走这条'；这里记录失败的有效条件并在条件变化时重激活，区别在于'条件感知的重新有效'而非一次性避免。",
+      "minimal_experiment": "在构造的'上下文变化后先前失败变有效'任务集上，比较条件感知重激活 vs 匹配 tabu 记忆基线的失败回收率、重复无效探索率与搜索效率。",
+      "evaluation_metrics": [
+        "先前失败路径的回收率",
+        "重复无效探索次数",
+        "达到目标的搜索预算"
+      ],
+      "expected_observation": "若条件重激活有效，在上下文变化任务上其回收率与效率显著高于 tabu 基线，而在无上下文变化任务上两者持平。",
+      "failure_case": "若条件无法稳定结构化、或'失败后变有效'分布极稀疏，条件重激活相对 tabu 无增益甚至因误重激活而变差。",
+      "related_work_queries": [
+        "tabu search natural language labels",
+        "reflection memory negative example feedback",
+        "constraint learning from failed search branches"
+      ],
+      "next_steps": [
+        "定义失败原因→有效条件的结构化标注 schema",
+        "构造上下文变化使失败变有效的任务集",
+        "与 IC-001 的缺席证明做持久化机制联合实验"
+      ],
+      "status": "needs_literature_check"
+    }
+  ]
+}

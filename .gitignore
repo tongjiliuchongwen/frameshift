@@ -1,0 +1,19 @@
+# dependencies
+**/node_modules/
+
+# generated bundles
+dist/
+**/dist/
+
+# generated Research Reframer runs
+**/test-runs/
+
+# python
+**/__pycache__/
+*.pyc
+*.pyo
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log

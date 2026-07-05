@@ -1,0 +1,28 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>垂直审计 · 2601-ofamas-v05</title><style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e6e6e3;
+--accent:#2f6f4f;--chip:#f0f0ee;--chip-ink:#414146;--warn:#b8860b;--err:#8a2b22;--ok:#2f6f4f}
+@media(prefers-color-scheme:dark){:root{--bg:#161617;--card:#1f1f21;--ink:#ededef;--muted:#9a9aa0;
+--line:#2c2c2f;--accent:#4f9c72;--chip:#28282b;--chip-ink:#c8c8cc;--warn:#d8b048;--err:#f0a89e;--ok:#4f9c72}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",Roboto,Arial,sans-serif;font-size:14px}
+.wrap{max-width:980px;margin:0 auto;padding:24px 20px 60px}
+h1{font-size:18px;margin:0 0 2px}.sub{color:var(--muted);font-size:12.5px;margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+h2{font-size:13px;margin:0 0 10px}.muted{color:var(--muted)}
+.cov{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px}.cov b{font-variant-numeric:tabular-nums}
+.grp{font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.item{border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:9px}
+.pid{font-weight:600;font-variant-numeric:tabular-nums}
+.tag{font-size:11px;background:var(--chip);color:var(--chip-ink);padding:1px 8px;border-radius:20px;margin-left:6px}
+.tag.op{background:#f1e9f4;color:#5a3a6b}@media(prefers-color-scheme:dark){.tag.op{background:#2a1f30;color:#caa8d8}}
+.desc{margin-top:5px}.meta{margin-top:6px;font-size:12px;color:var(--muted)}
+.kv{margin-top:6px;font-size:12.5px}.kv .k{color:var(--muted);margin-right:6px}
+.verdict{font-size:11px;padding:1px 9px;border-radius:20px;font-weight:600;margin-left:6px}
+.verdict.keep{background:#eaf3ee;color:var(--ok)}.verdict.revise{background:#fbf3df;color:var(--warn)}
+.verdict.reject{background:#fdecea;color:var(--err)}.verdict.escalate{background:#eaf0fb;color:#3a5a9b}
+@media(prefers-color-scheme:dark){.verdict.keep{background:#1c2a22}.verdict.revise{background:#2a2415}
+.verdict.reject{background:#2a1715}.verdict.escalate{background:#19233a;color:#9db8ec}}
+.gates .y{color:var(--ok)}.gates .n{color:var(--err)}
+.rej{border:1px solid var(--line);border-left:3px solid #f0c4bd;border-radius:8px;padding:9px 11px;margin:8px 0}
+details>summary{cursor:pointer;color:var(--muted);font-size:12px;padding:4px 0}
+</style></head><body><div class="wrap"><h1>垂直审计 · 2601-ofamas-v05</h1><div class="sub">对抗式双裁（Codex + Claude，默认驳回）。可成卡 2 / 共 4。</div><div class="card"><div class="item"><div><span class="pid">VA-002</span><span class="verdict escalate">需人工</span><span class="tag">源 LR-003</span></div><div class="desc">限定在一个 MAS benchmark:严格预算匹配下,用同一优化器为每种拓扑生成内容、随机分配拓扑,报告结构与内容的边际效应及交互项,并预设有意义的主导阈值。</div><div class="meta gates">综合分 3.8 · 可证伪 <span class="y">✓</span> · 可判别 <span class="y">✓</span> · so-what <span class="y">✓</span> · codex reject / claude revise</div><div class="kv"><span class="k">核心主张</span>在预算匹配且内容由同一优化器生成时,连接拓扑对 MAS 性能的边际贡献不超过预设主导阈值。</div><div class="kv"><span class="k">最小实验</span>同任务集 2×2:学习拓扑/朴素拓扑 × 优化内容/默认内容,预算匹配,报边际效应与交互。</div><div class="kv"><span class="k">新颖性风险</span>塌缩为标准 2×2 因子消融 / ANOVA 式架构 vs 提示效应分解。</div><div class="kv"><span class="k">失败模式</span>内容优化与拓扑学习混淆,得出平庸消融表；单 benchmark 结论不可外推</div><div class="kv"><span class="k">裁判理由</span>Codex: 只是改名的受控消融,非新机制;但若推翻&#x27;拓扑优先&#x27;前提则作为实证审计有价值。  Claude: 收窄到预算匹配+随机化+预设阈值后,直接证伪论文核心前提,值得带条件保留。</div></div><div class="item"><div><span class="pid">VA-003</span><span class="verdict escalate">需人工</span><span class="tag">源 LR-004</span></div><div class="desc">严格当作 OFA-MAS 的证伪基线:在搜索预算与 token 计量匹配下,检验固定星形/全连接拓扑+优化角色与信道提示,在准确-成本 Pareto 上是否对学习拓扑统计非劣。</div><div class="meta gates">综合分 3.8 · 可证伪 <span class="y">✓</span> · 可判别 <span class="y">✓</span> · so-what <span class="y">✓</span> · codex reject / claude revise</div><div class="kv"><span class="k">核心主张</span>在预算与 token 匹配下,固定拓扑+优化内容对学习拓扑(OFA-MAS)在准确-成本 Pareto 上统计非劣。</div><div class="kv"><span class="k">最小实验</span>固定拓扑+提示/角色优化 vs OFA-MAS,匹配预算与 token,比较准确-成本 Pareto 非劣性。</div><div class="kv"><span class="k">新颖性风险</span>塌缩为学习架构 vs 提示调优的标准强基线消融。</div><div class="kv"><span class="k">失败模式</span>退化到单 agent 极端做假对照；预算/计量不匹配使比较失真</div><div class="kv"><span class="k">裁判理由</span>Codex: 是消融基线非新机制;但若在匹配预算下证伪 OFA-MAS 宣称则有用。  Claude: 作为严格证伪基线很利,审稿人会索要,值得带条件保留。</div></div></div><details class="card"><summary>被驳回抽屉 · 2 个（只读，带理由的 true-negative）</summary><div class="rej"><span class="pid">VA-001</span><span class="verdict reject">双裁驳回</span><span class="tag">源 LR-001</span><div class="meta">Codex: 已知模型路由/MoE 门控的改名;结果是预期工程权衡,非新机制。；Claude: 同意——与选择性预测/OOD 路由不可判别,so-what 弱。</div></div><div class="rej"><span class="pid">VA-004</span><span class="verdict reject">双裁驳回</span><span class="tag">源 LR-006</span><div class="meta">Codex: 标准置信度加权噪声标签训练的改名;positive 结果不令人意外。；Claude: 同意——缺少对验证器过拟合/随机缩减/通用噪声标签基线的控制,机制不够独特。</div></div></details></div></body></html>

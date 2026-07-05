@@ -1,0 +1,28 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>垂直审计 · physmaster-three-gate</title><style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e6e6e3;
+--accent:#2f6f4f;--chip:#f0f0ee;--chip-ink:#414146;--warn:#b8860b;--err:#8a2b22;--ok:#2f6f4f}
+@media(prefers-color-scheme:dark){:root{--bg:#161617;--card:#1f1f21;--ink:#ededef;--muted:#9a9aa0;
+--line:#2c2c2f;--accent:#4f9c72;--chip:#28282b;--chip-ink:#c8c8cc;--warn:#d8b048;--err:#f0a89e;--ok:#4f9c72}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",Roboto,Arial,sans-serif;font-size:14px}
+.wrap{max-width:980px;margin:0 auto;padding:24px 20px 60px}
+h1{font-size:18px;margin:0 0 2px}.sub{color:var(--muted);font-size:12.5px;margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+h2{font-size:13px;margin:0 0 10px}.muted{color:var(--muted)}
+.cov{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px}.cov b{font-variant-numeric:tabular-nums}
+.grp{font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.item{border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:9px}
+.pid{font-weight:600;font-variant-numeric:tabular-nums}
+.tag{font-size:11px;background:var(--chip);color:var(--chip-ink);padding:1px 8px;border-radius:20px;margin-left:6px}
+.tag.op{background:#f1e9f4;color:#5a3a6b}@media(prefers-color-scheme:dark){.tag.op{background:#2a1f30;color:#caa8d8}}
+.desc{margin-top:5px}.meta{margin-top:6px;font-size:12px;color:var(--muted)}
+.kv{margin-top:6px;font-size:12.5px}.kv .k{color:var(--muted);margin-right:6px}
+.verdict{font-size:11px;padding:1px 9px;border-radius:20px;font-weight:600;margin-left:6px}
+.verdict.keep{background:#eaf3ee;color:var(--ok)}.verdict.revise{background:#fbf3df;color:var(--warn)}
+.verdict.reject{background:#fdecea;color:var(--err)}.verdict.escalate{background:#eaf0fb;color:#3a5a9b}
+@media(prefers-color-scheme:dark){.verdict.keep{background:#1c2a22}.verdict.revise{background:#2a2415}
+.verdict.reject{background:#2a1715}.verdict.escalate{background:#19233a;color:#9db8ec}}
+.gates .y{color:var(--ok)}.gates .n{color:var(--err)}
+.rej{border:1px solid var(--line);border-left:3px solid #f0c4bd;border-radius:8px;padding:9px 11px;margin:8px 0}
+details>summary{cursor:pointer;color:var(--muted);font-size:12px;padding:4px 0}
+</style></head><body><div class="wrap"><h1>垂直审计 · physmaster-three-gate</h1><div class="sub">对抗式双裁（Codex + Claude，默认驳回）。可成卡 2 / 共 4。</div><div class="card"><div class="item"><div><span class="pid">VA-001</span><span class="verdict escalate">需人工</span><span class="tag">源 LR-001</span></div><div class="desc">把范围收窄到单一成熟语料库，检验&#x27;检索锚定的缺席证明&#x27;是否比标准 LLM 选题 + 纯检索新颖性过滤更能提高专家判定的非平凡新问题产率。</div><div class="meta gates">综合分 3.6 · 可证伪 <span class="y">✓</span> · 可判别 <span class="y">✓</span> · so-what <span class="y">✓</span> · codex reject / claude revise</div><div class="kv"><span class="k">核心主张</span>要求系统为每个候选问题给出可证伪的&#x27;为何此前无人问&#x27;缺席证明，会提高经专家验证的非平凡新问题产率，优于普通 LLM 选题。</div><div class="kv"><span class="k">最小实验</span>在一个成熟语料库上，比较&#x27;缺席证明锚定的选题&#x27; vs &#x27;标准 LLM 选题&#x27; vs &#x27;纯检索新颖性过滤&#x27;三组的专家验证新问题产率。</div><div class="kv"><span class="k">新颖性风险</span>可能塌缩为自动假设生成 + 检索式新颖性过滤 + 自我批评。</div><div class="kv"><span class="k">失败模式</span>缺席证明沦为事后合理化而非真正生成器；专家评估成本过高导致样本不足</div><div class="kv"><span class="k">裁判理由</span>Codex: 与已知假设生成+检索新颖性过滤不可判别；缺席证明疑似事后合理化。  Claude: 收窄到&#x27;检索锚定的缺席证明 vs 纯新颖性过滤&#x27;后存在可判别核，值得带条件保留。</div></div><div class="item"><div><span class="pid">VA-004</span><span class="verdict escalate">需人工</span><span class="tag">源 LR-006</span></div><div class="desc">只针对&#x27;失败在上下文变化后可能重新有效&#x27;的任务，比较条件感知的失败重激活 vs 简单禁忌避免（tabu）基线。</div><div class="meta gates">综合分 3.4 · 可证伪 <span class="y">✓</span> · 可判别 <span class="y">✓</span> · so-what <span class="y">✓</span> · codex reject / claude revise</div><div class="kv"><span class="k">核心主张</span>带原因标注、条件感知的失败重激活会比简单丢弃或无差别避免，更能在上下文变化后回收先前被否决但已变有效的路径。</div><div class="kv"><span class="k">最小实验</span>在&#x27;失败可随上下文变有效&#x27;的任务上，比较条件感知重激活 vs 匹配的 tabu 记忆基线的回收率与搜索效率。</div><div class="kv"><span class="k">新颖性风险</span>塌缩为反思记忆 / 负例反馈 / 带自然语言标签的禁忌搜索。</div><div class="kv"><span class="k">失败模式</span>存储的失败只是固化了 critic 偏见；条件重激活与普通避免无法区分</div><div class="kv"><span class="k">裁判理由</span>Codex: 多为负例记忆/tabu 的改名；自我纠偏未建立。  Claude: 条件重激活（失败后变有效）与普通 tabu 避免可判别，收窄后值得带条件保留。</div></div></div><details class="card"><summary>被驳回抽屉 · 2 个（只读，带理由的 true-negative）</summary><div class="rej"><span class="pid">VA-002</span><span class="verdict reject">双裁驳回</span><span class="tag">源 LR-003</span><div class="meta">Codex: 多准则评估器集成属已知，&#x27;分歧即信号&#x27;未充分指定。；Claude: 同意——核心机制是审计分解而非新研究机制，so-what 偏工程卫生。</div></div><div class="rej"><span class="pid">VA-003</span><span class="verdict reject">双裁驳回</span><span class="tag">源 LR-004</span><div class="meta">Codex: 去掉 critic 并未去掉判断；预测存活≠研究价值，偏向易测增量。；Claude: 同意——代理弱且对探索性/基础设施型想法有系统性偏差。</div></div></details></div></body></html>

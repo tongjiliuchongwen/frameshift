@@ -1,0 +1,15 @@
+{
+  "name": "reframe-ui",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "description": "Localhost click-to-continue UI for the Research Reframer human gates, delivered as a Claude Code channel.",
+  "bin": "./server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "smoke": "node smoke-test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}

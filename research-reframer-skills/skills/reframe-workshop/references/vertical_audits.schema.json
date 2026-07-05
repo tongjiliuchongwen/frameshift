@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/vertical_audits.schema.json",
+  "title": "Research Reframer Vertical Audits (v0.5, Stage: vertical-audit)",
+  "description": "Adversarial, default-reject audit of the Gate-2-selected lateral schemes. Dual judges (Codex + Claude) each run the same rubric; agreement is taken, disagreement sets needs_human and is escalated to Gate 3. A scheme survives only by passing all three gates (minimal_experiment_exists, discriminable_from_prior, so_what_passes).",
+  "type": "object",
+  "required": ["schema_version", "audited_lateral_ids", "audits"],
+  "properties": {
+    "schema_version": { "const": "2.0" },
+    "audited_lateral_ids": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The Gate-2 human selection: which lateral schemes entered audit.",
+      "items": { "type": "string", "pattern": "^LR-[0-9]{3}$" }
+    },
+    "audits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "audit_id",
+          "source_lateral_id",
+          "auditor",
+          "codex_verdict",
+          "claude_verdict",
+          "agreement",
+          "needs_human",
+          "verdict",
+          "minimal_experiment_exists",
+          "discriminable_from_prior",
+          "so_what_passes",
+          "refined_scheme",
+          "core_claim",
+          "causal_mechanism",
+          "critical_assumptions",
+          "novelty_risk",
+          "minimal_experiment",
+          "failure_modes",
+          "audit_score",
+          "reasons"
+        ],
+        "properties": {
+          "audit_id": { "type": "string", "pattern": "^VA-[0-9]{3}$" },
+          "source_lateral_id": { "type": "string", "pattern": "^LR-[0-9]{3}$" },
+          "auditor": { "enum": ["dual", "codex", "self"] },
+          "codex_verdict": { "enum": ["reject", "revise", "keep", null] },
+          "claude_verdict": { "enum": ["reject", "revise", "keep", null] },
+          "agreement": { "type": "boolean" },
+          "needs_human": { "type": "boolean" },
+          "verdict": { "enum": ["reject", "revise", "keep"] },
+          "minimal_experiment_exists": { "type": "boolean" },
+          "discriminable_from_prior": { "type": "boolean" },
+          "so_what_passes": { "type": "boolean" },
+          "refined_scheme": { "type": "string", "minLength": 1 },
+          "core_claim": { "type": "string", "minLength": 1 },
+          "causal_mechanism": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "critical_assumptions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "novelty_risk": { "type": "string", "minLength": 1 },
+          "minimal_experiment": { "type": "string", "minLength": 1 },
+          "failure_modes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "merge_suggestions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["with", "reason"],
+              "properties": {
+                "with": { "type": "string", "pattern": "^LR-[0-9]{3}$" },
+                "reason": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "audit_score": {
+            "type": "object",
+            "required": ["coherence", "testability", "novelty_potential", "research_value", "risk", "overall"],
+            "properties": {
+              "coherence": { "type": "number", "minimum": 1, "maximum": 5 },
+              "testability": { "type": "number", "minimum": 1, "maximum": 5 },
+              "novelty_potential": { "type": "number", "minimum": 1, "maximum": 5 },
+              "research_value": { "type": "number", "minimum": 1, "maximum": 5 },
+              "risk": { "type": "number", "minimum": 1, "maximum": 5 },
+              "overall": { "type": "number", "minimum": 1, "maximum": 5 }
+            }
+          },
+          "reasons": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+        }
+      }
+    }
+  }
+}

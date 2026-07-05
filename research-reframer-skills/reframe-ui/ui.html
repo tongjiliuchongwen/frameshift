@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Research Reframer · 三段式选择面板</title>
+<style>
+  :root{
+    --bg:#f7f7f5; --card:#ffffff; --ink:#1d1d1f; --muted:#6b6b70;
+    --line:#e6e6e3; --line-strong:#d4d4d0; --accent:#2f6f4f; --accent-ink:#fff;
+    --chip:#f0f0ee; --chip-ink:#414146; --sel:#eaf3ee; --sel-line:#9ec7af;
+    --err-bg:#fdecea; --err-ink:#8a2b22; --err-line:#f0c4bd;
+    --warn:#b8860b; --star:#c99a2e; --odd:#c2410c;
+    --radius:10px; --gap:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#161617; --card:#1f1f21; --ink:#ededef; --muted:#9a9aa0;
+      --line:#2c2c2f; --line-strong:#3a3a3e; --accent:#4f9c72; --accent-ink:#0c130f;
+      --chip:#28282b; --chip-ink:#c8c8cc; --sel:#1c2a22; --sel-line:#3f6b51;
+      --err-bg:#2a1715; --err-ink:#f0a89e; --err-line:#5a2a23;
+      --star:#d8b048; --odd:#e07a45;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink); line-height:1.55;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+    font-size:14px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:24px 20px 80px}
+  header.top{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:6px}
+  h1{font-size:18px; font-weight:600; margin:0; letter-spacing:.2px}
+  .sub{color:var(--muted); font-size:12.5px; margin:2px 0 18px}
+  .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .grow{flex:1 1 auto}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; margin-bottom:var(--gap);
+  }
+  .card h2{font-size:13px; font-weight:600; margin:0 0 10px; color:var(--ink); letter-spacing:.2px}
+  .card h2 .count{color:var(--muted); font-weight:400; margin-left:6px}
+  .muted{color:var(--muted)}
+  .hint{color:var(--muted); font-size:12px; margin:0 0 10px}
+  label{font-size:13px}
+  select, textarea, input[type=text]{
+    font:inherit; color:var(--ink); background:var(--card);
+    border:1px solid var(--line-strong); border-radius:8px; padding:8px 10px; width:100%;
+  }
+  select{width:auto; min-width:160px; padding:6px 10px}
+  textarea{resize:vertical; min-height:64px}
+  button{
+    font:inherit; cursor:pointer; border-radius:8px; border:1px solid var(--line-strong);
+    background:var(--card); color:var(--ink); padding:8px 14px; transition:.12s;
+  }
+  button:hover:not(:disabled){border-color:var(--accent); }
+  button:disabled{opacity:.45; cursor:not-allowed}
+  button.primary{background:var(--accent); color:var(--accent-ink); border-color:var(--accent)}
+  button.primary:hover:not(:disabled){filter:brightness(1.06)}
+  button.ghost{background:transparent}
+  .toggle{display:inline-flex; border:1px solid var(--line-strong); border-radius:8px; overflow:hidden}
+  .toggle button{border:0; border-radius:0; background:transparent; padding:7px 16px; color:var(--muted)}
+  .toggle button + button{border-left:1px solid var(--line)}
+  .toggle button.on{background:var(--accent); color:var(--accent-ink)}
+  /* selectable list */
+  .pick{display:block; border:1px solid var(--line); border-radius:9px; padding:11px 13px; margin-bottom:9px; cursor:pointer; transition:.12s; position:relative}
+  .pick:hover{border-color:var(--line-strong)}
+  .pick.sel{background:var(--sel); border-color:var(--sel-line)}
+  .pick input{position:absolute; left:13px; top:13px; margin:0; accent-color:var(--accent)}
+  .pick .body{padding-left:26px}
+  .pick .pid{font-weight:600; font-variant-numeric:tabular-nums}
+  .pick .ops{display:inline-flex; gap:6px; margin-left:8px; flex-wrap:wrap; vertical-align:middle}
+  .tag{font-size:11px; background:var(--chip); color:var(--chip-ink); padding:1px 8px; border-radius:20px; white-space:nowrap}
+  .tag.lev{background:#e7eef6; color:#2b4a6b}
+  .tag.op{background:#f1e9f4; color:#5a3a6b}
+  @media (prefers-color-scheme: dark){ .tag.lev{background:#1d2937;color:#9cc3ea} .tag.op{background:#2a1f30;color:#caa8d8} }
+  .pick .desc{margin-top:5px; font-size:13px; color:var(--ink)}
+  .pick .meta{margin-top:6px; font-size:12px; color:var(--muted); display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+  .score{font-variant-numeric:tabular-nums; font-weight:600}
+  /* verdict badges (gate 3) */
+  .verdict{font-size:11px; padding:1px 9px; border-radius:20px; font-weight:600; white-space:nowrap}
+  .verdict.keep{background:var(--sel); color:var(--accent)}
+  .verdict.revise{background:#fbf3df; color:var(--warn)}
+  .verdict.reject{background:var(--err-bg); color:var(--err-ink)}
+  .verdict.escalate{background:#eaf0fb; color:#3a5a9b}
+  @media (prefers-color-scheme: dark){ .verdict.revise{background:#2a2415} .verdict.escalate{background:#19233a;color:#9db8ec} }
+  .gates{font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .gates .y{color:var(--accent)} .gates .n{color:var(--err-ink)}
+  /* expandable detail */
+  .cand{margin-bottom:9px}
+  .cand .pick{margin-bottom:0}
+  .cand-detail{margin:4px 0 0 10px}
+  .cand-detail summary{cursor:pointer; color:var(--muted); font-size:12px; padding:3px 0}
+  .cand-detail .dbody{padding:4px 0 6px 10px; border-left:2px solid var(--line); margin-top:2px}
+  .cand-detail .drow{display:flex; gap:10px; font-size:12.5px; padding:3px 0}
+  .cand-detail .drow + .drow{border-top:1px dashed var(--line)}
+  .cand-detail .dk{flex:0 0 92px; color:var(--muted)}
+  .cand-detail .dv{flex:1 1 auto; color:var(--ink); white-space:pre-wrap}
+  .grp{font-size:12px; font-weight:600; color:var(--muted); margin:14px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--line)}
+  .grp:first-child{margin-top:0}
+  .cov{display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px}
+  .cov b{font-variant-numeric:tabular-nums}
+  .drawer{margin-top:6px}
+  .drawer summary{cursor:pointer; color:var(--muted); font-size:12px; padding:4px 0}
+  .rej{border:1px solid var(--line); border-left:3px solid var(--err-line); border-radius:8px; padding:9px 11px; margin:8px 0; background:var(--card)}
+  .rej .pid{font-weight:600}
+  .rej .why{color:var(--muted); font-size:12.5px; margin-top:4px}
+  .statuslog{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px; max-height:170px; overflow:auto}
+  .statuslog .line{padding:2px 0; border-bottom:1px dashed var(--line)}
+  .statuslog .line:last-child{border-bottom:0}
+  .statuslog .t{color:var(--muted); margin-right:8px; font-variant-numeric:tabular-nums}
+  .laststatus{font-size:12.5px; color:var(--accent); margin-top:8px}
+  .banner{border-radius:8px; padding:10px 12px; font-size:13px; margin-bottom:var(--gap); display:none}
+  .banner.err{background:var(--err-bg); color:var(--err-ink); border:1px solid var(--err-line)}
+  .banner.busy{background:var(--sel); color:var(--accent); border:1px solid var(--sel-line)}
+  .banner.show{display:block}
+  .pad{padding:34px 16px; text-align:center; color:var(--muted)}
+  .pad .big{font-size:15px; color:var(--ink); margin-bottom:6px}
+  .pill{display:inline-block; background:var(--chip); color:var(--chip-ink); border-radius:20px; padding:2px 12px; font-size:12px; font-variant-numeric:tabular-nums}
+  .gatebadge{display:inline-block; font-size:11px; padding:2px 10px; border-radius:20px; background:var(--accent); color:var(--accent-ink); font-weight:600}
+  .steps{display:flex; gap:6px; align-items:center; font-size:11px; color:var(--muted); margin-top:8px; flex-wrap:wrap}
+  .steps .s{padding:1px 8px; border-radius:20px; background:var(--chip)}
+  .steps .s.on{background:var(--accent); color:var(--accent-ink); font-weight:600}
+  .delegate-presets{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px}
+  .live{display:inline-block; width:7px; height:7px; border-radius:50%; background:#c0392b; margin-right:5px; vertical-align:middle}
+  .live.on{background:var(--accent)}
+  .footer-bar{position:sticky; bottom:0; background:linear-gradient(transparent, var(--bg) 40%); padding-top:14px; margin-top:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>Research Reframer · 三段式选择面板</h1>
+      <div class="sub">系统选杠杆点 → 水平发散 → 垂直审计。在浏览器里挑选，Claude 在终端会话里继续执行。</div>
+    </div>
+    <div class="row">
+      <span class="live" id="live" title="事件连接状态"></span>
+      <label class="muted" for="runsel">运行</label>
+      <select id="runsel" title="切换运行"><option>加载中…</option></select>
+    </div>
+  </header>
+
+  <div class="banner err" id="errBanner"></div>
+  <div class="banner busy" id="busyBanner"></div>
+
+  <div id="view"></div>
+
+  <div class="card">
+    <h2>状态 <span class="count" id="gateLabel"></span></h2>
+    <div class="statuslog" id="log"><div class="line muted">等待事件…</div></div>
+    <div class="laststatus" id="lastStatus"></div>
+  </div>
+
+</div>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const el = (tag, attrs={}, kids=[]) => {
+  const n = document.createElement(tag);
+  for (const k in attrs){
+    if (k === "class") n.className = attrs[k];
+    else if (k === "html") n.innerHTML = attrs[k];
+    else if (k.startsWith("on") && typeof attrs[k] === "function") n.addEventListener(k.slice(2), attrs[k]);
+    else if (attrs[k] != null) n.setAttribute(k, attrs[k]);
+  }
+  (Array.isArray(kids) ? kids : [kids]).forEach(c => { if (c==null) return; n.append(c.nodeType ? c : document.createTextNode(String(c))); });
+  return n;
+};
+const fmt = (n) => (n==null || isNaN(n)) ? "—" : (Math.round(n*100)/100).toString();
+const now = () => { const d=new Date(); return d.toTimeString().slice(0,8); };
+
+let STATE = null, MODE = "explicit", SELECTED = new Set(), BUSY = false;
+let activeRun = null, LAST_GATE = null, busyTimer = null, OPEN = new Set();
+
+function showErr(msg){ const b=$("errBanner"); b.textContent="⚠ "+msg; b.classList.add("show"); }
+function clearErr(){ $("errBanner").classList.remove("show"); }
+function showBusy(msg){ const b=$("busyBanner"); b.textContent=msg; b.classList.add("show"); }
+function clearBusy(){ $("busyBanner").classList.remove("show"); }
+
+async function getJSON(path){
+  const r = await fetch(path, {cache:"no-store"});
+  if (!r.ok) throw new Error(path+" → HTTP "+r.status);
+  return r.json();
+}
+async function loadRuns(){
+  try{
+    const d = await getJSON("/runs");
+    activeRun = d.active;
+    const sel = $("runsel"); sel.innerHTML = "";
+    (d.runs || []).forEach(name => {
+      const o = el("option", {value:name}, name);
+      if (name === d.active) o.selected = true;
+      sel.append(o);
+    });
+    if (!d.runs || !d.runs.length) sel.append(el("option",{}, "（无运行）"));
+  }catch(e){ showErr("读取运行列表失败：" + e.message); }
+}
+async function loadState(runName){
+  try{
+    const q = runName ? ("?run=" + encodeURIComponent(runName)) : "";
+    const d = await getJSON("/state" + q);
+    clearErr();
+    // when the gate advances, drop the previous gate's picks so an id from one gate
+    // can never linger into the next (the server also rejects wrong-gate ids).
+    if (LAST_GATE !== null && d.gate !== LAST_GATE) { SELECTED.clear(); OPEN.clear(); MODE = "explicit"; }
+    LAST_GATE = d.gate; STATE = d;
+    if (d.run_id) activeRun = d.run_id;
+    render();
+  }catch(e){ showErr("读取状态失败：" + e.message + "（仍在监听事件）"); }
+}
+async function submitSelection(body){
+  clearErr();
+  try{
+    const r = await fetch("/select", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body) });
+    const d = await r.json().catch(()=>({ok:false,error:"响应解析失败"}));
+    if (!r.ok || !d.ok){ throw new Error(d.error || ("HTTP "+r.status)); }
+    BUSY = true;
+    showBusy("已提交到本地通道，等待 Claude 确认…（需在已加载 channel 的终端会话里继续）");
+    render();
+    appendLog("已提交选择：gate " + body.gate + " · " + body.mode + (body.ids.length?(" · "+body.ids.join(", ")):"") );
+    clearTimeout(busyTimer);
+    busyTimer = setTimeout(()=>{
+      if (!BUSY) return;
+      BUSY = false; clearBusy();
+      showErr("超过 45 秒没收到 Claude 确认。请确认终端会话已用 --dangerously-load-development-channels 启动、并在运行 /reframe-workshop，然后可重试提交。");
+      render();
+    }, 45000);
+  }catch(e){ showErr("发送失败：" + e.message); }
+}
+
+function appendLog(text){
+  const box = $("log");
+  if (box.children.length===1 && box.firstChild.classList && box.firstChild.classList.contains("muted")) box.innerHTML="";
+  box.append(el("div",{class:"line"},[ el("span",{class:"t"}, now()), document.createTextNode(text) ]));
+  box.scrollTop = box.scrollHeight;
+}
+function connectEvents(){
+  let es;
+  try { es = new EventSource("/events"); }
+  catch(e){ showErr("无法建立事件连接：" + e.message); return; }
+  es.onopen = () => { $("live").classList.add("on"); };
+  es.onerror = () => { $("live").classList.remove("on"); };
+  es.onmessage = (ev) => {
+    let msg; try{ msg = JSON.parse(ev.data); }catch{ return; }
+    if (msg.type === "hello"){ $("live").classList.add("on"); return; }
+    if (msg.type === "status"){
+      appendLog("← Claude：" + msg.text);
+      clearTimeout(busyTimer); BUSY = false; clearBusy(); loadState();
+    }
+  };
+}
+
+const GATE_LABELS = {1:"关卡 1 · 选杠杆点", 2:"关卡 2 · 选横向方案", 3:"关卡 3 · 选审计成卡", "done":"已完成", "not_ready":"未就绪"};
+
+function render(){
+  const v = $("view"); v.innerHTML = ""; const s = STATE;
+  if (s){
+    $("gateLabel").textContent = GATE_LABELS[s.gate] ? ("· " + GATE_LABELS[s.gate]) : "";
+    $("lastStatus").textContent = s.last_status ? ("最近状态：" + s.last_status) : "";
+  }
+  if (!s || s.ok === false){
+    v.append(emptyCard("还没有可选内容", s && s.error ? ("服务返回："+s.error) : "等待运行数据生成。")); return;
+  }
+  if (s.gate === "not_ready"){
+    v.append(emptyCard("还没有可选内容 🌱", "当前运行尚未产出杠杆点。Claude 在终端跑完 system-map / leverage-scan 后，这里会出现可选的杠杆点。")); return;
+  }
+  if (s.gate === "done"){ v.append(doneCard(s)); return; }
+  if (s.gate === 1){ renderGate1(v, s); return; }
+  if (s.gate === 2){ renderGate2(v, s); return; }
+  if (s.gate === 3){ renderGate3(v, s); return; }
+  v.append(emptyCard("未知状态", "gate=" + s.gate));
+}
+function emptyCard(big, small){
+  return el("div",{class:"card"},[ el("div",{class:"pad"},[ el("div",{class:"big"}, big), el("div",{}, small) ]) ]);
+}
+function doneCard(s){
+  const cards = s.cards || [];
+  const list = el("div",{});
+  cards.forEach(c => list.append(el("div",{class:"lp", style:"margin-top:8px"},[
+    el("div",{},[ el("span",{class:"pid"}, c.id), document.createTextNode("  " + (c.title||"")) ]),
+    el("div",{class:"why"}, c.one_sentence || "")
+  ])));
+  return el("div",{class:"card"},[
+    el("div",{class:"pad"},[
+      el("div",{class:"big"}, "本轮已完成 ✓"),
+      el("div",{}, [ "运行 ", el("span",{class:"pill"}, s.run_id || "—"), document.createTextNode("　共 "+cards.length+" 张 idea 卡") ]),
+    ]),
+    cards.length ? el("div",{style:"margin-top:6px"}, list) : null,
+    el("div",{class:"hint", style:"margin-top:8px"}, "完整产物见该运行 outputs/ 的 06_idea_cards.{md,json}。")
+  ]);
+}
+
+/* ===== GATE 1 · leverage points ===== */
+function renderGate1(v, s){
+  const lps = s.leverage || [];
+  v.append(headerCard(s, "选出值得继续探索的系统杠杆点 —— “你想从系统哪里下刀”。Claude 会对所选杠杆点做水平发散。"));
+  const card = el("div",{class:"card"},[ el("h2",{}, [ "杠杆点", el("span",{class:"count"}, "· "+lps.length+" 个") ]) ]);
+  card.append(modeToggle());
+  card.append(modeBody(1, lps, l => pickLP(l),
+    ["按多样性代选 3 个", "偏反馈回路 / 目标 / 范式"],
+    "偏动态反馈、目标函数和 human control 那几个"));
+  if (!lps.length) card.append(el("p",{class:"hint"}, "暂无杠杆点。"));
+  v.append(card);
+}
+function pickLP(l){
+  const id = l.id, checked = SELECTED.has(id);
+  return el("label",{class:"pick"+(checked?" sel":"")},[
+    el("input",{type:"checkbox", ...(checked?{checked:"checked"}:{}), disabled:(MODE!=="explicit"||BUSY)?"":null,
+      onchange:(e)=>{ if(e.target.checked) SELECTED.add(id); else SELECTED.delete(id); render(); }}),
+    el("div",{class:"body"},[
+      el("div",{},[
+        el("span",{class:"pid"}, id),
+        el("span",{class:"ops"},[
+          el("span",{class:"tag lev"}, l.type||"—"),
+          l.reframing_potential ? el("span",{class:"tag"}, "潜力 "+l.reframing_potential) : null,
+        ])
+      ]),
+      el("div",{class:"desc"}, l.why_it_matters || ""),
+      el("div",{class:"meta"},[ l.system_location ? ("位置：" + l.system_location) : "" ])
+    ])
+  ]);
+}
+
+/* ===== GATE 2 · lateral schemes ===== */
+function renderGate2(v, s){
+  const lat = s.lateral || {schemes:[], coverage_ledger:null, source_leverage_points:[]};
+  const schemes = lat.schemes || [];
+  v.append(headerCard(s, "挑出“有意思、值得审计”的横向方案。这一步只问启发性，不问对错 —— 保护尚未证明的想法。"));
+  const cov = lat.coverage_ledger;
+  if (cov){
+    const covCard = el("div",{class:"card"},[ el("h2",{}, "发散覆盖（LP × 算子 台账）") ]);
+    covCard.append(el("div",{class:"cov"},[
+      covItem("已占用格子", (cov.occupied_count!=null?cov.occupied_count:"—")+" / "+(cov.total_cells!=null?cov.total_cells:"—")),
+      covItem("覆盖率", cov.coverage_ratio!=null ? (Math.round(cov.coverage_ratio*1000)/10+"%") : "—"),
+      covItem("欠探索格子", cov.underexplored!=null ? cov.underexplored : "—"),
+      covItem("方案总数", schemes.length),
+      covItem("来源杠杆点", (lat.source_leverage_points||[]).length),
+    ]));
+    v.append(covCard);
+  }
+  const card = el("div",{class:"card"},[ el("h2",{}, [ "横向方案", el("span",{class:"count"}, "· "+schemes.length+" 个") ]) ]);
+  card.append(modeToggle());
+  if (MODE === "explicit"){
+    if (!schemes.length){ card.append(el("p",{class:"hint"}, "暂无方案。")); }
+    else {
+      const groups = new Map();
+      schemes.forEach(c => { if(!groups.has(c.source_leverage_point)) groups.set(c.source_leverage_point, []); groups.get(c.source_leverage_point).push(c); });
+      for (const [lp, list] of groups){
+        card.append(el("div",{class:"grp"}, lp + " （" + list.length + "）"));
+        list.forEach(c => card.append(pickLR(c)));
+      }
+    }
+    card.append(submitBar(2));
+  } else if (MODE === "nl"){
+    card.append(nlBody(2, "偏动态/在线那几个，再加一个最大胆的"));
+  } else {
+    card.append(delegateBody(2, ["挑有意思的 4 个", "每个杠杆点各挑 1 个最大胆的"]));
+  }
+  v.append(card);
+}
+function pickLR(c){
+  const id = c.lateral_id, checked = SELECTED.has(id);
+  const label = el("label",{class:"pick"+(checked?" sel":"")},[
+    el("input",{type:"checkbox", ...(checked?{checked:"checked"}:{}), disabled:BUSY?"":null,
+      onchange:(e)=>{ if(e.target.checked) SELECTED.add(id); else SELECTED.delete(id); render(); }}),
+    el("div",{class:"body"},[
+      el("div",{},[
+        el("span",{class:"pid"}, id),
+        el("span",{class:"ops"},[ el("span",{class:"tag op"}, c.operator||"—") ])
+      ]),
+      el("div",{class:"desc"}, c.new_frame || ""),
+      el("div",{class:"meta"},[ c.why_interesting ? ("为何有意思：" + c.why_interesting) : "" ])
+    ])
+  ]);
+  return el("div",{class:"cand"}, [ label, detailPanel(id, [
+    ["旧框架", c.old_frame], ["改变的假设", c.changed_assumption],
+    ["方案", c.scheme], ["要避免的退化用法", c.bad_use_to_avoid],
+  ], "展开详情（旧框架 / 假设 / 方案 / 反套路）") ]);
+}
+
+/* ===== GATE 3 · audited schemes ===== */
+function renderGate3(v, s){
+  const audits = s.audits || [];
+  const eligible = audits.filter(a => a.eligible);
+  const rejected = audits.filter(a => !a.eligible);
+  v.append(headerCard(s, "对抗式双裁（Codex + Claude）后，挑出“经审计仍站得住、值得成卡”的方案。两裁分歧的会标“需人工”，由你拍板。"));
+  const card = el("div",{class:"card"},[ el("h2",{}, [ "可成卡的审计", el("span",{class:"count"}, "· "+eligible.length+" / 共 "+audits.length) ]) ]);
+  card.append(modeToggle());
+  if (MODE === "explicit"){
+    if (!eligible.length){ card.append(el("p",{class:"hint"}, "没有可成卡的审计（全部被双裁驳回）。可用人话/托管让 Claude 重审或解释。")); }
+    else eligible.forEach(a => card.append(pickVA(a)));
+    card.append(submitBar(3));
+  } else if (MODE === "nl"){
+    card.append(nlBody(3, "保留通过审计、最容易做实验的两个"));
+  } else {
+    card.append(delegateBody(3, ["保留所有存活/可救回的", "只挑最可判别的 2 个"]));
+  }
+  if (rejected.length) card.append(rejectedDrawer(rejected));
+  v.append(card);
+}
+function pickVA(a){
+  const id = a.audit_id, checked = SELECTED.has(id);
+  const vclass = a.needs_human ? "escalate" : a.verdict;
+  const vtext = a.needs_human ? "需人工" : (a.verdict==="keep"?"保留":a.verdict==="revise"?"修订":"驳回");
+  const g = (b)=> b ? el("span",{class:"y"},"✓") : el("span",{class:"n"},"✗");
+  const label = el("label",{class:"pick"+(checked?" sel":"")},[
+    el("input",{type:"checkbox", ...(checked?{checked:"checked"}:{}), disabled:BUSY?"":null,
+      onchange:(e)=>{ if(e.target.checked) SELECTED.add(id); else SELECTED.delete(id); render(); }}),
+    el("div",{class:"body"},[
+      el("div",{},[
+        el("span",{class:"pid"}, id),
+        el("span",{class:"ops"},[
+          el("span",{class:"verdict "+vclass}, vtext),
+          el("span",{class:"tag"}, "源 "+a.source_lateral_id),
+        ])
+      ]),
+      el("div",{class:"desc"}, a.refined_scheme || a.core_claim || ""),
+      el("div",{class:"meta"},[
+        el("span",{}, [ "综合分 ", el("span",{class:"score"}, fmt(a.overall)) ]),
+        el("span",{class:"gates"},[ document.createTextNode("可证伪 "), g(a.minimal_experiment_exists),
+          document.createTextNode(" · 可判别 "), g(a.discriminable_from_prior),
+          document.createTextNode(" · so-what "), g(a.so_what_passes) ]),
+        a.needs_human ? el("span",{}, "· codex "+a.codex_verdict+" / claude "+a.claude_verdict) : null,
+      ])
+    ])
+  ]);
+  return el("div",{class:"cand"}, [ label, detailPanel(id, [
+    ["核心主张", a.core_claim], ["最小实验", a.minimal_experiment],
+    ["新颖性风险", a.novelty_risk], ["失败模式", (a.failure_modes||[]).join("；")],
+    ["裁判理由", (a.reasons||[]).join("\n")],
+  ], "展开详情（主张 / 实验 / 新颖性风险 / 裁判理由）") ]);
+}
+function rejectedDrawer(rejected){
+  const box = el("div",{});
+  rejected.forEach(a => box.append(el("div",{class:"rej"},[
+    el("div",{},[ el("span",{class:"pid"}, a.audit_id),
+      el("span",{class:"verdict reject", style:"margin-left:8px"}, "双裁驳回"),
+      el("span",{class:"tag", style:"margin-left:6px"}, "源 "+a.source_lateral_id) ]),
+    el("div",{class:"why"}, (a.reasons||[]).join("；") || a.novelty_risk || "")
+  ])));
+  return el("details",{class:"drawer"},[
+    el("summary",{}, "被驳回抽屉 · "+rejected.length+" 个（只读，带理由的 true-negative）"),
+    box
+  ]);
+}
+
+/* ===== shared building blocks ===== */
+function headerCard(s, hint){
+  const order = [1,2,3];
+  const steps = el("div",{class:"steps"});
+  order.forEach((g,i)=>{
+    steps.append(el("span",{class:"s"+(s.gate===g?" on":"")}, "关卡"+g+"·"+["选杠杆点","选横向","选成卡"][i]));
+    if (i<2) steps.append(el("span",{}, "›"));
+  });
+  return el("div",{class:"card"},[
+    el("div",{class:"row"},[
+      el("span",{class:"gatebadge"}, GATE_LABELS[s.gate] || ("gate "+s.gate)),
+      el("span",{class:"grow"}),
+      el("span",{class:"pill"}, "运行 " + (s.run_id||"—"))
+    ]),
+    el("p",{class:"hint", style:"margin-top:10px;margin-bottom:0"}, hint),
+    steps
+  ]);
+}
+function covItem(label, val){
+  return el("div",{},[ el("div",{class:"muted", style:"font-size:11px"}, label), el("b",{}, String(val)) ]);
+}
+function modeToggle(){
+  const mk = (m, txt) => el("button",{class: MODE===m?"on":"", onclick:()=>{ MODE=m; render(); }}, txt);
+  return el("div",{class:"row", style:"margin-bottom:12px"},[
+    el("span",{class:"toggle"},[ mk("explicit","精确"), mk("nl","人话"), mk("delegate","托管") ]),
+    el("span",{class:"muted", style:"font-size:12px"},
+      MODE==="explicit" ? "勾选具体项后提交" : MODE==="nl" ? "用自然语言描述意图" : "一键托管 / 自定义托管")
+  ]);
+}
+function modeBody(gate, items, renderItem, presets, nlPlaceholder){
+  const frag = document.createDocumentFragment();
+  if (MODE === "explicit"){
+    if (items.length){ items.forEach(it => frag.append(renderItem(it))); }
+    frag.append(submitBar(gate));
+  } else if (MODE === "nl"){ frag.append(nlBody(gate, nlPlaceholder)); }
+  else { frag.append(delegateBody(gate, presets)); }
+  return frag;
+}
+function submitBar(gate){
+  const n = SELECTED.size;
+  return el("div",{class:"footer-bar"},[
+    el("div",{class:"row"},[
+      el("button",{class:"primary", disabled:(n===0||BUSY)?"":null,
+        onclick:()=> submitSelection({gate, mode:"explicit", ids:[...SELECTED], intent:""}) },
+        BUSY ? "处理中…" : ("提交所选 " + (n? "("+n+")" : ""))),
+      n ? el("button",{class:"ghost", disabled:BUSY?"":null, onclick:()=>{ SELECTED.clear(); render(); }}, "清空") : null,
+      el("span",{class:"muted", style:"font-size:12px"}, n? (n+" 项已选") : "未选择任何项")
+    ])
+  ]);
+}
+function nlBody(gate, placeholder){
+  return el("div",{},[
+    el("p",{class:"hint"}, "用一句话描述你想要哪些 —— Claude 会从当前项里映射并解释理由。"),
+    el("textarea",{id:"nlText", placeholder:placeholder, disabled:BUSY?"":null}),
+    el("div",{class:"footer-bar"},[ el("div",{class:"row"},[
+      el("button",{class:"primary", disabled:BUSY?"":null, onclick:()=>{
+        const t = ($("nlText").value||"").trim();
+        if (!t){ showErr("请先输入一句意图描述。"); return; }
+        submitSelection({gate, mode:"nl", ids:[], intent:t});
+      }}, BUSY ? "处理中…" : "按这句话提交")
+    ]) ])
+  ]);
+}
+function delegateBody(gate, presets){
+  const wrap = el("div",{});
+  wrap.append(el("p",{class:"hint"}, "把选择交给 Claude。点一个快捷托管，或自定义一句托管指令。"));
+  const row = el("div",{class:"delegate-presets"});
+  presets.forEach(p => row.append(el("button",{ disabled:BUSY?"":null,
+    onclick:()=> submitSelection({gate, mode:"delegate", ids:[], intent:p}) }, p)));
+  wrap.append(row);
+  wrap.append(el("div",{class:"footer-bar"},[ el("div",{class:"row"},[
+    el("input",{type:"text", id:"delText", placeholder:"自定义托管，例如：按可判别性挑最稳的几个", disabled:BUSY?"":null}),
+    el("button",{class:"primary", style:"white-space:nowrap", disabled:BUSY?"":null, onclick:()=>{
+      submitSelection({gate, mode:"delegate", ids:[], intent: ($("delText").value||"").trim()});
+    }}, BUSY ? "处理中…" : "托管提交")
+  ]) ]));
+  return wrap;
+}
+// generic read-only expandable detail (used by gate 2 + gate 3)
+function detailPanel(openKey, kv, summaryText){
+  const rows = [];
+  kv.forEach(([k,v])=>{ const s=(v==null?"":String(v)).trim(); if (s) rows.push(
+    el("div",{class:"drow"},[ el("span",{class:"dk"}, k), el("span",{class:"dv"}, s) ])); });
+  if (!rows.length) return el("span");
+  const d = el("details",{class:"cand-detail", ...(OPEN.has(openKey)?{open:"open"}:{})},[
+    el("summary",{}, summaryText), el("div",{class:"dbody"}, rows)
+  ]);
+  d.addEventListener("toggle", ()=>{ if (d.open) OPEN.add(openKey); else OPEN.delete(openKey); });
+  return d;
+}
+
+$("runsel").addEventListener("change", (e)=>{
+  SELECTED.clear(); OPEN.clear(); BUSY=false; clearBusy(); clearTimeout(busyTimer); LAST_GATE=null; MODE="explicit";
+  loadState(e.target.value);
+});
+(async function init(){ await loadRuns(); await loadState(); connectEvents(); })();
+</script>
+</body>
+</html>

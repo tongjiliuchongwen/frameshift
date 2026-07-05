@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/system_map.schema.json",
+  "title": "Research Reframer System Map",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "system_name",
+    "source_summary",
+    "original_problem",
+    "actors",
+    "goals",
+    "stocks",
+    "flows",
+    "feedback_loops",
+    "rules",
+    "information_flows",
+    "delays",
+    "boundaries",
+    "failure_modes",
+    "uncertainties"
+  ],
+  "properties": {
+    "schema_version": { "const": "2.0" },
+    "system_name": { "type": "string", "minLength": 1 },
+    "source_summary": { "type": "string", "minLength": 1 },
+    "original_problem": { "type": "string", "minLength": 1 },
+    "actors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/actor" }
+    },
+    "goals": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/id_statement" }
+    },
+    "stocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/stock" }
+    },
+    "flows": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/flow" }
+    },
+    "feedback_loops": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/feedback_loop" }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/rule" }
+    },
+    "information_flows": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/information_flow" }
+    },
+    "delays": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/delay" }
+    },
+    "boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/boundary" }
+    },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/failure_mode" }
+    },
+    "uncertainties": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/uncertainty" }
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "required": ["id", "name", "role", "incentives"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "role": { "type": "string", "minLength": 1 },
+        "incentives": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "id_statement": {
+      "type": "object",
+      "required": ["id", "statement"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "owner": { "type": "string" }
+      }
+    },
+    "id_description": {
+      "type": "object",
+      "required": ["id", "description"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "description": { "type": "string", "minLength": 1 },
+        "effect": { "type": "string" },
+        "linked_nodes": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "stock": {
+      "type": "object",
+      "required": ["id", "name", "description"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "delay": {
+      "type": "object",
+      "required": ["id", "description", "effect"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "effect": { "type": "string", "minLength": 1 }
+      }
+    },
+    "failure_mode": {
+      "type": "object",
+      "required": ["id", "description", "linked_nodes"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "linked_nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "flow": {
+      "type": "object",
+      "required": ["id", "from", "to", "description"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "from": { "type": "string", "minLength": 1 },
+        "to": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "feedback_loop": {
+      "type": "object",
+      "required": ["id", "type", "description", "nodes"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["balancing", "reinforcing", "unknown"] },
+        "description": { "type": "string", "minLength": 1 },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "required": ["id", "statement", "explicitness"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "explicitness": { "enum": ["explicit", "implicit", "inferred"] }
+      }
+    },
+    "information_flow": {
+      "type": "object",
+      "required": ["id", "sender", "receiver", "content", "timing"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "sender": { "type": "string", "minLength": 1 },
+        "receiver": { "type": "string", "minLength": 1 },
+        "content": { "type": "string", "minLength": 1 },
+        "timing": { "type": "string", "minLength": 1 }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "required": ["id", "inside", "outside"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "inside": { "type": "string", "minLength": 1 },
+        "outside": { "type": "string", "minLength": 1 }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "required": ["id", "question", "why_it_matters"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 },
+        "why_it_matters": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

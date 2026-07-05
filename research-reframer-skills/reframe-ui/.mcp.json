@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "reframe-ui": {
+      "command": "node",
+      "args": ["server.mjs"]
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": "2.0",
+  "source_system": "OFA-MAS 一对多 MAS 拓扑设计系统",
+  "leverage_points": [
+    {
+      "id": "LP-001",
+      "type": "paradigm",
+      "system_location": "RL02 / BD03 / G01：'一个通用模型服务所有任务'的一对多范式",
+      "source_trace": {
+        "system_node_ids": ["RL02", "BD03", "G01", "FM04"],
+        "input_evidence": "\"一个通用模型服务所有任务\"一定比\"每域一个专门模型\"好（一对多 vs 一对一本身就是个可反转的框定）"
+      },
+      "why_it_matters": "这是论文最核心的框定。反转它（按域自适应地在通用/专门间路由，或'通用先验+域内特化'混合）能直接重构问题，而不是在原范式内做增量。",
+      "current_assumption": "单个通用模型在所有任务域上都应优于或不弱于一对一专门模型。",
+      "reframing_potential": "high",
+      "risk": "若实证上一对多确实普遍占优，反转会显得无的放矢；需先界定优劣边界（见 LP-003）。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-002",
+      "type": "paradigm",
+      "system_location": "RL05 / BD01 / FM03：'MAS 表现高度依赖拓扑设计'，拓扑被当作主要矛盾",
+      "source_trace": {
+        "system_node_ids": ["RL05", "BD01", "FM03", "U02"],
+        "input_evidence": "\"MAS 表现高度依赖拓扑设计\"——拓扑是主要矛盾，那角色定义、提示、信道内容是不是被低估了？"
+      },
+      "why_it_matters": "若性能更多来自角色/提示/信道内容而非连接结构，则整个优化对象都该换；这能开出'内容-结构联合设计'或'内容优先'的新方向。",
+      "current_assumption": "连接拓扑是 MAS 性能的主要决定因素，内容是次要的。",
+      "reframing_potential": "high",
+      "risk": "拆解结构与内容的贡献需要受控消融实验，归因困难。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-003",
+      "type": "rule",
+      "system_location": "RL03 / BD04 / FM05：评价口径 = 准确率 + token 成本",
+      "source_trace": {
+        "system_node_ids": ["RL03", "BD04", "FM05", "U05"],
+        "input_evidence": "评价 = benchmark 准确率 + token 成本"
+      },
+      "why_it_matters": "评价规则定义了'什么算更好的拓扑'。把鲁棒性、分布漂移稳定性、可解释性、协作过程质量纳入评价，会重塑模型该生成什么样的结构。",
+      "current_assumption": "准确率与 token 成本足以判定一个拓扑的好坏。",
+      "reframing_potential": "high",
+      "risk": "新增评价维度可能缺乏现成 benchmark，需要自建测度。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-004",
+      "type": "information_flow",
+      "system_location": "RL04 / B03 / FM01：LLM 合成的'查询-拓扑'对被当作 ground truth",
+      "source_trace": {
+        "system_node_ids": ["RL04", "A03", "S02", "B03", "FM01", "U01"],
+        "input_evidence": "训练数据靠 LLM 合成的\"查询–拓扑\"对，默认这些合成拓扑是高质量的 ground truth"
+      },
+      "why_it_matters": "把'合成数据质量'本身当作研究对象（噪声标签、置信度加权、合成器与学习器的同质化偏差）可能比改模型结构更能提升泛化。",
+      "current_assumption": "LLM 合成的拓扑足够接近最优，可直接作为监督信号。",
+      "reframing_potential": "high",
+      "risk": "缺少真实最优拓扑作金标准，质量差距难以直接测量。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-005",
+      "type": "structure",
+      "system_location": "RL01 / BD02 / T01：拓扑是静态 DAG，先生成后执行",
+      "source_trace": {
+        "system_node_ids": ["RL01", "BD02", "T01", "FM02"],
+        "input_evidence": "拓扑是静态 DAG，先生成后执行"
+      },
+      "why_it_matters": "打开'先生成后执行'这个边界，转向运行时自组织/动态演化/带反馈纠偏的拓扑，是结构层面的大重构。",
+      "current_assumption": "协作结构应在执行前一次性确定且保持静态。",
+      "reframing_potential": "high",
+      "risk": "动态拓扑会大幅增加系统复杂度与评测难度。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-006",
+      "type": "self_organization",
+      "system_location": "A01→A02 / F02 / BD02：拓扑由学出来的模型一次性生成预测",
+      "source_trace": {
+        "system_node_ids": ["A01", "A02", "F02", "BD02"],
+        "input_evidence": "协作拓扑应该由一个学出来的模型一次性生成/预测，而不是在运行时自组织或演化"
+      },
+      "why_it_matters": "把'生成主体'从中央模型转移到 agent 自组织（agent 之间协商/招募/演化出拓扑），是对'谁来设计结构'的反转，可能带来无需大规模训练的方案。",
+      "current_assumption": "拓扑必须由一个中央训练好的生成模型来产出。",
+      "reframing_potential": "medium",
+      "risk": "自组织可能不稳定、难以保证全局质量与可控性。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-007",
+      "type": "delay",
+      "system_location": "T03 / S03 / F06：经验验证图获取滞后，监督信号稀缺",
+      "source_trace": {
+        "system_node_ids": ["T03", "S03", "F06", "B01"],
+        "input_evidence": "③ 在经验验证过的图上做监督微调"
+      },
+      "why_it_matters": "缩短'执行→验证→纳入微调'的反馈延迟（在线/主动学习、用执行轨迹即时打分）能让模型更快从真实表现学习，而非依赖滞后的合成先验。",
+      "current_assumption": "高质量监督只能来自事后经验验证过的图，且更新缓慢。",
+      "reframing_potential": "medium",
+      "risk": "在线验证成本高，可能引入不稳定的反馈噪声。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-008",
+      "type": "feedback_loop",
+      "system_location": "B03 / A03 / A01：合成器与学习器的强化自循环（同质化）",
+      "source_trace": {
+        "system_node_ids": ["B03", "A03", "A01", "S02"],
+        "input_evidence": "并用 LLM 驱动的数据合成来降低标注成本"
+      },
+      "why_it_matters": "若合成器与被训模型口味相互强化导致拓扑多样性坍缩，引入多样性/对抗性合成或异质评判者可打破该回路，提升泛化。",
+      "current_assumption": "用同源 LLM 合成数据不会损害拓扑多样性与泛化。",
+      "reframing_potential": "medium",
+      "risk": "多样性与质量之间存在张力，强行增多样可能降低单点质量。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-009",
+      "type": "structure",
+      "system_location": "S04 / A01（MoE）/ F05：MoE 专家容量与任务到专家的路由",
+      "source_trace": {
+        "system_node_ids": ["S04", "A01", "F05"],
+        "input_evidence": "MoE（专家混合）：按任务动态选择子网络来预测节点和边"
+      },
+      "why_it_matters": "把专家划分维度从'任务'改为'结构基元/协作模式/失败模式'，或让专家可增删演化，会改变模型复用结构知识的方式。",
+      "current_assumption": "MoE 专家应按任务动态选择来预测节点和边。",
+      "reframing_potential": "medium",
+      "risk": "重新定义专家划分缺乏明确监督，路由可能退化。",
+      "human_selectable": true
+    }
+  ],
+  "selection_guidance": "建议优先考虑 LP-001（一对多范式反转）、LP-002（拓扑 vs 内容谁是主要矛盾）、LP-003（评价口径扩展）、LP-004（合成数据质量作为研究对象）这四个高杠杆点：它们分别触及范式、优化对象、评价规则与监督信号，覆盖面广且各自可独立产出可验证的研究问题。LP-005（静态→动态拓扑）适合想做结构性大重构的人。最终由人类在 Gate 1 选择。"
+}
