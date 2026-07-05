@@ -1,0 +1,470 @@
+{
+  "schema_version": "2.1",
+  "pack_version": "0.7.0",
+  "dissatisfaction_types": [
+    "novelty_gap",
+    "unclear_mechanism",
+    "weak_testability",
+    "jargon_or_opacity",
+    "loose_structure",
+    "unclear_prior_difference",
+    "too_broad_to_execute",
+    "too_conservative"
+  ],
+  "system_relation_types": [
+    "fact",
+    "inference",
+    "analogy",
+    "low_confidence"
+  ],
+  "lateral_operators": [
+    "assumption_challenge",
+    "reversal",
+    "decomposition",
+    "analogy",
+    "random_stimulus",
+    "PO_provocation",
+    "entry_point_shift",
+    "concept_abstraction"
+  ],
+  "retired_v02_operators": [
+    "function_abstraction",
+    "boundary_shift",
+    "goal_inversion"
+  ],
+  "leverage_types": [
+    "parameter",
+    "buffer",
+    "structure",
+    "delay",
+    "feedback_loop",
+    "information_flow",
+    "rule",
+    "self_organization",
+    "goal",
+    "paradigm"
+  ],
+  "leverage_families": [
+    "parameter_metric",
+    "stock_flow_delay",
+    "feedback_information",
+    "rule_incentive",
+    "self_organization_structure",
+    "goal_paradigm"
+  ],
+  "reframing_potential": [
+    "high",
+    "medium",
+    "low"
+  ],
+  "lateral_fields": [
+    "lateral_id",
+    "source_leverage_point",
+    "operator",
+    "old_frame",
+    "lateral_move",
+    "new_frame",
+    "scheme",
+    "why_interesting",
+    "changed_assumption",
+    "bad_use_to_avoid",
+    "not_yet_audited"
+  ],
+  "verdicts": [
+    "reject",
+    "revise",
+    "keep"
+  ],
+  "auditors": [
+    "dual",
+    "codex",
+    "self"
+  ],
+  "audit_gates": [
+    "minimal_experiment_exists",
+    "discriminable_from_prior",
+    "so_what_passes"
+  ],
+  "audit_score_keys": [
+    "coherence",
+    "testability",
+    "novelty_potential",
+    "research_value",
+    "risk"
+  ],
+  "pseudo_innovation_status": [
+    "clear",
+    "repairable",
+    "fatal"
+  ],
+  "pseudo_innovation_failure_types": [
+    "terminology_swap",
+    "glue_splice",
+    "grand_narrative",
+    "template_fill",
+    "jargon_masking",
+    "unverifiable_divergence",
+    "over_conservative_repair"
+  ],
+  "human_resolutions": [
+    "keep",
+    "revise",
+    "human_rescue_to_keep",
+    "human_rescue_to_revise",
+    "selected_for_card"
+  ],
+  "required_fields": {
+    "diagnosis": [
+      "schema_version",
+      "original_idea_summary",
+      "dissatisfaction_types",
+      "primary_bottleneck",
+      "core_value_to_preserve",
+      "most_promising_change_target",
+      "downstream_focus"
+    ],
+    "system_map": [
+      "schema_version",
+      "system_name",
+      "source_summary",
+      "original_problem",
+      "actors",
+      "goals",
+      "stocks",
+      "flows",
+      "feedback_loops",
+      "rules",
+      "information_flows",
+      "delays",
+      "boundaries",
+      "failure_modes",
+      "uncertainties"
+    ],
+    "system_map_actor": [
+      "id",
+      "name",
+      "role",
+      "incentives"
+    ],
+    "system_map_goal": [
+      "id",
+      "statement"
+    ],
+    "system_map_stock": [
+      "id",
+      "name",
+      "description"
+    ],
+    "system_map_flow": [
+      "id",
+      "from",
+      "to",
+      "description"
+    ],
+    "system_map_feedback_loop": [
+      "id",
+      "type",
+      "description",
+      "nodes"
+    ],
+    "system_map_rule": [
+      "id",
+      "statement",
+      "explicitness"
+    ],
+    "system_map_information_flow": [
+      "id",
+      "sender",
+      "receiver",
+      "content",
+      "timing"
+    ],
+    "system_map_delay": [
+      "id",
+      "description",
+      "effect"
+    ],
+    "system_map_boundary": [
+      "id",
+      "inside",
+      "outside"
+    ],
+    "system_map_failure_mode": [
+      "id",
+      "description",
+      "linked_nodes"
+    ],
+    "system_map_uncertainty": [
+      "id",
+      "question",
+      "why_it_matters"
+    ],
+    "system_map_relation_audit": [
+      "relation_type",
+      "evidence_source",
+      "mechanism",
+      "if_wrong_impact"
+    ],
+    "leverage_points": [
+      "schema_version",
+      "source_system",
+      "leverage_points",
+      "selection_guidance"
+    ],
+    "leverage_point_item": [
+      "id",
+      "type",
+      "system_location",
+      "source_trace",
+      "why_it_matters",
+      "current_assumption",
+      "reframing_potential",
+      "risk",
+      "human_selectable"
+    ],
+    "leverage_point_source_trace": [
+      "system_node_ids",
+      "input_evidence"
+    ],
+    "lateral_reframes": [
+      "schema_version",
+      "source_leverage_points",
+      "lateral_schemes",
+      "coverage_ledger"
+    ],
+    "lateral_scheme_item": [
+      "lateral_id",
+      "source_leverage_point",
+      "operator",
+      "old_frame",
+      "lateral_move",
+      "new_frame",
+      "scheme",
+      "why_interesting",
+      "changed_assumption",
+      "bad_use_to_avoid",
+      "not_yet_audited"
+    ],
+    "coverage_ledger": [
+      "operators",
+      "cells",
+      "occupied_count",
+      "total_cells",
+      "coverage_ratio",
+      "underexplored"
+    ],
+    "coverage_ledger_cell": [
+      "leverage_point",
+      "operator",
+      "scheme_count",
+      "scheme_ids"
+    ],
+    "coverage_ledger_underexplored": [
+      "leverage_point",
+      "operator"
+    ],
+    "vertical_audits": [
+      "schema_version",
+      "audited_lateral_ids",
+      "audits"
+    ],
+    "vertical_audit_item": [
+      "audit_id",
+      "source_lateral_id",
+      "auditor",
+      "codex_verdict",
+      "claude_verdict",
+      "agreement",
+      "needs_human",
+      "verdict",
+      "minimal_experiment_exists",
+      "discriminable_from_prior",
+      "so_what_passes",
+      "refined_scheme",
+      "core_claim",
+      "causal_mechanism",
+      "critical_assumptions",
+      "novelty_risk",
+      "minimal_experiment",
+      "failure_modes",
+      "pseudo_innovation",
+      "escalation_reason",
+      "human_resolution",
+      "audit_score",
+      "reasons"
+    ],
+    "vertical_audit_merge": [
+      "with",
+      "reason"
+    ],
+    "pseudo_innovation": [
+      "status",
+      "failure_types",
+      "evidence",
+      "repair"
+    ],
+    "audit_score": [
+      "coherence",
+      "testability",
+      "novelty_potential",
+      "research_value",
+      "risk",
+      "overall"
+    ],
+    "gate_cards": [
+      "schema_version",
+      "gates",
+      "gate1",
+      "gate2",
+      "gate3"
+    ],
+    "gate_cards_gate": [
+      "display_language",
+      "source_artifact",
+      "cards",
+      "selected_ids"
+    ],
+    "gate_card_item": [
+      "id",
+      "title",
+      "summary_rows"
+    ],
+    "gate_card_row": [
+      "label",
+      "text"
+    ],
+    "human_selection": [
+      "schema_version",
+      "gates",
+      "gate1",
+      "gate2",
+      "gate3"
+    ],
+    "human_selection_gate": [
+      "selected",
+      "mode"
+    ],
+    "human_selection_gate3_item": [
+      "audit_id",
+      "resolution"
+    ],
+    "idea_cards": [
+      "schema_version",
+      "idea_cards"
+    ],
+    "idea_card_item": [
+      "id",
+      "title",
+      "one_sentence",
+      "original_problem",
+      "reframed_problem",
+      "changed_assumption",
+      "system_trace",
+      "method_trace",
+      "why_not_obvious",
+      "minimal_experiment",
+      "evaluation_metrics",
+      "expected_observation",
+      "failure_case",
+      "related_work_queries",
+      "next_steps",
+      "status",
+      "reader_view",
+      "change_log"
+    ],
+    "idea_card_reader_view": [
+      "headline",
+      "summary",
+      "original_default",
+      "new_question",
+      "minimal_test",
+      "main_risk",
+      "why_it_matters"
+    ],
+    "idea_card_system_trace": [
+      "input_evidence",
+      "system_node",
+      "leverage_point",
+      "lateral_operation",
+      "reframe"
+    ],
+    "idea_card_method_trace": [
+      "source_vertical_audit",
+      "source_lateral_scheme",
+      "source_leverage_point",
+      "operator",
+      "source_system_nodes",
+      "old_frame",
+      "new_frame",
+      "changed_assumption",
+      "audit_verdict",
+      "audit_score"
+    ],
+    "idea_card_change_log": [
+      "source_diagnosis",
+      "selected_leverage_point",
+      "structural_change",
+      "new_mechanism",
+      "preserved_from_original",
+      "removed_or_weakened",
+      "real_increment_over_original",
+      "remaining_fragility"
+    ]
+  },
+  "introduction_types": [
+    "input_term",
+    "system_map_term",
+    "leverage_point_term",
+    "lateral_stimulus",
+    "analogy_source",
+    "agent_inference"
+  ],
+  "id_patterns": {
+    "leverage_point": "^LP-[0-9]{3}$",
+    "lateral_scheme": "^LR-[0-9]{3}$",
+    "vertical_audit": "^VA-[0-9]{3}$",
+    "idea_card": "^IC-[0-9]{3}$"
+  },
+  "artifacts": {
+    "diagnosis": "00_diagnosis.json",
+    "system_map": "01_system_map.json",
+    "leverage_points": "02_leverage_points.json",
+    "lateral_reframes": "03_lateral_reframes.json",
+    "vertical_audits": "04_vertical_audits.json",
+    "idea_cards": "06_idea_cards.json"
+  },
+  "audit_trail": [
+    "05_gate_cards.json",
+    "05_human_selection.json",
+    "05_human_selection.md",
+    "decision_log.md",
+    "reframe_report.md"
+  ],
+  "gates": {
+    "1": {
+      "selects": "leverage_points",
+      "id": "leverage_point",
+      "mode": "systems"
+    },
+    "2": {
+      "selects": "lateral_schemes",
+      "id": "lateral_scheme",
+      "mode": "lateral"
+    },
+    "3": {
+      "selects": "audited_schemes",
+      "id": "vertical_audit",
+      "mode": "vertical"
+    }
+  },
+  "trace_chain": [
+    "diagnosis",
+    "input_evidence",
+    "system_node",
+    "LP",
+    "LR",
+    "VA",
+    "IC"
+  ],
+  "tolerance": 0.01
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/stage0_diagnosis.schema.json",
+  "title": "Research Reframer Stage 0 Diagnosis",
+  "description": "Pre-map diagnosis of what is unsatisfactory about the original idea and what must be preserved.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "original_idea_summary",
+    "dissatisfaction_types",
+    "primary_bottleneck",
+    "core_value_to_preserve",
+    "most_promising_change_target",
+    "downstream_focus"
+  ],
+  "properties": {
+    "schema_version": { "const": "2.1" },
+    "original_idea_summary": { "type": "string", "minLength": 1 },
+    "dissatisfaction_types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "novelty_gap",
+          "unclear_mechanism",
+          "weak_testability",
+          "jargon_or_opacity",
+          "loose_structure",
+          "unclear_prior_difference",
+          "too_broad_to_execute",
+          "too_conservative"
+        ]
+      }
+    },
+    "primary_bottleneck": { "type": "string", "minLength": 1 },
+    "core_value_to_preserve": { "type": "string", "minLength": 1 },
+    "most_promising_change_target": { "type": "string", "minLength": 1 },
+    "downstream_focus": { "type": "string", "minLength": 1 }
+  }
+}

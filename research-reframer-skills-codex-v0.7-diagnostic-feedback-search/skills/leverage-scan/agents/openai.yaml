@@ -1,0 +1,4 @@
+interface:
+  display_name: "Leverage Scan"
+  short_description: "Find reframing leverage points in a system map"
+  default_prompt: "Use $leverage-scan to identify high-leverage reframing points in this system map."

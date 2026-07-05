@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/gate_cards.schema.json",
+  "title": "Research Reframer Gate Card Snapshot",
+  "description": "Snapshot of the actual lightweight cards shown to the user at each human gate, used to audit whether selection text was clear or misleading.",
+  "type": "object",
+  "required": ["schema_version", "gates"],
+  "properties": {
+    "schema_version": { "const": "2.1" },
+    "run_id": { "type": "string" },
+    "recorded_by": { "type": "string" },
+    "gates": {
+      "type": "object",
+      "required": ["gate1", "gate2", "gate3"],
+      "additionalProperties": false,
+      "properties": {
+        "gate1": { "$ref": "#/$defs/gate" },
+        "gate2": { "$ref": "#/$defs/gate" },
+        "gate3": { "$ref": "#/$defs/gate" }
+      }
+    }
+  },
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "required": ["display_language", "source_artifact", "cards", "selected_ids"],
+      "properties": {
+        "display_language": { "const": "zh-CN" },
+        "source_artifact": { "type": "string" },
+        "task": { "type": "string" },
+        "selection_guidance": { "type": "string" },
+        "recommended_ids": { "type": "array", "items": { "type": "string" } },
+        "selected_ids": { "type": "array", "items": { "type": "string" } },
+        "recorded_at": { "type": ["string", "null"] },
+        "cards": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "summary_rows"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^(LP|LR|VA)-[0-9]{3}$" },
+              "title": { "type": "string", "minLength": 1 },
+              "meta": { "type": "string" },
+              "recommended": { "type": "boolean" },
+              "summary_rows": { "$ref": "#/$defs/rows" },
+              "detail_rows": { "$ref": "#/$defs/rows" }
+            }
+          }
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["label", "text"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1 },
+          "text": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

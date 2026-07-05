@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reframe Workshop"
+  short_description: "Run the human-in-the-loop research reframing workflow"
+  default_prompt: "Use $reframe-workshop to guide a rough research idea through system mapping, leverage selection, reframing, and idea cards."

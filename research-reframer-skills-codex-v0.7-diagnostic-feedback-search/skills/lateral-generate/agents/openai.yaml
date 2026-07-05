@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lateral Generate"
+  short_description: "Generate diverse reframes from selected leverage points"
+  default_prompt: "Use $lateral-generate to generate diverse lateral reframes from the selected leverage points."

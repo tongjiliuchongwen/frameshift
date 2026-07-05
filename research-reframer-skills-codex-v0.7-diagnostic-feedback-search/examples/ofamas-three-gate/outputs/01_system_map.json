@@ -1,0 +1,402 @@
+{
+  "schema_version": "2.1",
+  "system_name": "OFA-MAS 一对多 MAS 拓扑设计系统",
+  "source_summary": "用单个通用图生成模型（TAGSE + MoE + 三阶段课程训练），为任意自然语言任务描述生成自适应的多智能体协作拓扑（有向无环图），以替代每个任务域单独训练的一对一专门模型。",
+  "original_problem": "如何用一个通用模型，把任意任务描述映射成高质量的 MAS 协作拓扑，从而跨域泛化并复用结构知识，同时优于一对一专门模型。",
+  "actors": [
+    {
+      "id": "A01",
+      "name": "OFA-MAS 通用拓扑生成模型",
+      "role": "把任务描述编码后，用 TAGSE 过滤任务相关节点信息、用 MoE 动态选专家来预测节点与边，一次性生成协作 DAG",
+      "incentives": [
+        "跨域泛化",
+        "复用跨任务结构知识",
+        "在 benchmark 上超过一对一模型",
+        "降低 token 成本"
+      ]
+    },
+    {
+      "id": "A02",
+      "name": "被实例化的 Agent 节点",
+      "role": "由 LLM 实例化的协作单元，带功能角色 ρ 与上下文状态 σ，是 DAG 中的节点",
+      "incentives": [
+        "完成被分配的子任务",
+        "按角色定义产出"
+      ]
+    },
+    {
+      "id": "A03",
+      "name": "LLM 数据合成器",
+      "role": "生成大规模'查询-拓扑'对，作为有条件预训练阶段的训练数据来源",
+      "incentives": [
+        "低成本扩大标注数据",
+        "覆盖多样任务"
+      ]
+    },
+    {
+      "id": "A04",
+      "name": "研究者/系统设计者",
+      "role": "设定课程训练流程、benchmark 与评价口径，并对拓扑做经验验证后供监督微调",
+      "incentives": [
+        "可复现的强结果",
+        "通用性",
+        "成本可控"
+      ]
+    },
+    {
+      "id": "A05",
+      "name": "终端任务/Benchmark 环境",
+      "role": "提供任务描述输入，并以准确率与 token 成本对生成的拓扑给出评价",
+      "incentives": [
+        "任务被正确解决",
+        "高准确率"
+      ]
+    }
+  ],
+  "goals": [
+    {
+      "id": "G01",
+      "statement": "用单个通用模型为任意自然语言任务生成自适应协作拓扑，并在跨域 benchmark 上超过一对一专门模型。",
+      "owner": "A01"
+    },
+    {
+      "id": "G02",
+      "statement": "在保证准确率的前提下降低 token 成本（如 MMLU 89%、GSM8K 95% 且成本低）。",
+      "owner": "A05"
+    },
+    {
+      "id": "G03",
+      "statement": "复用跨任务的结构先验，提升对未见任务域的泛化。",
+      "owner": "A01"
+    },
+    {
+      "id": "G04",
+      "statement": "用 LLM 合成数据降低拓扑标注成本，使训练可规模化。",
+      "owner": "A03"
+    }
+  ],
+  "stocks": [
+    {
+      "id": "S01",
+      "name": "结构先验知识",
+      "description": "模型在无条件预训练阶段从规范拓扑中积累的关于'好结构'的内部知识"
+    },
+    {
+      "id": "S02",
+      "name": "合成查询-拓扑数据集",
+      "description": "由 LLM 合成器生成、用于有条件预训练的大规模数据池"
+    },
+    {
+      "id": "S03",
+      "name": "经验验证过的图样本",
+      "description": "在真实执行中被验证有效、用于第三阶段监督微调的高质量拓扑"
+    },
+    {
+      "id": "S04",
+      "name": "MoE 专家容量",
+      "description": "可被任务动态调用的子网络专家集合，承载不同任务到拓扑的映射能力"
+    },
+    {
+      "id": "S05",
+      "name": "Token 预算/推理成本",
+      "description": "执行生成出的拓扑时消耗的累计 token，与准确率共同决定性价比"
+    }
+  ],
+  "flows": [
+    {
+      "id": "F01",
+      "from": "A05",
+      "to": "A01",
+      "description": "自然语言任务描述作为输入流入通用模型",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation F01 derived from: 自然语言任务描述作为输入流入通用模型",
+      "mechanism": "自然语言任务描述作为输入流入通用模型",
+      "if_wrong_impact": "If F01 is wrong, re-check leverage points that depend on this relation: 自然语言任务描述作为输入流入通用模型"
+    },
+    {
+      "id": "F02",
+      "from": "A01",
+      "to": "A02",
+      "description": "模型预测节点（角色 ρ、状态 σ）与有向边，实例化出协作 DAG",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation F02 derived from: 模型预测节点（角色 ρ、状态 σ）与有向边，实例化出协作 DAG",
+      "mechanism": "模型预测节点（角色 ρ、状态 σ）与有向边，实例化出协作 DAG",
+      "if_wrong_impact": "If F02 is wrong, re-check leverage points that depend on this relation: 模型预测节点（角色 ρ、状态 σ）与有向边，实例化出协作 DAG"
+    },
+    {
+      "id": "F03",
+      "from": "A02",
+      "to": "A05",
+      "description": "Agent 沿信道协作执行，产出答案交给 benchmark 评价",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation F03 derived from: Agent 沿信道协作执行，产出答案交给 benchmark 评价",
+      "mechanism": "Agent 沿信道协作执行，产出答案交给 benchmark 评价",
+      "if_wrong_impact": "If F03 is wrong, re-check leverage points that depend on this relation: Agent 沿信道协作执行，产出答案交给 benchmark 评价"
+    },
+    {
+      "id": "F04",
+      "from": "A03",
+      "to": "S02",
+      "description": "LLM 合成'查询-拓扑'对填充有条件预训练数据池",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation F04 derived from: LLM 合成'查询-拓扑'对填充有条件预训练数据池",
+      "mechanism": "LLM 合成'查询-拓扑'对填充有条件预训练数据池",
+      "if_wrong_impact": "If F04 is wrong, re-check leverage points that depend on this relation: LLM 合成'查询-拓扑'对填充有条件预训练数据池"
+    },
+    {
+      "id": "F05",
+      "from": "S01",
+      "to": "S04",
+      "description": "无条件预训练得到的结构先验注入并塑形 MoE 专家能力",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation F05 derived from: 无条件预训练得到的结构先验注入并塑形 MoE 专家能力",
+      "mechanism": "无条件预训练得到的结构先验注入并塑形 MoE 专家能力",
+      "if_wrong_impact": "If F05 is wrong, re-check leverage points that depend on this relation: 无条件预训练得到的结构先验注入并塑形 MoE 专家能力"
+    },
+    {
+      "id": "F06",
+      "from": "S03",
+      "to": "A01",
+      "description": "经验验证图在第三阶段对模型做监督微调",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation F06 derived from: 经验验证图在第三阶段对模型做监督微调",
+      "mechanism": "经验验证图在第三阶段对模型做监督微调",
+      "if_wrong_impact": "If F06 is wrong, re-check leverage points that depend on this relation: 经验验证图在第三阶段对模型做监督微调"
+    }
+  ],
+  "feedback_loops": [
+    {
+      "id": "B01",
+      "type": "reinforcing",
+      "description": "课程训练三阶段逐级强化：结构先验→任务到拓扑映射→经验微调，越往后模型生成的拓扑越贴合验证标准。",
+      "nodes": [
+        "S01",
+        "S02",
+        "S03",
+        "A01"
+      ],
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation B01 derived from: 课程训练三阶段逐级强化：结构先验→任务到拓扑映射→经验微调，越往后模型生成的拓扑越贴合验证标准。",
+      "mechanism": "课程训练三阶段逐级强化：结构先验→任务到拓扑映射→经验微调，越往后模型生成的拓扑越贴合验证标准。",
+      "if_wrong_impact": "If B01 is wrong, re-check leverage points that depend on this relation: 课程训练三阶段逐级强化：结构先验→任务到拓扑映射→经验微调，越往后模型生成的拓扑越贴合验证标准。"
+    },
+    {
+      "id": "B02",
+      "type": "balancing",
+      "description": "准确率与 token 成本之间的权衡循环：更复杂的拓扑可能提升准确率但抬高成本，评价口径迫使二者平衡。",
+      "nodes": [
+        "G02",
+        "S05",
+        "A05"
+      ],
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation B02 derived from: 准确率与 token 成本之间的权衡循环：更复杂的拓扑可能提升准确率但抬高成本，评价口径迫使二者平衡。",
+      "mechanism": "准确率与 token 成本之间的权衡循环：更复杂的拓扑可能提升准确率但抬高成本，评价口径迫使二者平衡。",
+      "if_wrong_impact": "If B02 is wrong, re-check leverage points that depend on this relation: 准确率与 token 成本之间的权衡循环：更复杂的拓扑可能提升准确率但抬高成本，评价口径迫使二者平衡。"
+    },
+    {
+      "id": "B03",
+      "type": "reinforcing",
+      "description": "数据合成自循环：LLM 合成拓扑→训练模型→模型对'好拓扑'的偏好，可能与合成器口味相互强化（潜在同质化）。",
+      "nodes": [
+        "A03",
+        "S02",
+        "A01"
+      ],
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation B03 derived from: 数据合成自循环：LLM 合成拓扑→训练模型→模型对'好拓扑'的偏好，可能与合成器口味相互强化（潜在同质化）。",
+      "mechanism": "数据合成自循环：LLM 合成拓扑→训练模型→模型对'好拓扑'的偏好，可能与合成器口味相互强化（潜在同质化）。",
+      "if_wrong_impact": "If B03 is wrong, re-check leverage points that depend on this relation: 数据合成自循环：LLM 合成拓扑→训练模型→模型对'好拓扑'的偏好，可能与合成器口味相互强化（潜在同质化）。"
+    }
+  ],
+  "rules": [
+    {
+      "id": "RL01",
+      "statement": "协作拓扑被形式化为有向无环图 G=(V,E)，先生成后执行。",
+      "explicitness": "explicit"
+    },
+    {
+      "id": "RL02",
+      "statement": "用单个通用模型服务所有任务域（一对多），而非每域一个专门模型（一对一）。",
+      "explicitness": "explicit"
+    },
+    {
+      "id": "RL03",
+      "statement": "评价口径 = benchmark 准确率 + token 成本。",
+      "explicitness": "explicit"
+    },
+    {
+      "id": "RL04",
+      "statement": "LLM 合成的'查询-拓扑'对被默认当作高质量 ground truth 来训练。",
+      "explicitness": "implicit"
+    },
+    {
+      "id": "RL05",
+      "statement": "MAS 表现高度依赖拓扑设计，因此拓扑被当作主要优化对象。",
+      "explicitness": "explicit"
+    },
+    {
+      "id": "RL06",
+      "statement": "TAGSE 用稀疏门控只保留与任务相关的节点信息（信息过滤规则）。",
+      "explicitness": "explicit"
+    }
+  ],
+  "information_flows": [
+    {
+      "id": "I01",
+      "sender": "A05",
+      "receiver": "A01",
+      "content": "自然语言任务描述（query）",
+      "timing": "推理开始时一次性输入",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation I01 derived from: 自然语言任务描述（query）",
+      "mechanism": "自然语言任务描述（query）",
+      "if_wrong_impact": "If I01 is wrong, re-check leverage points that depend on this relation: 自然语言任务描述（query）"
+    },
+    {
+      "id": "I02",
+      "sender": "A01（TAGSE）",
+      "receiver": "A01（MoE 预测头）",
+      "content": "经稀疏门控过滤后的任务相关节点状态信息",
+      "timing": "生成拓扑的内部前向阶段",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation I02 derived from: 经稀疏门控过滤后的任务相关节点状态信息",
+      "mechanism": "经稀疏门控过滤后的任务相关节点状态信息",
+      "if_wrong_impact": "If I02 is wrong, re-check leverage points that depend on this relation: 经稀疏门控过滤后的任务相关节点状态信息"
+    },
+    {
+      "id": "I03",
+      "sender": "A02",
+      "receiver": "A02",
+      "content": "Agent 间沿有向信道传递的中间结果/消息",
+      "timing": "拓扑执行期，按 DAG 顺序",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation I03 derived from: Agent 间沿有向信道传递的中间结果/消息",
+      "mechanism": "Agent 间沿有向信道传递的中间结果/消息",
+      "if_wrong_impact": "If I03 is wrong, re-check leverage points that depend on this relation: Agent 间沿有向信道传递的中间结果/消息"
+    },
+    {
+      "id": "I04",
+      "sender": "A05",
+      "receiver": "A04",
+      "content": "benchmark 准确率与 token 成本反馈",
+      "timing": "一次执行完成之后",
+      "relation_type": "inference",
+      "evidence_source": "Auditable relation I04 derived from: benchmark 准确率与 token 成本反馈",
+      "mechanism": "benchmark 准确率与 token 成本反馈",
+      "if_wrong_impact": "If I04 is wrong, re-check leverage points that depend on this relation: benchmark 准确率与 token 成本反馈"
+    }
+  ],
+  "delays": [
+    {
+      "id": "T01",
+      "description": "拓扑'先生成后执行'：结构在执行前已被冻结，执行中暴露的问题无法反馈回当次生成。",
+      "effect": "运行时无法纠偏，错误结构只能在下一次重生成时修正"
+    },
+    {
+      "id": "T02",
+      "description": "三阶段课程训练的长链路：从结构先验到经验验证微调存在显著训练滞后。",
+      "effect": "任何阶段的偏差（如合成数据偏差）要很久才在最终模型行为上显现"
+    },
+    {
+      "id": "T03",
+      "description": "经验验证图的获取滞后：需先真实执行才能判定一个拓扑是否值得纳入微调。",
+      "effect": "高质量监督信号稀缺且更新慢"
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "BD01",
+      "inside": "拓扑结构（节点连接方式）的生成与优化",
+      "outside": "角色定义 ρ 的语义、提示词内容、信道上实际传输的消息内容"
+    },
+    {
+      "id": "BD02",
+      "inside": "静态 DAG（先生成后执行）",
+      "outside": "运行时自组织、动态演化或带环的协作结构"
+    },
+    {
+      "id": "BD03",
+      "inside": "单通用模型（一对多）",
+      "outside": "一对一专门模型、模型集合、或无需训练的运行时构造"
+    },
+    {
+      "id": "BD04",
+      "inside": "准确率 + token 成本的评价",
+      "outside": "鲁棒性、可解释性、对抗/分布漂移下的稳定性、协作过程质量"
+    }
+  ],
+  "failure_modes": [
+    {
+      "id": "FM01",
+      "description": "合成'查询-拓扑'数据若本身质量不高或有系统性偏差，模型会学到并放大这种偏差。",
+      "linked_nodes": [
+        "RL04",
+        "A03",
+        "S02",
+        "B03"
+      ]
+    },
+    {
+      "id": "FM02",
+      "description": "静态先生成拓扑面对执行期意外（agent 失败、信息缺失）无法运行时纠偏。",
+      "linked_nodes": [
+        "RL01",
+        "BD02",
+        "T01"
+      ]
+    },
+    {
+      "id": "FM03",
+      "description": "把拓扑当主要矛盾，可能低估角色/提示/信道内容的作用，导致'拓扑对了内容仍错'。",
+      "linked_nodes": [
+        "RL05",
+        "BD01"
+      ]
+    },
+    {
+      "id": "FM04",
+      "description": "通用模型在某些专门域上可能不如该域的一对一模型（一对多并非处处占优）。",
+      "linked_nodes": [
+        "RL02",
+        "BD03",
+        "G01"
+      ]
+    },
+    {
+      "id": "FM05",
+      "description": "仅以准确率+成本评价，可能在鲁棒性、分布漂移、可解释性维度上隐藏退化。",
+      "linked_nodes": [
+        "RL03",
+        "BD04"
+      ]
+    }
+  ],
+  "uncertainties": [
+    {
+      "id": "U01",
+      "question": "LLM 合成的拓扑相对真实最优拓扑的质量差距有多大，偏差是否系统性？",
+      "why_it_matters": "决定了'把合成数据当 ground truth'这一框定是否可被翻转为重点研究对象"
+    },
+    {
+      "id": "U02",
+      "question": "拓扑设计与角色/提示/信道内容三者各自贡献了多少最终性能？",
+      "why_it_matters": "若内容贡献被低估，则'拓扑是主要矛盾'的范式可被重构"
+    },
+    {
+      "id": "U03",
+      "question": "一对多在哪些任务域确实优于一对一，在哪些域劣于？边界在哪？",
+      "why_it_matters": "决定是否应反转为'按域自适应地在通用与专门之间切换'"
+    },
+    {
+      "id": "U04",
+      "question": "静态 DAG 与运行时自组织/演化拓扑相比，性能与成本差距如何？",
+      "why_it_matters": "关系到能否把'先生成后执行'这一边界打开为动态协作范式"
+    },
+    {
+      "id": "U05",
+      "question": "现有评价（准确率+token）是否掩盖了鲁棒性、可解释性等被忽略的目标？",
+      "why_it_matters": "评价口径决定了什么算'更好的拓扑'，是高杠杆的范式点"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/verdict.schema.json",
+  "title": "Vertical-audit single-judge verdict",
+  "description": "The output shape a single judge returns for one lateral scheme. The vertical-audit orchestrator merges external and local judge verdicts into a VA record. Passed to `codex exec --output-schema`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verdict",
+    "minimal_experiment_exists",
+    "discriminable_from_prior",
+    "so_what_passes",
+    "core_claim",
+    "causal_mechanism",
+    "critical_assumptions",
+    "novelty_risk",
+    "minimal_experiment",
+    "failure_modes",
+    "pseudo_innovation",
+    "refined_scheme",
+    "escalation_reason",
+    "audit_score",
+    "reasons"
+  ],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["reject", "revise", "keep"] },
+    "minimal_experiment_exists": { "type": "boolean" },
+    "discriminable_from_prior": { "type": "boolean" },
+    "so_what_passes": { "type": "boolean" },
+    "core_claim": { "type": "string" },
+    "causal_mechanism": { "type": "array", "items": { "type": "string" } },
+    "critical_assumptions": { "type": "array", "items": { "type": "string" } },
+    "novelty_risk": { "type": "string" },
+    "minimal_experiment": { "type": "string" },
+    "failure_modes": { "type": "array", "items": { "type": "string" } },
+    "pseudo_innovation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "failure_types", "evidence", "repair"],
+      "properties": {
+        "status": { "type": "string", "enum": ["clear", "repairable", "fatal"] },
+        "failure_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "terminology_swap",
+              "glue_splice",
+              "grand_narrative",
+              "template_fill",
+              "jargon_masking",
+              "unverifiable_divergence",
+              "over_conservative_repair"
+            ]
+          }
+        },
+        "evidence": { "type": "string" },
+        "repair": { "type": "string" }
+      }
+    },
+    "refined_scheme": { "type": "string" },
+    "escalation_reason": { "type": ["string", "null"] },
+    "audit_score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coherence", "testability", "novelty_potential", "research_value", "risk", "overall"],
+      "properties": {
+        "coherence": { "type": "number" },
+        "testability": { "type": "number" },
+        "novelty_potential": { "type": "number" },
+        "research_value": { "type": "number" },
+        "risk": { "type": "number" },
+        "overall": { "type": "number" }
+      }
+    },
+    "reasons": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "schema_version": "2.1",
+  "audited_lateral_ids": [
+    "LR-001",
+    "LR-003",
+    "LR-004",
+    "LR-006"
+  ],
+  "audits": [
+    {
+      "audit_id": "VA-001",
+      "source_lateral_id": "LR-001",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "revise",
+      "agreement": false,
+      "needs_human": true,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": true,
+      "so_what_passes": true,
+      "refined_scheme": "把范围收窄到单一成熟语料库，检验'检索锚定的缺席证明'是否比标准 LLM 选题 + 纯检索新颖性过滤更能提高专家判定的非平凡新问题产率。",
+      "core_claim": "要求系统为每个候选问题给出可证伪的'为何此前无人问'缺席证明，会提高经专家验证的非平凡新问题产率，优于普通 LLM 选题。",
+      "causal_mechanism": [
+        "系统检索语料构造'缺席证明'",
+        "缺席证明充当对候选问题的可证伪约束",
+        "通不过缺席证明的候选被剔除",
+        "存活候选更可能是真空白而非已问过的问题"
+      ],
+      "critical_assumptions": [
+        "缺席证明可由检索可靠近似",
+        "专家能稳定区分非平凡新问题与平凡新问题"
+      ],
+      "novelty_risk": "可能塌缩为自动假设生成 + 检索式新颖性过滤 + 自我批评。",
+      "minimal_experiment": "在一个成熟语料库上，比较'缺席证明锚定的选题' vs '标准 LLM 选题' vs '纯检索新颖性过滤'三组的专家验证新问题产率。",
+      "failure_modes": [
+        "缺席证明沦为事后合理化而非真正生成器",
+        "专家评估成本过高导致样本不足"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 4,
+        "novelty_potential": 3,
+        "research_value": 4,
+        "risk": 3,
+        "overall": 3.6
+      },
+      "reasons": [
+        "Codex: 与已知假设生成+检索新颖性过滤不可判别；缺席证明疑似事后合理化。",
+        "Claude: 收窄到'检索锚定的缺席证明 vs 纯新颖性过滤'后存在可判别核，值得带条件保留。"
+      ],
+      "pseudo_innovation": {
+        "status": "repairable",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "可能塌缩为自动假设生成 + 检索式新颖性过滤 + 自我批评。",
+        "repair": "把范围收窄到单一成熟语料库，检验'检索锚定的缺席证明'是否比标准 LLM 选题 + 纯检索新颖性过滤更能提高专家判定的非平凡新问题产率。"
+      },
+      "escalation_reason": "Judges disagreed: the conservative machine verdict rejected the scheme, while the local pass found a narrowed, testable version worth human review.",
+      "human_resolution": "human_rescue_to_revise"
+    },
+    {
+      "audit_id": "VA-002",
+      "source_lateral_id": "LR-003",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "reject",
+      "agreement": true,
+      "needs_human": false,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": false,
+      "so_what_passes": false,
+      "refined_scheme": "把主张限定为：在一个有界领域内保留显式的正确性/新颖性/可复现性分歧，是否提升对 reframe 排序的专家 precision@k。",
+      "core_claim": "把单一标量价值判断拆成三个带独立证据通道的裁判，会比单一标量 critic 选出更高价值的研究想法。",
+      "causal_mechanism": [
+        "三轴各自取独立证据",
+        "分歧被显式保留",
+        "分歧作为搜索信号"
+      ],
+      "critical_assumptions": [
+        "三轴证据通道确实独立",
+        "分歧能区分有用不确定性与评估噪声"
+      ],
+      "novelty_risk": "塌缩为多准则同行评审 / 评估器集成 / 带检索的自我批评。",
+      "minimal_experiment": "在有界领域比较三轴分歧保留 vs 单一标量 critic 的专家 precision@k。",
+      "failure_modes": [
+        "三轴退化为同源 prompt",
+        "分歧无法与评估噪声区分"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 3,
+        "testability": 4,
+        "novelty_potential": 2,
+        "research_value": 2,
+        "risk": 3,
+        "overall": 2.8
+      },
+      "reasons": [
+        "Codex: 多准则评估器集成属已知，'分歧即信号'未充分指定。",
+        "Claude: 同意——核心机制是审计分解而非新研究机制，so-what 偏工程卫生。"
+      ],
+      "pseudo_innovation": {
+        "status": "fatal",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为多准则同行评审 / 评估器集成 / 带检索的自我批评。",
+        "repair": "把主张限定为：在一个有界领域内保留显式的正确性/新颖性/可复现性分歧，是否提升对 reframe 排序的专家 precision@k。"
+      },
+      "escalation_reason": null,
+      "human_resolution": null
+    },
+    {
+      "audit_id": "VA-003",
+      "source_lateral_id": "LR-004",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "reject",
+      "agreement": true,
+      "needs_human": false,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": false,
+      "so_what_passes": false,
+      "refined_scheme": "把协议限定在研究方向蕴含短期实证预测的领域，检验成对预测准确率是否比 critic 打分更能选出历史上成功的提案。",
+      "core_claim": "预测对赌协议会比 critic 打分选出更高价值的研究方向，因为候选必须暴露可证伪、相互可判别的实证主张。",
+      "causal_mechanism": [
+        "每方向登记可判别预测",
+        "方向间互相对赌",
+        "被实证或被对手推翻者出局"
+      ],
+      "critical_assumptions": [
+        "研究方向能映射到短期可判别预测",
+        "预测存活能代理研究价值"
+      ],
+      "novelty_risk": "塌缩为对抗式协作 / 预测锦标赛 / 无裁判的辩论式评估。",
+      "minimal_experiment": "在可短期预测的领域比较预测对赌 vs critic 打分对历史成功提案的选中率。",
+      "failure_modes": [
+        "把判断从 critic 转移到冲突构造与证据裁决，并未真正去裁判",
+        "偏向易测的增量工作"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 3,
+        "testability": 4,
+        "novelty_potential": 2,
+        "research_value": 2,
+        "risk": 3,
+        "overall": 2.8
+      },
+      "reasons": [
+        "Codex: 去掉 critic 并未去掉判断；预测存活≠研究价值，偏向易测增量。",
+        "Claude: 同意——代理弱且对探索性/基础设施型想法有系统性偏差。"
+      ],
+      "pseudo_innovation": {
+        "status": "fatal",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为对抗式协作 / 预测锦标赛 / 无裁判的辩论式评估。",
+        "repair": "把协议限定在研究方向蕴含短期实证预测的领域，检验成对预测准确率是否比 critic 打分更能选出历史上成功的提案。"
+      },
+      "escalation_reason": null,
+      "human_resolution": null
+    },
+    {
+      "audit_id": "VA-004",
+      "source_lateral_id": "LR-006",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "revise",
+      "agreement": false,
+      "needs_human": true,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": true,
+      "so_what_passes": true,
+      "refined_scheme": "只针对'失败在上下文变化后可能重新有效'的任务，比较条件感知的失败重激活 vs 简单禁忌避免（tabu）基线。",
+      "core_claim": "带原因标注、条件感知的失败重激活会比简单丢弃或无差别避免，更能在上下文变化后回收先前被否决但已变有效的路径。",
+      "causal_mechanism": [
+        "否决路径记录原因与有效条件",
+        "下一轮检测条件是否变化",
+        "条件满足则定向重激活而非永久避免"
+      ],
+      "critical_assumptions": [
+        "否决原因可结构化为可检测条件",
+        "存在'失败后变有效'的真实任务分布"
+      ],
+      "novelty_risk": "塌缩为反思记忆 / 负例反馈 / 带自然语言标签的禁忌搜索。",
+      "minimal_experiment": "在'失败可随上下文变有效'的任务上，比较条件感知重激活 vs 匹配的 tabu 记忆基线的回收率与搜索效率。",
+      "failure_modes": [
+        "存储的失败只是固化了 critic 偏见",
+        "条件重激活与普通避免无法区分"
+      ],
+      "merge_suggestions": [
+        {
+          "with": "LR-001",
+          "reason": "条件感知的分支记忆可作为问题发现阶段缺席证明的持久化机制。"
+        }
+      ],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 4,
+        "novelty_potential": 3,
+        "research_value": 3,
+        "risk": 3,
+        "overall": 3.4
+      },
+      "reasons": [
+        "Codex: 多为负例记忆/tabu 的改名；自我纠偏未建立。",
+        "Claude: 条件重激活（失败后变有效）与普通 tabu 避免可判别，收窄后值得带条件保留。"
+      ],
+      "pseudo_innovation": {
+        "status": "repairable",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为反思记忆 / 负例反馈 / 带自然语言标签的禁忌搜索。",
+        "repair": "只针对'失败在上下文变化后可能重新有效'的任务，比较条件感知的失败重激活 vs 简单禁忌避免（tabu）基线。"
+      },
+      "escalation_reason": "Judges disagreed: the conservative machine verdict rejected the scheme, while the local pass found a narrowed, testable version worth human review.",
+      "human_resolution": "human_rescue_to_revise"
+    }
+  ]
+}
