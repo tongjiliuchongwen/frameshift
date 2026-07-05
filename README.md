@@ -1,46 +1,109 @@
 # Frameshift
 
-Frameshift is a research-reframing project with three maintained editions.
+**Frameshift 是一个用于“科研问题重构”的工作流系统。**
 
-This `master` branch is intentionally a lightweight index. The implementation
-branches are kept separate because each branch targets a different agent
-runtime and carries different gate mechanics.
+其不只是一个用于生成更多 idea 的系统，而是一个用于改变“问题是如何被定义”的系统。
 
-## Maintained Branches
+---
 
-| Branch | Runtime | Status | Contents |
-| --- | --- | --- | --- |
-| [`claude`](https://github.com/tongjiliuchongwen/frameshift/tree/claude) | Claude Code | v0.5.1 | Original Research Reframer skill pack with Claude-oriented gate flow. |
-| [`codex`](https://github.com/tongjiliuchongwen/frameshift/tree/codex) | Codex | v0.7.0-codex | Codex-first Research Reframer pack with Stage 0 diagnosis and Codex App Server gate sidecar. |
-| [`antigravity`](https://github.com/tongjiliuchongwen/frameshift/tree/antigravity) | Antigravity | v0.7.0-codex | Antigravity-oriented Codex pack with polling support and Antigravity example workflow. |
+## 核心问题
 
-## Legacy Branch
+大多数 AI4S 自动科研idea生成系统都在做同一件事：通过不断的对话和修改，逐步的修改和打磨一个idea。
 
-The previous `master` content has been archived without modification at
-[`legacy/frameshift-m3`](https://github.com/tongjiliuchongwen/frameshift/tree/legacy/frameshift-m3).
+但往往这样生成的结果有一定的局限性，很多这样的论文充满胶水味道，模版味，“AI”味很足。使用《水平思考》（爱德华·德博诺著）里面观点表达的话，人们大脑更容易进入平时更经常使用的工作模式，我们平常擅长求解习题，解决问题，改进缺陷。大语言模型也是基于大量这样的语料的训练而成的。该种思考在书中被称为“垂直思考”。而自然科学中很多困难的部分往往不是“答案生成”，而是：这个问题本身是怎么被定义出来的？ 其构成原理是否已经隐含地限制了创新空间？抑或是我们一直在优化一个“看似合理但其实错误”的目标？
 
-That branch contains the older Frameshift M3 dashboard and engine experiment.
-It is preserved for reference, but it is not the recommended entry point for
-new users.
+Frameshift 试图从另一个角度给出回答：
 
-## Choosing a Branch
+> 如何系统性地“重写问题”，而不是优化答案。
 
-Use `claude` if you are running the workflow inside Claude Code.
+---
 
-Use `codex` if you are running the workflow inside Codex and want browser-button
-gates through the local Codex App Server sidecar.
+## 核心思想
 
-Use `antigravity` if you are running the Antigravity workflow and need the
-polling-oriented gate support.
+Frameshift 基于三个互补的思维机制：
 
-Example:
+### 1. 系统结构理解（System Thinking）
 
-```bash
-git clone --branch codex https://github.com/tongjiliuchongwen/frameshift.git
+使用《系统之美》（德内拉•梅多斯著）的视角，我们不把科研对象孤立为静态的任务，而是将其还原为由存量、流量与反馈回路交织而成的动态系统。  在这一视角下，我们的关注点从单一的“数据输入与输出” 转向对一个复杂的系统结构。此举的目的是避免智能体立刻陷入面多加水，水多加面的改进，而是结构化理解待研究的科研对象内部信息与物质的流动规律。通过解构哪些核心要素在驱动全局的变化。识别出当前科研对象有哪些可以重构的切入点，在书中被称为“杠杆点”。
+
+--
+
+### 2. 水平思考（Lateral Thinking）
+
+在系统结构分析出的“杠杆点”上，进行“非线性”的“研究问题重构”。 科学史上的很多突破往往呈现出某种“反理性”的跃迁，大语言模型基于大量“理性”的严谨因果语料训练而成，其天然的模式识别惯性极易让智能体在已存在的模式内逐步探索。Frameshift 引入《水平思考》（爱德华·德博诺著）里面介绍的方法，尝试在结构的约束下，给智能体提供一套刻意打破认知代码、重组信息的实用工具。通过主动转换入手点，反转因果方向，拆解隐含假设，跨领域的类比与引入外部强刺激等方式，用“有方向的混乱”和暂缓判断的保护机制，让 AI 尝试生成“全新的问题框架”，而不是对齐渐进式的改进。 
+
+---
+
+### 3. 垂直收敛（Vertical Convergence）
+
+经历水平思考的结构层改写后，系统会涌现出大量看似很新颖的潜在修改方向。此时人们完全可以将这阶段得到的idea接入自己熟悉或者更喜欢的自动科研工作系统。但是秉持着严谨的科学态度，我们必须要对生产出来的idea进行严谨的审查。垂直收敛将作为一套“科学审计机制（Scientific Review Gate）”启动：审计该重构框架在现有或可预见的物理/计算边界下，是否具备明确的可验证路径。是否存在最小可行性实验，能否在不依赖宏大叙事的前提下，用最精简的控制变量跑通首个原理验证。审计该方向究竟是真正重构了搜索空间，还是仅仅给旧方法“换了套时髦的说法”。
+
+---
+
+## 系统结构（Frameshift Pipeline）
+
+```text
+问题输入
+   ↓
+系统结构分析（System Mapping）
+   ↓
+杠杆点识别（Leverage Points）
+   ↓
+问题重构（Lateral Reframing）
+   ↓
+方向筛选（Initial Selection）
+   ↓
+垂直审计（Scientific Review）
+   ↓
+最终研究方向输出
+````
+
+---
+
+## 目录结构（多运行时分支）
+
+Frameshift 的 `master` 分支只是索引层。
+
+| Branch        | Runtime     | 说明                                            |
+| ------------- | ----------- | ----------------------------------------------- |
+| `claude`      | Claude Code | Claude Code版本，使用其inline widget实现人机交互  |
+| `codex`       | Codex       | Codex版本，使用其codex app-server实现人机交互     |
+| `antigravity` | Antigravity | Antigravity版本，使用浏览器按钮 + 文件状态轮询实现人机交互    |
+
+---
+
+## 使用方式
+
+输入：
+
+* 论文
+* 方法
+* demo
+* 一个卡住的研究想法
+
+输出：
+
+* 原问题如何被定义
+* 哪些结构限制了创新
+* 哪些位置可以被重构
+* 哪些重构方式能生成新研究入口
+* 哪些方向值得实验
+
+---
+
+## 核心观点
+
+Frameshift 的目标不是：
+
+> 让 AI 更聪明地回答问题
+
+而是：
+
+> 让 AI 学会识别：问题本身可能就是错的 / 太窄的 / 被误设的。
+
+---
+
+
+
 ```
 
-## Repository Hygiene
-
-Generated bundles, test runs, caches, logs, and local machine paths should not
-be committed. See [`SECURITY.md`](SECURITY.md) for the release checklist used
-before publishing the maintained branches.
