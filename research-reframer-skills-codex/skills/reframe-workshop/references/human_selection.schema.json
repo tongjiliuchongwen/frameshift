@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/human_selection.schema.json",
+  "title": "Research Reframer Human Selection Trail",
+  "description": "Machine-readable record of the three human gate selections. Markdown remains the human-readable log; this file is for replay, validation, and audit.",
+  "type": "object",
+  "required": ["schema_version", "gates"],
+  "properties": {
+    "schema_version": { "const": "2.1" },
+    "run_id": { "type": "string" },
+    "recorded_by": { "type": "string" },
+    "gates": {
+      "type": "object",
+      "required": ["gate1", "gate2", "gate3"],
+      "properties": {
+        "gate1": {
+          "type": "object",
+          "required": ["selected", "mode"],
+          "properties": {
+            "selected": { "type": "array", "items": { "type": "string", "pattern": "^LP-[0-9]{3}$" } },
+            "mode": { "enum": ["explicit", "delegate", "mapped_natural_language", "example", "unknown"] },
+            "recommended_ids": { "type": "array", "items": { "type": "string", "pattern": "^LP-[0-9]{3}$" } },
+            "not_selected_recommended": { "type": "array", "items": { "type": "string", "pattern": "^LP-[0-9]{3}$" } },
+            "recorded_at": { "type": ["string", "null"] },
+            "source": { "type": "string" }
+          }
+        },
+        "gate2": {
+          "type": "object",
+          "required": ["selected", "mode"],
+          "properties": {
+            "selected": { "type": "array", "items": { "type": "string", "pattern": "^LR-[0-9]{3}$" } },
+            "mode": { "enum": ["explicit", "delegate", "mapped_natural_language", "example", "unknown"] },
+            "recommended_ids": { "type": "array", "items": { "type": "string", "pattern": "^LR-[0-9]{3}$" } },
+            "not_selected_recommended": { "type": "array", "items": { "type": "string", "pattern": "^LR-[0-9]{3}$" } },
+            "wildcard_prompt_shown": { "type": "boolean" },
+            "wildcard_added": { "type": "boolean" },
+            "recorded_at": { "type": ["string", "null"] },
+            "source": { "type": "string" }
+          }
+        },
+        "gate3": {
+          "type": "object",
+          "required": ["selected", "mode"],
+          "properties": {
+            "selected": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["audit_id", "resolution"],
+                "properties": {
+                  "audit_id": { "type": "string", "pattern": "^VA-[0-9]{3}$" },
+                  "resolution": { "enum": ["keep", "revise", "human_rescue_to_keep", "human_rescue_to_revise", "selected_for_card"] }
+                }
+              }
+            },
+            "mode": { "enum": ["explicit", "delegate", "mapped_natural_language", "example", "unknown"] },
+            "recommended_ids": { "type": "array", "items": { "type": "string", "pattern": "^VA-[0-9]{3}$" } },
+            "rejected_drawer_locked": { "type": "array", "items": { "type": "string", "pattern": "^VA-[0-9]{3}$" } },
+            "recorded_at": { "type": ["string", "null"] },
+            "source": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "run_id": "antigravity-test-run",
+  "gate": 4,
+  "state": "complete",
+  "message": "流程已完成。最终 Idea Cards 已生成并在下方展开。"
+}

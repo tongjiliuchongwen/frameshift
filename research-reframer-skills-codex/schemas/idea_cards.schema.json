@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/idea_cards.schema.json",
+  "title": "Research Reframer Idea Cards (v0.7)",
+  "description": "Final idea cards. In v0.7 a card derives from a Gate-3-selected vertical audit (VA), inherits the audit's refined scheme, and includes a compact change log from original idea to final research direction.",
+  "type": "object",
+  "required": ["schema_version", "idea_cards"],
+  "properties": {
+    "schema_version": { "const": "2.1" },
+    "idea_cards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "one_sentence",
+          "original_problem",
+          "reframed_problem",
+          "changed_assumption",
+          "system_trace",
+          "method_trace",
+          "why_not_obvious",
+          "minimal_experiment",
+          "evaluation_metrics",
+          "expected_observation",
+          "failure_case",
+          "related_work_queries",
+          "next_steps",
+          "status",
+          "reader_view",
+          "change_log"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^IC-[0-9]{3}$" },
+          "title": { "type": "string", "minLength": 1 },
+          "one_sentence": { "type": "string", "minLength": 1 },
+          "original_problem": { "type": "string", "minLength": 1 },
+          "reframed_problem": { "type": "string", "minLength": 1 },
+          "changed_assumption": { "type": "string", "minLength": 1 },
+          "system_trace": {
+            "type": "object",
+            "required": ["input_evidence", "system_node", "leverage_point", "lateral_operation", "reframe"],
+            "properties": {
+              "input_evidence": { "type": "string", "minLength": 1 },
+              "system_node": { "type": "string", "minLength": 1 },
+              "leverage_point": { "type": "string", "pattern": "^LP-[0-9]{3}$" },
+              "lateral_operation": {
+                "enum": [
+                  "assumption_challenge",
+                  "reversal",
+                  "decomposition",
+                  "analogy",
+                  "random_stimulus",
+                  "PO_provocation",
+                  "entry_point_shift",
+                  "concept_abstraction"
+                ]
+              },
+              "reframe": { "type": "string", "pattern": "^VA-[0-9]{3}$" }
+            }
+          },
+          "why_not_obvious": { "type": "string", "minLength": 1 },
+          "minimal_experiment": { "type": "string", "minLength": 1 },
+          "evaluation_metrics": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "expected_observation": { "type": "string", "minLength": 1 },
+          "failure_case": { "type": "string", "minLength": 1 },
+          "related_work_queries": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "next_steps": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "status": { "enum": ["candidate", "selected", "rejected", "needs_literature_check"] },
+          "reader_view": {
+            "type": "object",
+            "required": [
+              "headline",
+              "summary",
+              "original_default",
+              "new_question",
+              "minimal_test",
+              "main_risk",
+              "why_it_matters"
+            ],
+            "properties": {
+              "headline": { "type": "string", "minLength": 1 },
+              "summary": { "type": "string", "minLength": 1 },
+              "original_default": { "type": "string", "minLength": 1 },
+              "new_question": { "type": "string", "minLength": 1 },
+              "minimal_test": { "type": "string", "minLength": 1 },
+              "main_risk": { "type": "string", "minLength": 1 },
+              "why_it_matters": { "type": "string", "minLength": 1 },
+              "glossary": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          },
+          "change_log": {
+            "type": "object",
+            "required": [
+              "source_diagnosis",
+              "selected_leverage_point",
+              "structural_change",
+              "new_mechanism",
+              "preserved_from_original",
+              "removed_or_weakened",
+              "real_increment_over_original",
+              "remaining_fragility"
+            ],
+            "properties": {
+              "source_diagnosis": { "type": "string", "minLength": 1 },
+              "selected_leverage_point": { "type": "string", "pattern": "^LP-[0-9]{3}$" },
+              "structural_change": { "type": "string", "minLength": 1 },
+              "new_mechanism": { "type": "string", "minLength": 1 },
+              "preserved_from_original": { "type": "string", "minLength": 1 },
+              "removed_or_weakened": { "type": "string", "minLength": 1 },
+              "real_increment_over_original": { "type": "string", "minLength": 1 },
+              "remaining_fragility": { "type": "string", "minLength": 1 }
+            }
+          },
+          "method_trace": {
+            "type": "object",
+            "required": [
+              "source_vertical_audit",
+              "source_lateral_scheme",
+              "source_leverage_point",
+              "operator",
+              "source_system_nodes",
+              "old_frame",
+              "new_frame",
+              "changed_assumption",
+              "audit_verdict",
+              "audit_score"
+            ],
+            "properties": {
+              "source_vertical_audit": { "type": "string", "pattern": "^VA-[0-9]{3}$" },
+              "source_lateral_scheme": { "type": "string", "pattern": "^LR-[0-9]{3}$" },
+              "source_leverage_point": { "type": "string", "pattern": "^LP-[0-9]{3}$" },
+              "operator": {
+                "enum": [
+                  "assumption_challenge",
+                  "reversal",
+                  "decomposition",
+                  "analogy",
+                  "random_stimulus",
+                  "PO_provocation",
+                  "entry_point_shift",
+                  "concept_abstraction"
+                ]
+              },
+              "source_system_nodes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+              "old_frame": { "type": "string", "minLength": 1 },
+              "new_frame": { "type": "string", "minLength": 1 },
+              "changed_assumption": { "type": "string", "minLength": 1 },
+              "audit_verdict": { "enum": ["keep", "revise"] },
+              "audit_score": {
+                "type": "object",
+                "required": ["coherence", "testability", "novelty_potential", "research_value", "risk", "overall"],
+                "properties": {
+                  "coherence": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "testability": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "novelty_potential": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "research_value": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "risk": { "type": "number", "minimum": 1, "maximum": 5 },
+                  "overall": { "type": "number", "minimum": 1, "maximum": 5 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

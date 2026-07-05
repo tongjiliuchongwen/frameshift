@@ -1,0 +1,173 @@
+{
+  "schema_version": "2.1",
+  "idea_cards": [
+    {
+      "id": "IC-001",
+      "title": "结构 vs 内容:拓扑贡献的预算匹配审计",
+      "one_sentence": "在预算匹配、内容由同一优化器生成时,量化连接拓扑相对节点内容(角色/提示)对 MAS 性能的边际贡献。",
+      "original_problem": "OFA-MAS 默认连接拓扑是 MAS 性能主要矛盾,内容次要。",
+      "reframed_problem": "在一个 MAS benchmark 上做预算匹配的 2×2 因子消融(学习/朴素拓扑 × 优化/默认内容),报告结构与内容边际效应及交互项,并预设主导阈值。",
+      "changed_assumption": "结构与内容的贡献不可分离、且结构占主导。",
+      "system_trace": {
+        "input_evidence": "\"MAS 表现高度依赖拓扑设计\"——拓扑是主要矛盾，那角色定义、提示、信道内容是不是被低估了？",
+        "system_node": "RL05",
+        "leverage_point": "LP-002",
+        "lateral_operation": "decomposition",
+        "reframe": "VA-002"
+      },
+      "method_trace": {
+        "source_vertical_audit": "VA-002",
+        "source_lateral_scheme": "LR-003",
+        "source_leverage_point": "LP-002",
+        "operator": "decomposition",
+        "source_system_nodes": [
+          "RL05",
+          "BD01",
+          "FM03",
+          "U02"
+        ],
+        "old_frame": "MAS 性能主要由连接拓扑决定,内容是次要的。",
+        "new_frame": "用受控消融分离结构贡献与内容贡献:固定其一、变另一,量化各自对性能的边际贡献。",
+        "changed_assumption": "结构与内容的贡献不可分离、且结构占主导。",
+        "audit_verdict": "revise",
+        "audit_score": {
+          "coherence": 4,
+          "testability": 5,
+          "novelty_potential": 3,
+          "research_value": 4,
+          "risk": 3,
+          "overall": 3.8
+        }
+      },
+      "why_not_obvious": "普通消融常把劣质默认内容当对照,人为做大结构贡献;这里强制内容由同一优化器为每种拓扑生成、随机分配拓扑,才使结构边际效应可判别。",
+      "minimal_experiment": "同任务集 2×2 预算匹配实验,随机化拓扑分配,统计结构/内容边际效应与交互,对照预设主导阈值。",
+      "evaluation_metrics": [
+        "结构边际效应",
+        "内容边际效应",
+        "结构×内容交互项",
+        "预算/ token 匹配度"
+      ],
+      "expected_observation": "若拓扑确为主因,学习拓扑组在内容受控下仍显著优于朴素拓扑且超过主导阈值;否则结构贡献被高估。",
+      "failure_case": "若内容优化与拓扑学习混淆、或预算不匹配,得到的只是不可判别的平庸消融表。",
+      "related_work_queries": [
+        "MAS topology vs prompt content ablation",
+        "factorial ablation architecture vs prompt effects",
+        "controlled ablation communication topology LLM agents"
+      ],
+      "next_steps": [
+        "选定单一 MAS benchmark 与统一内容优化器",
+        "设计预算/token 匹配方案与主导阈值",
+        "与 IC-002 的固定拓扑基线合并为同一消融的极端格"
+      ],
+      "status": "needs_literature_check",
+      "reader_view": {
+        "headline": "先分清结构和内容各自贡献，再说拓扑学习有没有用",
+        "summary": "OFA-MAS 把连接方式当成主要贡献。这张卡要求在预算公平的条件下，分开量化连接结构和节点内容各自带来的增益。",
+        "original_default": "原来的默认想法是：多智能体系统表现好，主要是因为学到了更好的连接拓扑。",
+        "new_question": "新的问题是：如果角色和提示内容也被同样认真优化，连接拓扑还剩多少独立贡献。",
+        "minimal_test": "做 2×2 因子消融：学习/朴素拓扑 × 优化/默认内容。比较结构贡献、内容贡献和二者交互。",
+        "main_risk": "如果内容优化和拓扑学习没有真正分开，实验只会得到一张难以解释的消融表。",
+        "why_it_matters": "它避免把内容优化带来的收益误算到拓扑学习头上。",
+        "glossary": [
+          ["连接拓扑", "多智能体之间谁和谁通信、信息怎么流动"],
+          ["预算匹配", "比较方法时让搜索次数、计算量或 token 成本尽量公平"],
+          ["因子消融", "同时改变两个因素，分别估计各自贡献和交互影响"]
+        ]
+      },
+      "change_log": {
+        "source_diagnosis": "OFA-MAS 默认连接拓扑是 MAS 性能主要矛盾,内容次要。",
+        "selected_leverage_point": "LP-002",
+        "structural_change": "结构与内容的贡献不可分离、且结构占主导。",
+        "new_mechanism": "在预算匹配、内容由同一优化器生成时,量化连接拓扑相对节点内容(角色/提示)对 MAS 性能的边际贡献。",
+        "preserved_from_original": "OFA-MAS 默认连接拓扑是 MAS 性能主要矛盾,内容次要。",
+        "removed_or_weakened": "若内容优化与拓扑学习混淆、或预算不匹配,得到的只是不可判别的平庸消融表。",
+        "real_increment_over_original": "普通消融常把劣质默认内容当对照,人为做大结构贡献;这里强制内容由同一优化器为每种拓扑生成、随机分配拓扑,才使结构边际效应可判别。",
+        "remaining_fragility": "若内容优化与拓扑学习混淆、或预算不匹配,得到的只是不可判别的平庸消融表。"
+      }
+    },
+    {
+      "id": "IC-002",
+      "title": "固定拓扑证伪基线:学习拓扑值不值",
+      "one_sentence": "把'固定朴素拓扑+优化角色与信道提示'当作 OFA-MAS 的严格证伪基线,在预算与 token 匹配下检验学习拓扑的非劣性。",
+      "original_problem": "OFA-MAS 默认拓扑必须被学习生成才能有竞争力。",
+      "reframed_problem": "在搜索预算与 token 计量匹配下,检验固定星形/全连接拓扑+提示优化在准确-成本 Pareto 上是否对学习拓扑统计非劣。",
+      "changed_assumption": "拓扑必须被学习生成才能有竞争力。",
+      "system_trace": {
+        "input_evidence": "\"MAS 表现高度依赖拓扑设计\"——拓扑是主要矛盾，那角色定义、提示、信道内容是不是被低估了？",
+        "system_node": "RL05",
+        "leverage_point": "LP-002",
+        "lateral_operation": "PO_provocation",
+        "reframe": "VA-003"
+      },
+      "method_trace": {
+        "source_vertical_audit": "VA-003",
+        "source_lateral_scheme": "LR-004",
+        "source_leverage_point": "LP-002",
+        "operator": "PO_provocation",
+        "source_system_nodes": [
+          "RL05",
+          "BD01",
+          "FM03",
+          "U02"
+        ],
+        "old_frame": "必须学习一个拓扑生成模型来设计协作结构。",
+        "new_frame": "固定一个朴素全连接(或星形)拓扑,只优化角色定义与信道内容,看能逼近 OFA-MAS 多少。",
+        "changed_assumption": "拓扑必须被学习生成才能有竞争力。",
+        "audit_verdict": "revise",
+        "audit_score": {
+          "coherence": 4,
+          "testability": 5,
+          "novelty_potential": 3,
+          "research_value": 4,
+          "risk": 3,
+          "overall": 3.8
+        }
+      },
+      "why_not_obvious": "强基线常被弱化以衬托新方法;这里要求严格预算与 token 匹配、且只在固定拓扑上优化内容,才使'学习拓扑的边际价值'可被证伪。",
+      "minimal_experiment": "固定拓扑+提示/角色优化 vs OFA-MAS,匹配搜索预算与 token,比较准确-成本 Pareto 的统计非劣性。",
+      "evaluation_metrics": [
+        "准确-成本 Pareto 前沿",
+        "统计非劣性检验",
+        "搜索预算匹配度",
+        "token 计量匹配度"
+      ],
+      "expected_observation": "若固定拓扑+好内容在匹配预算下对 OFA-MAS 统计非劣,则拓扑学习的边际价值被高估。",
+      "failure_case": "若用退化到单 agent 的极端当对照、或预算不匹配,比较失真,结论不可信。",
+      "related_work_queries": [
+        "strong prompt baseline vs learned architecture",
+        "fixed topology MAS prompt optimization",
+        "non-inferiority baseline neural architecture search"
+      ],
+      "next_steps": [
+        "定义固定拓扑+提示优化的强基线协议",
+        "建立搜索预算与 token 的匹配计量",
+        "与 IC-001 的结构-内容消融联合报告"
+      ],
+      "status": "needs_literature_check",
+      "reader_view": {
+        "headline": "用强固定拓扑基线检验：学习拓扑到底值不值",
+        "summary": "它不急着证明学习拓扑更强，而是先构造一个强基线：固定简单连接方式，只认真优化角色和提示。",
+        "original_default": "原来的默认想法是：拓扑必须被学习生成，系统才有竞争力。",
+        "new_question": "新的问题是：在预算和 token 成本公平时，固定星形或全连接拓扑加提示优化，是否已经不输学习拓扑。",
+        "minimal_test": "比较固定拓扑加内容优化和 OFA-MAS，在准确率与成本的折中曲线上做统计非劣性检验。",
+        "main_risk": "如果固定拓扑基线没有调强，或者预算不公平，结论就不能说明学习拓扑的真实价值。",
+        "why_it_matters": "它把“学习拓扑有用”改成一个可以被强基线证伪的问题。",
+        "glossary": [
+          ["固定拓扑", "预先规定连接方式，不让模型学习通信结构"],
+          ["非劣性检验", "检验一个简单方案是否没有明显差于复杂方案"],
+          ["准确-成本折中", "同时看效果和花费，而不是只看准确率"]
+        ]
+      },
+      "change_log": {
+        "source_diagnosis": "OFA-MAS 默认拓扑必须被学习生成才能有竞争力。",
+        "selected_leverage_point": "LP-002",
+        "structural_change": "拓扑必须被学习生成才能有竞争力。",
+        "new_mechanism": "把'固定朴素拓扑+优化角色与信道提示'当作 OFA-MAS 的严格证伪基线,在预算与 token 匹配下检验学习拓扑的非劣性。",
+        "preserved_from_original": "OFA-MAS 默认拓扑必须被学习生成才能有竞争力。",
+        "removed_or_weakened": "若用退化到单 agent 的极端当对照、或预算不匹配,比较失真,结论不可信。",
+        "real_increment_over_original": "强基线常被弱化以衬托新方法;这里要求严格预算与 token 匹配、且只在固定拓扑上优化内容,才使'学习拓扑的边际价值'可被证伪。",
+        "remaining_fragility": "若用退化到单 agent 的极端当对照、或预算不匹配,比较失真,结论不可信。"
+      }
+    }
+  ]
+}

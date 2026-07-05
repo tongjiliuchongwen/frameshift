@@ -1,0 +1,56 @@
+{
+  "schema_version": "2.1",
+  "run_id": "antigravity-test-run",
+  "recorded_by": "codex-appserver-gate-test",
+  "gates": {
+    "gate1": {
+      "mode": "explicit",
+      "recommended_ids": [
+        "LP-003",
+        "LP-004",
+        "LP-006",
+        "LP-002"
+      ],
+      "recorded_at": "2026-07-02T11:34:40.729Z",
+      "source": "codex-appserver-gate-test",
+      "selected": [
+        "LP-002",
+        "LP-003",
+        "LP-004",
+        "LP-006"
+      ],
+      "not_selected_recommended": []
+    },
+    "gate2": {
+      "mode": "explicit",
+      "recommended_ids": [
+        "LR-001",
+        "LR-005"
+      ],
+      "recorded_at": "2026-07-02T11:35:41.449Z",
+      "source": "codex-appserver-gate-test",
+      "selected": [
+        "LR-001",
+        "LR-005"
+      ],
+      "not_selected_recommended": [],
+      "wildcard_prompt_shown": false,
+      "wildcard_added": false
+    },
+    "gate3": {
+      "mode": "explicit",
+      "recommended_ids": [
+        "VA-002"
+      ],
+      "recorded_at": "2026-07-02T11:36:26.444Z",
+      "source": "codex-appserver-gate-test",
+      "selected": [
+        {
+          "audit_id": "VA-002",
+          "resolution": "revise"
+        }
+      ],
+      "rejected_drawer_locked": []
+    }
+  }
+}

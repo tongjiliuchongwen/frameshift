@@ -1,0 +1,174 @@
+{
+  "schema_version": "2.1",
+  "source_system": "PHYSMASTER 自主 AI 物理学家",
+  "leverage_points": [
+    {
+      "id": "LP-001",
+      "type": "paradigm",
+      "system_location": "原始问题框定与目标 G01/G04，边界 BD01：把发现等同于端到端跑完一个被给定问题。",
+      "source_trace": {
+        "system_node_ids": [
+          "G01",
+          "G04",
+          "BD01",
+          "U01"
+        ],
+        "input_evidence": "让 agent 端到端跑完一个被给定/被选定的物理问题，并用一个 LLM critic 判断结果好不好、新不新"
+      },
+      "why_it_matters": "重新定义什么算一次发现，会改变整个系统优化的目标函数，是最高层的撬动点。",
+      "current_assumption": "发现 = 在一个已被提出的问题上端到端求解成功并被判为新。",
+      "reframing_potential": "high",
+      "risk": "重定义发现容易流于哲学讨论，若不落到可测的代理指标上会变得不可验证。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-002",
+      "type": "rule",
+      "system_location": "评估规则 RL01 与信息流 I01：由单一 LLM critic 裁决好/新。",
+      "source_trace": {
+        "system_node_ids": [
+          "RL01",
+          "A02",
+          "I01",
+          "U02"
+        ],
+        "input_evidence": "用一个 LLM critic 判断结果好不好、新不新"
+      },
+      "why_it_matters": "价值裁决权的归属决定哪些探索存活；改变裁决机制可能直接释放被压制的方向。",
+      "current_assumption": "单一 LLM critic 足以代理整个科研社区对价值与新颖性的判断。",
+      "reframing_potential": "high",
+      "risk": "引入多元裁决会增加复杂度与成本，可能拖慢搜索且难以聚合分歧。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-003",
+      "type": "information_flow",
+      "system_location": "信息流 I01 与失败模式 FM01：critic 回送的好/新二元信号含残留幻觉。",
+      "source_trace": {
+        "system_node_ids": [
+          "I01",
+          "FM01",
+          "A02"
+        ],
+        "input_evidence": "LLM critic 会残留幻觉，在评估新概念时可能引入偏见、或漏掉本来可行的探索路径"
+      },
+      "why_it_matters": "改变 critic 信号的内容与粒度（如从二元判断改为带不确定度的多维信号）能直接抑制偏见放大。",
+      "current_assumption": "一个高置信的二元好/新判断就足以驱动搜索决策。",
+      "reframing_potential": "high",
+      "risk": "更丰富的信号若无法校准，可能只是把幻觉换了一种形式表达。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-004",
+      "type": "feedback_loop",
+      "system_location": "反馈回路 B03：critic 偏见自我放大，使被否决类别从未被再采样。",
+      "source_trace": {
+        "system_node_ids": [
+          "B03",
+          "A02",
+          "S02"
+        ],
+        "input_evidence": "漏掉本来可行的探索路径"
+      },
+      "why_it_matters": "打断偏见自我放大回路（如强制探索被否决区域）能改变系统的长期覆盖与纠偏能力。",
+      "current_assumption": "被 critic 一次否决的路径不值得再被采样。",
+      "reframing_potential": "high",
+      "risk": "强制探索被否决区会消耗预算，若没有好的回访策略可能纯粹浪费算力。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-005",
+      "type": "self_organization",
+      "system_location": "失败资产库 S02 与规则 RL03/边界 BD03：被否决路径默认被丢弃。",
+      "source_trace": {
+        "system_node_ids": [
+          "S02",
+          "RL03",
+          "BD03",
+          "FM04",
+          "U03"
+        ],
+        "input_evidence": "被否决/走不通的路径要不要留下来"
+      },
+      "why_it_matters": "把失败路径变成结构化资产，能让系统从负面知识中自组织出新的探索结构。",
+      "current_assumption": "只有成功且被验证的轨迹才值得沉淀，失败是噪声。",
+      "reframing_potential": "high",
+      "risk": "保留大量失败路径可能造成存储与检索负担，且失败原因若标注不当会误导后续搜索。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-006",
+      "type": "structure",
+      "system_location": "人类角色 A04 与边界 BD01：人类只在出题/给假设处入场，发现回路本身排除人类。",
+      "source_trace": {
+        "system_node_ids": [
+          "A04",
+          "BD01",
+          "I03",
+          "U04"
+        ],
+        "input_evidence": "人类物理学家在回路里到底扮演什么角色"
+      },
+      "why_it_matters": "重新设计人类在回路中的位置（出题人/裁判/合作者）会改变整个系统的协作结构与评估方式。",
+      "current_assumption": "人类的作用止于提供问题与假设，发现过程本身应尽量去人化。",
+      "reframing_potential": "high",
+      "risk": "把人类塞回回路可能抵消自动化收益，若交互设计不当会成为瓶颈。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-007",
+      "type": "goal",
+      "system_location": "成熟度分级规则 RL04 与目标 G02/G03：用耗时压缩比作为主要进步度量。",
+      "source_trace": {
+        "system_node_ids": [
+          "RL04",
+          "G02",
+          "G03"
+        ],
+        "input_evidence": "把原本需要资深博士 1-3 个月的工程性环节压缩到 6 小时内"
+      },
+      "why_it_matters": "把进步度量从耗时换成别的目标（如发现的可复现性或意外性），会重塑系统优化方向。",
+      "current_assumption": "更快完成被给定任务就代表更高的科研成熟度。",
+      "reframing_potential": "medium",
+      "risk": "替换度量若不慎可能鼓励缓慢但空洞的探索，难以与现有 benchmark 对齐。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-008",
+      "type": "delay",
+      "system_location": "时滞 T01：critic 即时判断与真实价值被社区确认之间的滞后。",
+      "source_trace": {
+        "system_node_ids": [
+          "T01",
+          "A02",
+          "B01"
+        ],
+        "input_evidence": "在评估新概念时可能引入偏见、或漏掉本来可行的探索路径"
+      },
+      "why_it_matters": "显式建模即时分数与长期价值的时滞，可设计延迟回访机制，减少过早剪枝。",
+      "current_assumption": "即时 critic 分数是长期价值的可靠即时代理。",
+      "reframing_potential": "medium",
+      "risk": "长期价值标签获取慢、样本稀少，时滞模型可能长期缺乏训练信号。",
+      "human_selectable": true
+    },
+    {
+      "id": "LP-009",
+      "type": "buffer",
+      "system_location": "文献与先验池 S03 与失败模式 FM02：新兴/小众领域文献质量参差。",
+      "source_trace": {
+        "system_node_ids": [
+          "S03",
+          "FM02",
+          "I02"
+        ],
+        "input_evidence": "整套方法依赖高质量文献检索；在新兴或小众子领域，文献质量参差会拖垮表现"
+      },
+      "why_it_matters": "把文献池当作可主动补强的缓冲（如标注覆盖空洞、主动生成先验），能缓解检索依赖的脆弱性。",
+      "current_assumption": "文献检索质量是外生给定的，agent 只能被动接受。",
+      "reframing_potential": "medium",
+      "risk": "agent 自行补强先验可能注入未经验证的内容，反而污染知识池。",
+      "human_selectable": true
+    }
+  ],
+  "selection_guidance": "建议优先考虑 LP-001（发现的范式重定义）、LP-002（价值裁决权归属）、LP-005（失败路径资产化）与 LP-006（人类在回路中的角色），因为它们分别撬动目标/规则/自组织结构/协作结构这四类高层杠杆，恰好对应用户隐约想撬动的四个点，且都能落到可测的代理实验上。"
+}

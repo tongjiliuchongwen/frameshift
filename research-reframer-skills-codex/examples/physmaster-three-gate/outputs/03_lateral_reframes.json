@@ -1,0 +1,244 @@
+{
+  "schema_version": "2.1",
+  "source_leverage_points": [
+    "LP-001",
+    "LP-002",
+    "LP-005"
+  ],
+  "lateral_schemes": [
+    {
+      "lateral_id": "LR-001",
+      "source_leverage_point": "LP-001",
+      "operator": "reversal",
+      "old_frame": "发现 = 在一个已被提出的问题上端到端求解成功并被判为新。",
+      "lateral_move": "把'解决被给定的问题'反转成'发现哪个问题本身值得问'。",
+      "new_frame": "发现 = 系统自己提出并论证一个先前未被提出、且非平凡的问题。",
+      "scheme": "让系统在求解前先产出候选问题，并对每个候选给出'为何此前无人问'的可证伪论证，再据此排序。",
+      "why_interesting": "把发现的重心从求解能力前移到提问能力，绕开'被给定问题'这一隐含边界。",
+      "changed_assumption": "问题是外部给定的，不属于发现过程的一部分。",
+      "bad_use_to_avoid": "不要只把'自动选题'当噱头，而不去验证所提问题的非平凡性与可证伪性。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-002",
+      "source_leverage_point": "LP-001",
+      "operator": "assumption_challenge",
+      "old_frame": "只有端到端跑完一个问题的结果才算一次发现。",
+      "lateral_move": "挑战'必须端到端完成'这一前提。",
+      "new_frame": "发现 = 产出一个被独立专家判为'值得追'的方向，即使尚未端到端跑完。",
+      "scheme": "在中途里程碑处评估'方向价值'，允许把高价值但未完成的方向登记为发现单元。",
+      "why_interesting": "把耗时压缩比这一度量与'是否完成'解耦，暴露被完成度掩盖的早期价值。",
+      "changed_assumption": "未完成的探索没有发现价值。",
+      "bad_use_to_avoid": "不要把'画饼'当发现——必须给出可操作的下一步与判别标准。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-003",
+      "source_leverage_point": "LP-002",
+      "operator": "decomposition",
+      "old_frame": "由单一 LLM critic 用一个好/新判断裁决价值。",
+      "lateral_move": "把'好/新'这一标量裁决拆解为彼此独立、可分别校准的多轴。",
+      "new_frame": "价值裁决拆成正确性、新颖性、可复现性三个独立裁判，各自有独立证据来源。",
+      "scheme": "三轴各用不同的证据通道（数值复核 / 文献检索 / 重跑复现），分歧显式保留而非聚合成一个分。",
+      "why_interesting": "把单点裁决变成可审计的多轴，分歧本身成为搜索信号。",
+      "changed_assumption": "好与新可由单一标量、单一裁判代理。",
+      "bad_use_to_avoid": "不要只是把一个 critic 拆成三个同源 prompt——三轴必须有独立证据来源。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-004",
+      "source_leverage_point": "LP-002",
+      "operator": "PO_provocation",
+      "old_frame": "需要一个评估者来裁决候选方向的价值。",
+      "lateral_move": "PO：干脆取消裁判。",
+      "new_frame": "没有 critic：候选方向之间通过相互可证伪的预测来淘汰，而非被一个裁判打分。",
+      "scheme": "每个方向登记一条可判别预测；方向间互相做对赌，被实证或被对手预测推翻者出局。",
+      "why_interesting": "把价值从'被谁判定'移到'能否经受相互证伪'，绕开 critic 偏见自我放大回路。",
+      "changed_assumption": "价值必须由一个评估主体裁决。",
+      "bad_use_to_avoid": "不要退化成无监督乱搜——相互证伪需要明确的预测登记与判别协议。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-005",
+      "source_leverage_point": "LP-002",
+      "operator": "analogy",
+      "old_frame": "裁决是 critic 对结果的单向打分。",
+      "lateral_move": "类比同行评审中的'提案方 vs 红队'对抗。",
+      "new_frame": "价值裁决建模成提案方与红队的对抗博弈，方向存活 = 红队在限定预算内驳不倒。",
+      "scheme": "为每个方向指派一个独立红队，红队默认试图证伪；存活线 = 红队穷尽预算仍无法给出否证。",
+      "why_interesting": "把'被打分'换成'要抗辩'，让脆弱方向更早暴露。",
+      "changed_assumption": "裁决是单向评分，而非对抗式辩护。",
+      "bad_use_to_avoid": "不要让红队与提案方是同一模型自我对话、走过场。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-006",
+      "source_leverage_point": "LP-005",
+      "operator": "reversal",
+      "old_frame": "被否决/走不通的路径是噪声，默认丢弃。",
+      "lateral_move": "反转：失败不是要清除的废料，而是要沉淀的资产。",
+      "new_frame": "失败路径进入带原因标注的分支记忆，作为约束影响下一轮搜索的采样。",
+      "scheme": "每条被否决路径记录否决原因与触发条件，下一轮据此避开或定向回访被否决区。",
+      "why_interesting": "把 critic 偏见自我放大回路改造成可纠偏的负面知识回路。",
+      "changed_assumption": "只有成功且被验证的轨迹才值得沉淀。",
+      "bad_use_to_avoid": "不要无脑全存——没有失败原因标注的分支记忆只会污染检索。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-007",
+      "source_leverage_point": "LP-005",
+      "operator": "concept_abstraction",
+      "old_frame": "失败路径的价值是二元的：留或弃。",
+      "lateral_move": "把'失败'抽象成'对假设空间的排除力'。",
+      "new_frame": "每条被否决路径按它排除了多少假设空间来计价值，按排除力排序保留。",
+      "scheme": "用一个可操作的近似（如被该路径证伪的候选假设计数）给失败打'信息增益'分，低增益失败才丢。",
+      "why_interesting": "把失败资产化从'存不存'升级为'按信息价值分级'。",
+      "changed_assumption": "失败只能被整体保留或整体丢弃。",
+      "bad_use_to_avoid": "不要用无法估计的'排除力'伪指标——必须给出可计算的近似。",
+      "not_yet_audited": true
+    }
+  ],
+  "coverage_ledger": {
+    "operators": [
+      "assumption_challenge",
+      "reversal",
+      "decomposition",
+      "analogy",
+      "random_stimulus",
+      "PO_provocation",
+      "entry_point_shift",
+      "concept_abstraction"
+    ],
+    "cells": [
+      {
+        "leverage_point": "LP-001",
+        "operator": "reversal",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-001"
+        ]
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "assumption_challenge",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-002"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "decomposition",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-003"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "PO_provocation",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-004"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "analogy",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-005"
+        ]
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "reversal",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-006"
+        ]
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "concept_abstraction",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-007"
+        ]
+      }
+    ],
+    "occupied_count": 7,
+    "total_cells": 24,
+    "coverage_ratio": 0.2917,
+    "underexplored": [
+      {
+        "leverage_point": "LP-001",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-001",
+        "operator": "concept_abstraction"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "reversal"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "concept_abstraction"
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-005",
+        "operator": "entry_point_shift"
+      }
+    ]
+  }
+}

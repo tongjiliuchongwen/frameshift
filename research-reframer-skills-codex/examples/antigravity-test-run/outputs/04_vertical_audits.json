@@ -1,0 +1,113 @@
+{
+  "schema_version": "2.1",
+  "audited_lateral_ids": [
+    "LR-001",
+    "LR-005"
+  ],
+  "audits": [
+    {
+      "audit_id": "VA-001",
+      "source_lateral_id": "LR-001",
+      "auditor": "self",
+      "codex_verdict": null,
+      "claude_verdict": "revise",
+      "agreement": true,
+      "needs_human": false,
+      "verdict": "revise",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": true,
+      "so_what_passes": true,
+      "refined_scheme": "把单一的标量打分拆成独立证据源的三个裁判，分歧显式作为MCTS搜索树的不确定度奖励信号。",
+      "core_claim": "将单点击败/打分机制解耦为多轴（正确性/新颖性/可复现性），显式保留分歧并映射为探索奖励，能产出更具多维鲁棒性的物理假设。",
+      "causal_mechanism": [
+        "三裁判输入不同证据源",
+        "分歧量度被定量计算",
+        "分歧充当MCTS价值树的拓展奖励信号"
+      ],
+      "critical_assumptions": [
+        "分歧信号确实携带与未探索物理结构相关的信息",
+        "多裁判的分歧不会完全退化为噪声"
+      ],
+      "novelty_risk": "可能塌缩为常规的多指标评分集成或多模态评估器的加权平均。",
+      "minimal_experiment": "在两组粒子物理学分析任务中，对比“分歧奖励引导的MCTS搜索”与“常规加权评估器集成”，评估产出被专家评定为‘惊喜且正确’方案的比例。",
+      "failure_modes": [
+        "三裁判打分分布趋同",
+        "分歧奖励导致算法陷入无意义的混乱探索"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 4,
+        "novelty_potential": 3,
+        "research_value": 4,
+        "risk": 3,
+        "overall": 3.6
+      },
+      "reasons": [
+        "Claude (Local Judge): 独立证据源下的多轴分歧是可度量的，相比普通的多准则融合，它把评估的不确定性反馈回了搜索核心，值得进入 Gate 3。"
+      ],
+      "pseudo_innovation": {
+        "status": "repairable",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "可能塌缩为常规的多指标评分集成或多模态评估器的加权平均。",
+        "repair": "把单一的标量打分拆成独立证据源的三个裁判，分歧显式作为MCTS搜索树的不确定度奖励信号。"
+      },
+      "escalation_reason": null,
+      "human_resolution": null
+    },
+    {
+      "audit_id": "VA-002",
+      "source_lateral_id": "LR-005",
+      "auditor": "self",
+      "codex_verdict": null,
+      "claude_verdict": "revise",
+      "agreement": true,
+      "needs_human": false,
+      "verdict": "revise",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": true,
+      "so_what_passes": true,
+      "refined_scheme": "针对已被多次否决的任务边缘，利用纠偏算子对决策边界附近的假说进行自适应重加权搜索。",
+      "core_claim": "通过收集否决轨迹并检测其分布边缘，对边缘附近的假设提供采样增益，能够避免LLM主观偏见造成的搜索盲区。",
+      "causal_mechanism": [
+        "收集历史否决分支并映射到特征空间",
+        "评估新假说与否决边界的距离",
+        "对决策边界边缘附近的区域施加自适应探索权重"
+      ],
+      "critical_assumptions": [
+        "被否决边界的‘边缘’处确实存在被偏见漏掉的真假说",
+        "否决轨迹可以被合理低维表征以进行距离度量"
+      ],
+      "novelty_risk": "可能塌缩为带有自然语言反馈的反思（Reflexion）或简单的对抗训练（Adversarial Training）。",
+      "minimal_experiment": "在包含系统性倾向的LLM物理模拟基线任务上，比较“边界纠偏搜索”与“常规反思重试”，看能否在更少步骤下采出突破常规偏见的有效假设。",
+      "failure_modes": [
+        "纠偏算子过度激发了无效的垃圾假设搜索",
+        "否决空间距离度量失真，退化为无方向搜索"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 4,
+        "novelty_potential": 3,
+        "research_value": 3,
+        "risk": 3,
+        "overall": 3.4
+      },
+      "reasons": [
+        "Claude (Local Judge): 相比一般的Reflexion重试，它试图显式定位LLM主观倾向造成的‘盲区边界’进行重加权，具有明显的创新核心。"
+      ],
+      "pseudo_innovation": {
+        "status": "repairable",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "可能塌缩为带有自然语言反馈的反思（Reflexion）或简单的对抗训练（Adversarial Training）。",
+        "repair": "针对已被多次否决的任务边缘，利用纠偏算子对决策边界附近的假说进行自适应重加权搜索。"
+      },
+      "escalation_reason": null,
+      "human_resolution": "revise"
+    }
+  ]
+}

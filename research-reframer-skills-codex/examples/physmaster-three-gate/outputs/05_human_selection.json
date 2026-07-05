@@ -1,0 +1,66 @@
+{
+  "schema_version": "2.1",
+  "run_id": "physmaster-three-gate",
+  "recorded_by": "example-fixture",
+  "gates": {
+    "gate1": {
+      "selected": [
+        "LP-001",
+        "LP-002",
+        "LP-005"
+      ],
+      "mode": "example",
+      "recommended_ids": [
+        "LP-001",
+        "LP-002",
+        "LP-005"
+      ],
+      "not_selected_recommended": [],
+      "recorded_at": null,
+      "source": "05_human_selection.md"
+    },
+    "gate2": {
+      "selected": [
+        "LR-001",
+        "LR-003",
+        "LR-004",
+        "LR-006"
+      ],
+      "mode": "example",
+      "recommended_ids": [
+        "LR-001",
+        "LR-003",
+        "LR-004",
+        "LR-006"
+      ],
+      "not_selected_recommended": [],
+      "wildcard_prompt_shown": false,
+      "wildcard_added": false,
+      "recorded_at": null,
+      "source": "05_human_selection.md"
+    },
+    "gate3": {
+      "selected": [
+        {
+          "audit_id": "VA-001",
+          "resolution": "human_rescue_to_revise"
+        },
+        {
+          "audit_id": "VA-004",
+          "resolution": "human_rescue_to_revise"
+        }
+      ],
+      "mode": "example",
+      "recommended_ids": [
+        "VA-001",
+        "VA-004"
+      ],
+      "rejected_drawer_locked": [
+        "VA-002",
+        "VA-003"
+      ],
+      "recorded_at": null,
+      "source": "05_human_selection.md"
+    }
+  }
+}

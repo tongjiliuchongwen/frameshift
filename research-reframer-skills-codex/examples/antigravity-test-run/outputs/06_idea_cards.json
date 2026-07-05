@@ -1,0 +1,87 @@
+{
+  "schema_version": "2.1",
+  "idea_cards": [
+    {
+      "id": "IC-001",
+      "title": "决策边界纠偏的MCTS自适应探索",
+      "one_sentence": "通过收集否决轨迹并映射至特征空间，利用纠偏算子对决策边界附近的假说进行重加权自适应探索，打破LLM主观偏见盲区。",
+      "original_problem": "PHYSMASTER 认为 critic 否决的区域不存在潜在的研究突破口，导致历史否决区无法被再次采样。",
+      "reframed_problem": "针对已被多次否决的任务边缘，利用纠偏算子对决策边界附近的假说进行自适应重加权搜索。",
+      "changed_assumption": "critic 一次否决的区域不值得再次采样。",
+      "system_trace": {
+        "input_evidence": "漏掉本来可行的探索路径",
+        "system_node": "B03",
+        "leverage_point": "LP-004",
+        "lateral_operation": "reversal",
+        "reframe": "VA-002"
+      },
+      "method_trace": {
+        "source_vertical_audit": "VA-002",
+        "source_lateral_scheme": "LR-005",
+        "source_leverage_point": "LP-004",
+        "operator": "reversal",
+        "source_system_nodes": [
+          "B03",
+          "A02",
+          "S02"
+        ],
+        "old_frame": "critic 偏见自我放大，被否决类别不被再采样。",
+        "new_frame": "搜索算法显式奖励那些‘处于 critic 历史否决边界边缘’的方案，防止信息茧房。",
+        "changed_assumption": "critic 否决的区域不存在潜在的研究突破口。",
+        "audit_verdict": "revise",
+        "audit_score": {
+          "coherence": 4,
+          "testability": 4,
+          "novelty_potential": 3,
+          "research_value": 3,
+          "risk": 3,
+          "overall": 3.4
+        }
+      },
+      "why_not_obvious": "传统的反思重试偏向被动修改，而本方案在 MCTS 奖励机制中加入了全局的‘决策边界距离算子’，能够引导算法主动寻找 LLM 判决偏见产生的盲区边缘。",
+      "minimal_experiment": "在包含系统性倾向的LLM物理模拟基线任务上，比较“边界纠偏搜索”与“常规反思重试”，看能否在更少步骤下采出突破常规偏见的有效假设。",
+      "evaluation_metrics": [
+        "有效发现采出成功率",
+        "决策空间偏置纠偏率",
+        "平均搜索步数"
+      ],
+      "expected_observation": "如果自适应纠偏算子生效，边界纠偏组在有偏见的任务上能以明显更少的步数采出常规被否决但实则正确的假说。",
+      "failure_case": "若否决边界距离度量失真，纠偏奖励只会引起随机漫步，搜索效率将显著落后于常规基线。",
+      "related_work_queries": [
+        "active exploration LLM critic bias search",
+        "MCTS adaptive search decision boundary correction",
+        "unbiased hypothesis generation active learning"
+      ],
+      "next_steps": [
+        "构建低维特征空间的否决分布表征模型",
+        "构造具有强倾向偏置的物理 critic 模拟环境",
+        "与多轴分歧裁判机制进行联合实验"
+      ],
+      "status": "needs_literature_check",
+      "reader_view": {
+        "headline": "主动去搜偏见的边缘，找出被 AI 漏掉的科研新思路",
+        "summary": "针对评估模型（critic）因主观幻觉或历史偏见而否定某些区域的问题，本方案通过定量度量并奖励对否决边界边缘的探索，主动突破信息茧房。",
+        "original_default": "原来的默认想法是：AI 评估器（critic）判定不行的地方就不要再去搜了，避免浪费算力。",
+        "new_question": "新的问题是：通过计算当前假说与历史否决空间的边界距离，能否用纠偏奖励引导算法翻转那些被误判的方向。",
+        "minimal_test": "在有偏见背景的实验任务上，对比边界纠偏算法与传统重试基线，验证能否在更少步数下采出被误判否决的可行假说。",
+        "main_risk": "如果对‘否决边界’的数学表征不准，纠偏奖励就会变成纯粹的随机噪音，拖慢搜索。",
+        "why_it_matters": "它从根本上打断了评估器的偏见放大，将静态的被动否决变成了自适应的算法纠偏信号。",
+        "glossary": [
+          ["决策边界", "指评估器判定可行与不可行的临界分割面"],
+          ["纠偏算子", "一种数学奖励函数，用于提升边界附近假说的搜索优先级"],
+          ["信息茧房", "指搜索算法因偏见而不断重复采纳相同类型思路的现象"]
+        ]
+      },
+      "change_log": {
+        "source_diagnosis": "PHYSMASTER 默认剪枝偏见区导致可能漏掉可行探索路径。",
+        "selected_leverage_point": "LP-004",
+        "structural_change": "从无差别剪枝变为基于否决空间距离的自适应重加权。",
+        "new_mechanism": "收集否决轨迹并计算距离，通过纠偏奖励算子激发边缘假说的 MCTS 搜索。",
+        "preserved_from_original": "使用 MCTS 做多周期物理假设探索的核心框架。",
+        "removed_or_weakened": "删除了对已否决大区的绝对禁忌，改为对边界的细粒度探测。",
+        "real_increment_over_original": "突破了静态 critic 幻觉偏见的自我放大回路。",
+        "remaining_fragility": "高度依赖否决特征空间距离度量的准确性，对复杂多峰分布表征较弱。"
+      }
+    }
+  ]
+}

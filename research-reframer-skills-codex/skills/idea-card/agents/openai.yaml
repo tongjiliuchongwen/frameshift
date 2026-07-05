@@ -1,0 +1,4 @@
+interface:
+  display_name: "Idea Card"
+  short_description: "Turn reframed questions into traceable research cards"
+  default_prompt: "Use $idea-card to turn these reframed questions into testable research idea cards."

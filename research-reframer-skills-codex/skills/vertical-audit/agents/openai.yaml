@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vertical Audit"
+  short_description: "Adversarially audit selected lateral reframes"
+  default_prompt: "Use $vertical-audit to audit these selected lateral reframes and prepare Gate 3 choices."

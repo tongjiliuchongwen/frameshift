@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://research-reframer.local/schemas/lateral_reframes.schema.json",
+  "title": "Research Reframer Lateral Reframes (v0.7, Stage: lateral-generate)",
+  "description": "Divergent lateral schemes generated from the Gate-1-selected leverage points. Judgment is DEFERRED: schemes carry no quality score and are explicitly not_yet_audited. Operators are an internal generation mechanism; the grid survives only as an internal LP x operator coverage ledger.",
+  "type": "object",
+  "required": ["schema_version", "source_leverage_points", "lateral_schemes", "coverage_ledger"],
+  "properties": {
+    "schema_version": { "const": "2.1" },
+    "source_leverage_points": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The Gate-1 human selection: which leverage points this divergence ran on.",
+      "items": { "type": "string", "pattern": "^LP-[0-9]{3}$" }
+    },
+    "lateral_schemes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "lateral_id",
+          "source_leverage_point",
+          "operator",
+          "old_frame",
+          "lateral_move",
+          "new_frame",
+          "scheme",
+          "why_interesting",
+          "changed_assumption",
+          "bad_use_to_avoid",
+          "not_yet_audited"
+        ],
+        "properties": {
+          "lateral_id": { "type": "string", "pattern": "^LR-[0-9]{3}$" },
+          "source_leverage_point": { "type": "string", "pattern": "^LP-[0-9]{3}$" },
+          "operator": {
+            "enum": [
+              "assumption_challenge",
+              "reversal",
+              "decomposition",
+              "analogy",
+              "random_stimulus",
+              "PO_provocation",
+              "entry_point_shift",
+              "concept_abstraction"
+            ]
+          },
+          "old_frame": { "type": "string", "minLength": 1 },
+          "lateral_move": { "type": "string", "minLength": 1 },
+          "new_frame": { "type": "string", "minLength": 1 },
+          "scheme": { "type": "string", "minLength": 1 },
+          "why_interesting": { "type": "string", "minLength": 1 },
+          "changed_assumption": { "type": "string", "minLength": 1 },
+          "bad_use_to_avoid": { "type": "string", "minLength": 1 },
+          "not_yet_audited": { "const": true }
+        }
+      }
+    },
+    "coverage_ledger": {
+      "type": "object",
+      "description": "Internal anti-collapse ledger over the (selected LP x operator) space. Empty cells are information.",
+      "required": ["operators", "cells", "occupied_count", "total_cells", "coverage_ratio", "underexplored"],
+      "properties": {
+        "operators": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "enum": [
+              "assumption_challenge",
+              "reversal",
+              "decomposition",
+              "analogy",
+              "random_stimulus",
+              "PO_provocation",
+              "entry_point_shift",
+              "concept_abstraction"
+            ]
+          }
+        },
+        "cells": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["leverage_point", "operator", "scheme_count", "scheme_ids"],
+            "properties": {
+              "leverage_point": { "type": "string", "pattern": "^LP-[0-9]{3}$" },
+              "operator": {
+                "enum": [
+                  "assumption_challenge",
+                  "reversal",
+                  "decomposition",
+                  "analogy",
+                  "random_stimulus",
+                  "PO_provocation",
+                  "entry_point_shift",
+                  "concept_abstraction"
+                ]
+              },
+              "scheme_count": { "type": "integer", "minimum": 0 },
+              "scheme_ids": { "type": "array", "items": { "type": "string", "pattern": "^LR-[0-9]{3}$" } }
+            }
+          }
+        },
+        "occupied_count": { "type": "integer", "minimum": 0 },
+        "total_cells": { "type": "integer", "minimum": 0 },
+        "coverage_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "underexplored": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["leverage_point", "operator"],
+            "properties": {
+              "leverage_point": { "type": "string", "pattern": "^LP-[0-9]{3}$" },
+              "operator": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

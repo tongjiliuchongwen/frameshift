@@ -1,0 +1,237 @@
+{
+  "schema_version": "2.1",
+  "audited_lateral_ids": [
+    "LR-001",
+    "LR-003",
+    "LR-004",
+    "LR-006"
+  ],
+  "audits": [
+    {
+      "audit_id": "VA-001",
+      "source_lateral_id": "LR-001",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "reject",
+      "agreement": true,
+      "needs_human": false,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": false,
+      "so_what_passes": false,
+      "refined_scheme": "收窄为:基于'通用模型预测误差'的路由分数,能否比域标签或熵更准地识别出冻结专门头能净增益的输入(固定算力)。",
+      "core_claim": "基于通用模型预测误差的边界路由,在固定算力下比域标签/熵路由更能识别需要专门化的输入。",
+      "causal_mechanism": [
+        "估计通用模型在当前输入的预测误差",
+        "误差高于阈值则路由到专门头",
+        "低于阈值用通用预测",
+        "净增益取决于阈值与专门头质量"
+      ],
+      "critical_assumptions": [
+        "通用模型误差可在线廉价估计",
+        "存在显著的'专门化净增益'输入子集"
+      ],
+      "novelty_risk": "塌缩为标准不确定性路由 / 选择性预测 / OOD 检测 / 带域专家的 MoE 门控。",
+      "minimal_experiment": "比较误差路由 vs 域标签路由 vs 熵路由在固定算力下的准确-成本权衡。",
+      "failure_modes": [
+        "误差估计不可靠导致路由抖动",
+        "净增益被路由开销抵消"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 4,
+        "novelty_potential": 2,
+        "research_value": 2,
+        "risk": 3,
+        "overall": 3.0
+      },
+      "reasons": [
+        "Codex: 已知模型路由/MoE 门控的改名;结果是预期工程权衡,非新机制。",
+        "Claude: 同意——与选择性预测/OOD 路由不可判别,so-what 弱。"
+      ],
+      "pseudo_innovation": {
+        "status": "fatal",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为标准不确定性路由 / 选择性预测 / OOD 检测 / 带域专家的 MoE 门控。",
+        "repair": "收窄为:基于'通用模型预测误差'的路由分数,能否比域标签或熵更准地识别出冻结专门头能净增益的输入(固定算力)。"
+      },
+      "escalation_reason": null,
+      "human_resolution": null
+    },
+    {
+      "audit_id": "VA-002",
+      "source_lateral_id": "LR-003",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "revise",
+      "agreement": false,
+      "needs_human": true,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": true,
+      "so_what_passes": true,
+      "refined_scheme": "限定在一个 MAS benchmark:严格预算匹配下,用同一优化器为每种拓扑生成内容、随机分配拓扑,报告结构与内容的边际效应及交互项,并预设有意义的主导阈值。",
+      "core_claim": "在预算匹配且内容由同一优化器生成时,连接拓扑对 MAS 性能的边际贡献不超过预设主导阈值。",
+      "causal_mechanism": [
+        "固定内容优化器,随机分配拓扑",
+        "测结构边际效应",
+        "测内容边际效应",
+        "测结构×内容交互"
+      ],
+      "critical_assumptions": [
+        "内容优化器对所有拓扑公平",
+        "存在可预设的'主导'阈值"
+      ],
+      "novelty_risk": "塌缩为标准 2×2 因子消融 / ANOVA 式架构 vs 提示效应分解。",
+      "minimal_experiment": "同任务集 2×2:学习拓扑/朴素拓扑 × 优化内容/默认内容,预算匹配,报边际效应与交互。",
+      "failure_modes": [
+        "内容优化与拓扑学习混淆,得出平庸消融表",
+        "单 benchmark 结论不可外推"
+      ],
+      "merge_suggestions": [
+        {
+          "with": "LR-004",
+          "reason": "固定拓扑+内容优化基线可作为本消融的一个格子。"
+        }
+      ],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 5,
+        "novelty_potential": 3,
+        "research_value": 4,
+        "risk": 3,
+        "overall": 3.8
+      },
+      "reasons": [
+        "Codex: 只是改名的受控消融,非新机制;但若推翻'拓扑优先'前提则作为实证审计有价值。",
+        "Claude: 收窄到预算匹配+随机化+预设阈值后,直接证伪论文核心前提,值得带条件保留。"
+      ],
+      "pseudo_innovation": {
+        "status": "repairable",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为标准 2×2 因子消融 / ANOVA 式架构 vs 提示效应分解。",
+        "repair": "限定在一个 MAS benchmark:严格预算匹配下,用同一优化器为每种拓扑生成内容、随机分配拓扑,报告结构与内容的边际效应及交互项,并预设有意义的主导阈值。"
+      },
+      "escalation_reason": "Judges disagreed: the conservative machine verdict rejected the scheme, while the local pass found a narrowed, testable version worth human review.",
+      "human_resolution": "human_rescue_to_revise"
+    },
+    {
+      "audit_id": "VA-003",
+      "source_lateral_id": "LR-004",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "revise",
+      "agreement": false,
+      "needs_human": true,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": true,
+      "so_what_passes": true,
+      "refined_scheme": "严格当作 OFA-MAS 的证伪基线:在搜索预算与 token 计量匹配下,检验固定星形/全连接拓扑+优化角色与信道提示,在准确-成本 Pareto 上是否对学习拓扑统计非劣。",
+      "core_claim": "在预算与 token 匹配下,固定拓扑+优化内容对学习拓扑(OFA-MAS)在准确-成本 Pareto 上统计非劣。",
+      "causal_mechanism": [
+        "固定朴素拓扑",
+        "用搜索预算优化角色与信道提示",
+        "在同 benchmark 与 OFA-MAS 比 Pareto",
+        "匹配 token 计量"
+      ],
+      "critical_assumptions": [
+        "内容优化能充分利用固定拓扑",
+        "存在公平的预算/计量匹配方案"
+      ],
+      "novelty_risk": "塌缩为学习架构 vs 提示调优的标准强基线消融。",
+      "minimal_experiment": "固定拓扑+提示/角色优化 vs OFA-MAS,匹配预算与 token,比较准确-成本 Pareto 非劣性。",
+      "failure_modes": [
+        "退化到单 agent 极端做假对照",
+        "预算/计量不匹配使比较失真"
+      ],
+      "merge_suggestions": [
+        {
+          "with": "LR-003",
+          "reason": "本基线是结构 vs 内容消融的极端一格。"
+        }
+      ],
+      "audit_score": {
+        "coherence": 4,
+        "testability": 5,
+        "novelty_potential": 3,
+        "research_value": 4,
+        "risk": 3,
+        "overall": 3.8
+      },
+      "reasons": [
+        "Codex: 是消融基线非新机制;但若在匹配预算下证伪 OFA-MAS 宣称则有用。",
+        "Claude: 作为严格证伪基线很利,审稿人会索要,值得带条件保留。"
+      ],
+      "pseudo_innovation": {
+        "status": "repairable",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为学习架构 vs 提示调优的标准强基线消融。",
+        "repair": "严格当作 OFA-MAS 的证伪基线:在搜索预算与 token 计量匹配下,检验固定星形/全连接拓扑+优化角色与信道提示,在准确-成本 Pareto 上是否对学习拓扑统计非劣。"
+      },
+      "escalation_reason": "Judges disagreed: the conservative machine verdict rejected the scheme, while the local pass found a narrowed, testable version worth human review.",
+      "human_resolution": "human_rescue_to_revise"
+    },
+    {
+      "audit_id": "VA-004",
+      "source_lateral_id": "LR-006",
+      "auditor": "dual",
+      "codex_verdict": "reject",
+      "claude_verdict": "reject",
+      "agreement": true,
+      "needs_human": false,
+      "verdict": "reject",
+      "minimal_experiment_exists": true,
+      "discriminable_from_prior": false,
+      "so_what_passes": false,
+      "refined_scheme": "收窄为诊断研究:量化执行验证器置信度对'拓扑正确性'是否校准,以及校准加权是否在 OOD 拓扑泛化上胜过匹配的随机筛选与已知噪声标签基线。",
+      "core_claim": "执行验证器置信度对合成拓扑正确性是校准的,且校准加权胜过随机筛选与噪声标签基线。",
+      "causal_mechanism": [
+        "执行验证给合成对打真值分",
+        "训置信度模型",
+        "按置信度加权再训",
+        "比 OOD 泛化"
+      ],
+      "critical_assumptions": [
+        "验证器置信度对拓扑正确性校准",
+        "存在可测的 OOD 拓扑泛化"
+      ],
+      "novelty_risk": "塌缩为已知噪声标签学习 / 置信度筛选 / 数据估值 / 验证器加权自训练。",
+      "minimal_experiment": "校准加权 vs 匹配随机筛选 vs 噪声标签基线在 OOD 拓扑泛化上的比较。",
+      "failure_modes": [
+        "验证器过拟合",
+        "缺少对随机数据缩减与通用噪声标签基线的控制"
+      ],
+      "merge_suggestions": [],
+      "audit_score": {
+        "coherence": 3,
+        "testability": 4,
+        "novelty_potential": 2,
+        "research_value": 2,
+        "risk": 3,
+        "overall": 2.8
+      },
+      "reasons": [
+        "Codex: 标准置信度加权噪声标签训练的改名;positive 结果不令人意外。",
+        "Claude: 同意——缺少对验证器过拟合/随机缩减/通用噪声标签基线的控制,机制不够独特。"
+      ],
+      "pseudo_innovation": {
+        "status": "fatal",
+        "failure_types": [
+          "terminology_swap"
+        ],
+        "evidence": "塌缩为已知噪声标签学习 / 置信度筛选 / 数据估值 / 验证器加权自训练。",
+        "repair": "收窄为诊断研究:量化执行验证器置信度对'拓扑正确性'是否校准,以及校准加权是否在 OOD 拓扑泛化上胜过匹配的随机筛选与已知噪声标签基线。"
+      },
+      "escalation_reason": null,
+      "human_resolution": null
+    }
+  ]
+}

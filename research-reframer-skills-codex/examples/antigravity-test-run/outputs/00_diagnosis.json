@@ -1,0 +1,13 @@
+{
+  "schema_version": "2.1",
+  "original_idea_summary": "一篇论文 gap 笔记，描述 PHYSMASTER 这一基于 LLM 的 agent：把理论推理与数值计算结合，配 LANDAU 分层学术数据宇宙，用 MCTS + 分层 agent 协作 + 自适应探索处理超长周期科研任务，并把成熟度分为加速/自动化/自主发现三级。",
+  "dissatisfaction_types": [
+    "novelty_gap",
+    "unclear_prior_difference",
+    "weak_testability"
+  ],
+  "primary_bottleneck": "如何让 AI agent 端到端地跑完一个被给定或被选定的物理问题，并由一个 LLM critic 判断结果好不好、新不新，从而从科研辅助工具跨越为自主 AI 物理学家。",
+  "core_value_to_preserve": "让 AI 从科研辅助工具跨越为能独立探索开放问题的自主 AI 物理学家。",
+  "most_promising_change_target": "建议优先考虑 LP-001（发现的范式重定义）、LP-002（价值裁决权归属）、LP-005（失败路径资产化）与 LP-006（人类在回路中的角色），因为它们分别撬动目标/规则/自组织结构/协作结构这四类高层杠杆，恰好对应用户隐约想撬动的四个点，且都能落到可测的代理实验上。",
+  "downstream_focus": "建议优先考虑 LP-001（发现的范式重定义）、LP-002（价值裁决权归属）、LP-005（失败路径资产化）与 LP-006（人类在回路中的角色），因为它们分别撬动目标/规则/自组织结构/协作结构这四类高层杠杆，恰好对应用户隐约想撬动的四个点，且都能落到可测的代理实验上。"
+}

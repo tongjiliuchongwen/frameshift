@@ -1,0 +1,277 @@
+{
+  "schema_version": "2.1",
+  "source_leverage_points": [
+    "LP-002",
+    "LP-003",
+    "LP-004",
+    "LP-006"
+  ],
+  "lateral_schemes": [
+    {
+      "lateral_id": "LR-001",
+      "source_leverage_point": "LP-002",
+      "operator": "decomposition",
+      "old_frame": "由单一 LLM critic 用一个好/新判断裁决价值。",
+      "lateral_move": "把'好/新'这一标量裁决拆解为彼此独立、可分别校准的多轴。",
+      "new_frame": "价值裁决拆成正确性、新颖性、可复现性三个独立裁判，各自有独立证据来源。",
+      "scheme": "三轴各用不同的证据通道（数值复核 / 文献检索 / 重跑复现），分歧显式保留而非聚合成一个分。",
+      "why_interesting": "把单点裁决变成可审计的多轴，分歧本身成为搜索信号。",
+      "changed_assumption": "好与新可由单一标量、单一裁判代理。",
+      "bad_use_to_avoid": "不要只是把一个 critic 拆成三个同源 prompt——三轴必须有独立证据来源。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-002",
+      "source_leverage_point": "LP-002",
+      "operator": "PO_provocation",
+      "old_frame": "需要一个评估者来裁决候选方向的价值。",
+      "lateral_move": "PO：干脆取消裁判。",
+      "new_frame": "没有 critic：候选方向之间通过相互可证伪的预测来淘汰，而非被一个裁判打分。",
+      "scheme": "每个方向登记一条可判别预测；方向间互相做对赌，被实证或被对手预测推翻者出局。",
+      "why_interesting": "把价值从'被谁判定'移到'能否经受相互证伪'，绕开 critic 偏见自我放大回路。",
+      "changed_assumption": "价值必须由一个评估主体裁决。",
+      "bad_use_to_avoid": "不要退化成无监督乱搜——相互证伪需要明确的预测登记与判别协议。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-003",
+      "source_leverage_point": "LP-002",
+      "operator": "analogy",
+      "old_frame": "裁决是 critic 对结果的单向打分。",
+      "lateral_move": "类比同行评审中的'提案方 vs 红队'对抗。",
+      "new_frame": "价值裁决建模成提案方与红队的对抗博弈，方向存活 = 红队在限定预算内驳不倒。",
+      "scheme": "为每个方向指派一个独立红队，红队默认试图证伪；存活线 = 红队穷尽预算仍无法给出否证。",
+      "why_interesting": "把'被打分'换成'要抗辩'，让脆弱方向更早暴露。",
+      "changed_assumption": "裁决是单向评分，而非对抗式辩护。",
+      "bad_use_to_avoid": "不要让红队与提案方是同一模型自我对话、走过场。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-004",
+      "source_leverage_point": "LP-003",
+      "operator": "concept_abstraction",
+      "old_frame": "critic 回送的好/新二元信号含残留幻觉。",
+      "lateral_move": "将好/新评分抽象为带置信度与反向文献证据链的多维信号。",
+      "new_frame": "critic 的输出不再是单向打分，而是带有‘证据冲突系数’和‘反向文献支撑度’的多维概率分布。",
+      "scheme": "让 critic 检索相关文献库，强制拉出与当前假说矛盾的最强 3 篇文献作为反向信号反馈给主 agent。",
+      "why_interesting": "把 critic 的盲目主观评判转变为强制文献对抗，用具体的冲突信息作为检索指引。",
+      "changed_assumption": "LLM critic 不需要实时的文献事实性支撑即可断言新颖度与合理性。",
+      "bad_use_to_avoid": "不要只是把检索结果列出来——必须提取出与原假设直接矛盾的物理事实。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-005",
+      "source_leverage_point": "LP-004",
+      "operator": "reversal",
+      "old_frame": "critic 偏见自我放大，被否决类别不被再采样。",
+      "lateral_move": "反转：强制优先搜索曾经被多次否决的交界地带（反偏见探索）。",
+      "new_frame": "搜索算法显式奖励那些‘处于 critic 历史否决边界边缘’的方案，防止信息茧房。",
+      "scheme": "记录所有被否决分支的分布特征，在 MCTS 的价值函数中加入偏见纠正算子，提高被否决类别边缘假说的采样权重。",
+      "why_interesting": "主动破坏偏见自我放大的静态反馈，实现算法级别的动态破局。",
+      "changed_assumption": "critic 否决的区域不存在潜在的研究突破口。",
+      "bad_use_to_avoid": "不要无脑乱搜纯垃圾方案——需要定义清晰的‘否决边界边缘’而非完全随机化。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-006",
+      "source_leverage_point": "LP-006",
+      "operator": "entry_point_shift",
+      "old_frame": "人类物理学家只在输入端出题，不干预中间过程。",
+      "lateral_move": "将人类物理学家移至中间节点，从出题人变成联席 MCTS 决策者。",
+      "new_frame": "发现过程变成人类与 AI 轮流进行树搜索选择的混合决策结构。",
+      "scheme": "在 MCTS 每走过一定深度时，向人类呈现候选树分支和各自的预测机制，由人类一键点击重定向搜索重心。",
+      "why_interesting": "让人类品味和直觉在计算资源被完全消耗前直接介入，提高搜寻效率。",
+      "changed_assumption": "人类只能参与任务的前期设定和后期结论阅读，不能介入过程。",
+      "bad_use_to_avoid": "不要让交互频次过高——这会消除自动化代理的吞吐量优势。",
+      "not_yet_audited": true
+    },
+    {
+      "lateral_id": "LR-007",
+      "source_leverage_point": "LP-006",
+      "operator": "assumption_challenge",
+      "old_frame": "物理学家是一个单一的观察者和需求提出者。",
+      "lateral_move": "挑战‘单人对应单系统’的前提，将人类物理学家社群引入为评议会。",
+      "new_frame": "研究方向的最终存活由一个包含多个真实研究员、且由 AI 协调的去中心化对赌市场（Peer Consensus Market）来决定。",
+      "scheme": "在阶段性结果产生时，AI 自动生成轻量对赌卡片，分发给 3 个不同视角的研究人员对该概念的可实现性进行微型打赌。",
+      "why_interesting": "利用社群的群体智慧对方向进行早期筛选，极大地增强价值判断的客观性。",
+      "changed_assumption": "系统的用户只能是一个物理学家个人。",
+      "bad_use_to_avoid": "不要让流程变得繁重——对赌打分必须能在一分钟内通过一键微投票完成。",
+      "not_yet_audited": true
+    }
+  ],
+  "coverage_ledger": {
+    "operators": [
+      "assumption_challenge",
+      "reversal",
+      "decomposition",
+      "analogy",
+      "random_stimulus",
+      "PO_provocation",
+      "entry_point_shift",
+      "concept_abstraction"
+    ],
+    "cells": [
+      {
+        "leverage_point": "LP-002",
+        "operator": "decomposition",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-001"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "PO_provocation",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-002"
+        ]
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "analogy",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-003"
+        ]
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "concept_abstraction",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-004"
+        ]
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "reversal",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-005"
+        ]
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "entry_point_shift",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-006"
+        ]
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "assumption_challenge",
+        "scheme_count": 1,
+        "scheme_ids": [
+          "LR-007"
+        ]
+      }
+    ],
+    "occupied_count": 7,
+    "total_cells": 32,
+    "coverage_ratio": 0.21875,
+    "underexplored": [
+      {
+        "leverage_point": "LP-002",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "reversal"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-002",
+        "operator": "concept_abstraction"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "reversal"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-003",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "assumption_challenge"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "entry_point_shift"
+      },
+      {
+        "leverage_point": "LP-004",
+        "operator": "concept_abstraction"
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "reversal"
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "decomposition"
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "analogy"
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "random_stimulus"
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "PO_provocation"
+      },
+      {
+        "leverage_point": "LP-006",
+        "operator": "concept_abstraction"
+      }
+    ]
+  }
+}
